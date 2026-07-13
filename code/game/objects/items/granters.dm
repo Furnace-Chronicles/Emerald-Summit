@@ -354,3 +354,10 @@
 	spellname = "Mirror Transform"
 	icon_state ="scrolldarkred"
 	remarks = list("Aspectum rebis adopta..", "Fac me novum..", "Pulcher ero..")
+
+/obj/item/book/granter/spell/blackstone/familiar
+	name = "Scroll of Find Familiar"
+	spell = /obj/effect/proc_holder/spell/self/findfamiliar
+	spellname = "Find Familiar"
+	icon_state ="scrolldarkred"
+	remarks = list("Ex arcana ad amicum..", "Fidus usque ad finem..", "Magnopere eos..")

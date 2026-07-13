@@ -163,10 +163,8 @@
 
 /obj/effect/proc_holder/spell/invoked/infestation
 	name = "Infestation"
-	desc = "Causes a swarm of bugs to surround your target, bites them and causes sickness. Infecting targets gives you charges to use other spells."
-	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
-	action_icon = 'icons/mob/actions/pestraspells.dmi'
-	overlay_state = "infestation0"
+	desc = "Causes a swarm of bugs to surround your target, bite them and cause sickness."
+	overlay_state = "null" //sprite later
 	releasedrain = 50
 	chargetime = 10
 	recharge_time = 20 SECONDS
@@ -184,81 +182,14 @@
 
 	invocation = "Rot, take them!"
 	invocation_type = "shout" //can be none, whisper, emote and shout
-	var/datum/component/infestation_charges/charge_component
 
-/obj/effect/proc_holder/spell/invoked/infestation/on_gain(mob/living/user)
-	// Note: there is no logic to remove the component yet, this should be fine
-	. = ..()
-	if(overlay_state && !hide_charge_effect)
-		var/obj/effect/R = new /obj/effect/spell_rune
-		R.icon = action_icon
-		R.icon_state = "infestation10"
-		action.overlay_alpha = overlay_alpha
-		mob_charge_effect = R
-	ensure_charge_component(user)
-
-// ES: AddSpell() doesn't call on_gain(), so the charge component is created lazily on first cast as well.
-/obj/effect/proc_holder/spell/invoked/infestation/proc/ensure_charge_component(mob/living/user)
-	if(!user || charge_component)
-		return
-	var/datum/component/existing_component = user.GetComponent(/datum/component/infestation_charges)
-	if(existing_component)
-		charge_component = existing_component
-		charge_component.parent_spell = src
-	else
-		charge_component = user.AddComponent(/datum/component/infestation_charges, src)
-
-/obj/effect/proc_holder/spell/invoked/infestation/proc/update_charge_overlay(charge_count)
-	overlay_state = "infestation[charge_count]"
-	update_icon()
-	if(action)
-		action.UpdateButtonIcon(FALSE, TRUE)
-		action.desc = "[desc]\n<span class='notice'>Charges = [charge_count]</span>"
 
 /obj/effect/proc_holder/spell/invoked/infestation/cast(list/targets, mob/living/user)
-	ensure_charge_component(user) //ES: on_gain isn't called on grant, so guarantee the component exists here
-	var/atom/target = targets[1]
-	if(isliving(target))
-		var/mob/living/carbon/M = target
-		M.visible_message(span_warning("[M] is surrounded by a cloud of pestilent vermin!"), span_notice("You surround [M] in a cloud of pestilent vermin!"))
-		M.apply_status_effect(/datum/status_effect/buff/infestation/) //apply debuff
-		SEND_SIGNAL(src, COMSIG_INFESTATION_CHARGE_ADD, 10)
+	if(isliving(targets[1]))
+		var/mob/living/carbon/target = targets[1]
+		target.visible_message(span_warning("[target] is surrounded by a cloud of pestilent vermin!"), span_notice("You surround [target] in a cloud of pestilent vermin!"))
+		target.apply_status_effect(/datum/status_effect/buff/infestation/) //apply debuff
 		return TRUE
-	if(SSchimeric_tech.get_node_status("INFESTATION_ROT_SNACKS") && istype(target, /obj/item/reagent_containers/food/snacks))
-		var/obj/item/reagent_containers/food/snacks/snack = target
-		if(snack.eat_effect == /datum/status_effect/debuff/rotfood)
-			revert_cast()
-			return FALSE
-
-		var/total_charge = 5
-		var/rotted_count = 1
-		var/search_count = SSchimeric_tech.get_infestation_food_rot_count()
-		snack.become_rotten()
-
-		var/list/potential_snacks = range(1, snack.loc)
-		var/list/valid_snacks = list()
-		for(var/atom/A in potential_snacks)
-			if(!istype(A, /obj/item/reagent_containers/food/snacks))
-				continue
-			var/obj/item/reagent_containers/food/snacks/S = A
-			if(S == snack)
-				continue
-			if(S.eat_effect == /datum/status_effect/debuff/rotfood)
-				continue
-			valid_snacks += S
-		for(var/obj/item/reagent_containers/food/snacks/extra_snack in valid_snacks)
-			if(rotted_count >= search_count)
-				break
-			extra_snack.become_rotten()
-			total_charge += 5
-			rotted_count++
-		if(rotted_count <= 1)
-			snack.visible_message(span_warning("[snack] is swarmed by vermin and rapidly rots!"))
-		else
-			snack.visible_message(span_warning("some food is swarmed by vermin and rapidly rots!"))
-		SEND_SIGNAL(src, COMSIG_INFESTATION_CHARGE_ADD, total_charge)
-		return TRUE
-	revert_cast()
 	return FALSE
 
 /datum/status_effect/buff/infestation
@@ -348,22 +279,6 @@
 	var/stinky = FALSE
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-
-		var/obj/item/black_rose/rose = user.get_active_held_item()
-		// Holding a black rose + a Pestran target implants the black-rot blessing instead of curing rot.
-		if(istype(rose) && target.patron?.type == /datum/patron/divine/pestra)
-			if(!target.GetComponent(/datum/component/infestation_black_rot))
-				target.AddComponent(/datum/component/infestation_black_rot)
-				ADD_TRAIT(target, TRAIT_PESTRAS_BLESSING, TRAIT_MIRACLE)
-				target.visible_message(span_notice("[user] gently presses the [rose] against [target]'s flesh. The rose dissolves, leaving a black mark."), \
-										span_userdanger("The rose fuses with my flesh, granting me the trait of Pestra's protection."))
-				qdel(rose)
-				return TRUE
-			else
-				to_chat(user, span_warning("[target] is already infused with Pestra's black blessing."))
-				revert_cast()
-				return FALSE
-
 		if(target == user)
 			return FALSE
 		if(ispath(user.patron?.type, /datum/patron/divine) && (target.real_name in GLOB.excommunicated_players))
@@ -732,179 +647,3 @@
         span_notice("A steady warmth mends your insides and scours away infection.")
     )
     return TRUE
-/obj/effect/proc_holder/spell/invoked/pestra_heal
-	name = "Rebirth"
-	desc = "A greater heal, more effective on targets affected by some form of greater rot. Requires infestation charges to cast."
-	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
-	action_icon = 'icons/mob/actions/pestraspells.dmi'
-	overlay_state = "heal"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0.6 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	range = 7
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/heal.ogg'
-	invocation = "Pestra! Let them be reborn!"
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
-	// Greater heal, but requires a resource to cast.
-	devotion_cost = 45
-	var/datum/component/infestation_charges/charge_component
-
-/obj/effect/proc_holder/spell/invoked/pestra_heal/cast_check(skipcharge = 0, mob/user = usr)
-	if(!..())
-		return FALSE
-	if(!charge_component)
-		charge_component = user.GetComponent(/datum/component/infestation_charges)
-	// Check again just in case the component got deleted somehow!
-	if(!charge_component || charge_component.get_charges() < 1)
-		to_chat(user, span_warning("I need at least one infestation charge to cast this spell!"))
-		update_charges(0)
-		return FALSE
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/pestra_heal/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/charge_count
-		if(!charge_component)
-			to_chat(user, span_warning("Oopsie woopsie, seems the infestation gear somehow got lost... Make a bug report!"))
-			revert_cast()
-			return FALSE
-		charge_count = charge_component.get_charges()
-		if(charge_count < 1)
-			to_chat(user, span_warning("I need at least one infestation charge to cast this spell!"))
-			update_charges(charge_count)
-			revert_cast()
-			return FALSE
-		var/mob/living/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		// Keep in mind this is 7.5 per tick with fortify!
-		// Double the power of miracle
-		var/healing = 5
-		target.visible_message(span_info("Skittering ghostly bugs envelop [target]!"), span_notice("Ethereal bugs knit my flesh back together with their mandibles!"))
-		target.apply_status_effect(/datum/status_effect/buff/healing, healing)
-		// 225 healing but slowly released across 10 minutes, can't be refreshed.
-		target.apply_status_effect(/datum/status_effect/buff/pestra_care)
-		remove_infestation_charges(user, 10)
-		// We just reduced it by 1 so we can assume that we might not have enough charges to cast again.
-		update_charges(charge_count - 1)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/obj/effect/proc_holder/spell/invoked/pestra_heal/proc/update_charges(charge_count)
-	if(charge_count > 0)
-		overlay_state = "heal"
-	else
-		overlay_state = "heal_disabled"
-	update_icon()
-	if(action)
-		action.UpdateButtonIcon(FALSE, TRUE)
-
-/obj/effect/proc_holder/spell/invoked/divine_rebirth
-	name = "Divine Rebirth"
-	desc = "A miraculous heal that can restore even the most grievous wounds, including missing limbs. But it requires being at maximum infestation capacity. No force can resist this miracle."
-	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
-	action_icon = 'icons/mob/actions/pestraspells.dmi'
-	overlay_state = "heal_ascended"
-	releasedrain = 50
-	chargedrain = 0
-	chargetime = 2 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	range = 7
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/ahh2.ogg'
-	invocation = "O SWARM MOTHER, CONSUME AND CLEANSE!!!"
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	// Doesn't matter in the slightest, as the cooldown of this is handled by the component, not the spell.
-	recharge_time = 999 MINUTES
-	miracle = TRUE
-	devotion_cost = 250
-	chargedloop = /datum/looping_sound/invokeholy
-
-// Given this is Pestra's true T4 spell, and it is limited in availability and gated heavily behind tech, this heal does affect Psydonites.
-// You can't resist Pestra's most divine gift.
-/obj/effect/proc_holder/spell/invoked/divine_rebirth/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		target.visible_message(span_info("An ethereal, mushroom infested arm carresses [target]!"), span_notice("I feel a caring touch!"))
-		target.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
-		SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/obj/effect/proc_holder/spell/invoked/pestilent_blade
-	name = "Pestilent Blade"
-	desc = "Enchant your blade with Pestra's power, consuming one infestation charge to make your next strike against an infested target more potent. Negligible effect if the target isn't infested..."
-	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
-	action_icon = 'icons/mob/actions/pestraspells.dmi'
-	overlay_state = "blade"
-	releasedrain = 20
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	range = 1 // Self-target
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/slimesquish.ogg'
-	invocation = "Pestra, bless this blade!"
-	invocation_type = "whisper"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
-	miracle = TRUE
-	devotion_cost = 25
-	var/datum/component/infestation_charges/charge_component
-
-/obj/effect/proc_holder/spell/invoked/pestilent_blade/cast_check(skipcharge = 0, mob/user = usr)
-	if(!..())
-		return FALSE
-
-	if(!charge_component)
-		charge_component = user.GetComponent(/datum/component/infestation_charges)
-
-	if(!charge_component || charge_component.get_charges() < 1)
-		to_chat(user, span_warning("I need at least one infestation charge to enchant my blade!"))
-		return FALSE
-
-	var/obj/item/held_item = user.get_active_held_item()
-	if(!held_item || !isitem(held_item))
-		to_chat(user, span_warning("I need to be holding a weapon to enchant it!"))
-		return FALSE
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/pestilent_blade/cast(list/targets, mob/living/user)
-	var/obj/item/weapon = user.get_active_held_item()
-	if(!weapon || !isitem(weapon))
-		to_chat(user, span_warning("I must hold a weapon to enchant it!"))
-		revert_cast()
-		return FALSE
-
-	if(!charge_component || charge_component.get_charges() < 1)
-		to_chat(user, span_warning("The infestation charges have been depleted!"))
-		revert_cast()
-		return FALSE
-
-	if(weapon.AddComponent(/datum/component/pestilent_blade_enchant))
-		remove_infestation_charges(user, 10)
-		to_chat(user, span_infection("I feel pestilence flow into my [weapon.name]!"))
-		weapon.visible_message(span_infection("[weapon] glows with a sickly green light!"))
-		return TRUE
-
-	revert_cast()
-	return FALSE

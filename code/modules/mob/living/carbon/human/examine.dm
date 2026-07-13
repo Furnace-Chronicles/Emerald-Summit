@@ -20,6 +20,7 @@
 
 /mob/living/carbon/human/examine(mob/user)
 	var/observer_privilege = isobserver(user)
+	var/aghost_privilege = isadminobserver(user)
 	var/t_He = p_they(TRUE)
 	var/t_his = p_their()
 //	var/t_him = p_them()
@@ -29,13 +30,10 @@
 	var/race_name = "<a href='?src=[REF(src)];species_lore=1'><u>[dna.species.name]</u></A>"
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
 	var/datum/antagonist/skeleton/skeleton = user.mind?.has_antag_datum(/datum/antagonist/skeleton)
-	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie)
 	if(maniac && (user != src))
 		race_name = "disgusting pig"
 	if(skeleton && (user != src))
 		race_name = "[pick("shambling", "taut", "decrepit")]"
-	if(zombie && (user != src))
-		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...")]"
 
 	var/m1 = "[t_He] [t_is]"
 	var/m2 = "[t_his]"
@@ -218,11 +216,6 @@
 
 		if(name in GLOB.outlawed_players)
 			. += span_userdanger("OUTLAW!")
-
-		if(HAS_TRAIT(src, TRAIT_DEADITE)) //extra flavor on top of the DEADITE! tag above
-			. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
-		if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == CONSCIOUS)
-			. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
 		if(HAS_TRAIT(user, TRAIT_JUSTICARSIGHT) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			for(var/datum/bounty/b in GLOB.head_bounties) //I hate this.
@@ -997,14 +990,15 @@
 	for(var/line in lines)
 		. += span_info(line)
 
-	var/towrite = "ID Status: "
-	if(!src.ckey)
-		towrite += "N/A"
-	else if(!src.check_agevet())
-		towrite += "Unverified"
-	else
-		towrite += span_notice("Age Verified")
-	. += span_info(towrite)
+	if(!flavorcheck || aghost_privilege) // we show this due to flavortext panel fields all being empty, meaning that panel's age verified text could not otherwise be displayed
+		var/towrite = "ID Status: "
+		if(!src.ckey)
+			towrite += "N/A"
+		else if(!src.check_agevet())
+			towrite += "Unverified"
+		else
+			towrite += span_notice("Age Verified")
+		. += span_info(towrite)
 
 	if(dna?.species?.type == /datum/species/gnoll)
 		if(istype(user, /mob/living/carbon/human))

@@ -83,9 +83,7 @@ export const FlavorTextPage = ({ data }: { data: ExaminePanelData }) => {
                   </>
                 }
               >
-                {oocNotesIndex === 'SFW' && (
-                  <Box dangerouslySetInnerHTML={oocHTML} />
-                )}
+                {oocNotesIndex === 'SFW' && <Box dangerouslySetInnerHTML={oocHTML} />}
                 {oocNotesIndex === 'NSFW' && (
                   <Box dangerouslySetInnerHTML={oocnsfwHTML} />
                 )}
@@ -113,9 +111,7 @@ export const FlavorTextPage = ({ data }: { data: ExaminePanelData }) => {
               </Button>
               <Button
                 selected={flavorTextIndex === 'NSFW'}
-                disabled={
-                  !flavor_text_nsfw || (!is_naked && !nsfw_examine_always)
-                }
+                disabled={!flavor_text_nsfw || (!is_naked && !nsfw_examine_always)}
                 bold={flavorTextIndex === 'NSFW'}
                 onClick={() => setFlavorTextIndex('NSFW')}
                 textAlign="center"
@@ -126,9 +122,7 @@ export const FlavorTextPage = ({ data }: { data: ExaminePanelData }) => {
             </>
           }
         >
-          {flavorTextIndex === 'SFW' && (
-            <Box dangerouslySetInnerHTML={flavorHTML} />
-          )}
+          {flavorTextIndex === 'SFW' && <Box dangerouslySetInnerHTML={flavorHTML} />}
           {flavorTextIndex === 'NSFW' && (
             <Box dangerouslySetInnerHTML={nsfwHTML} />
           )}

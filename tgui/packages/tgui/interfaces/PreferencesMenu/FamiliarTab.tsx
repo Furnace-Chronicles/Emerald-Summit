@@ -1,4 +1,10 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a

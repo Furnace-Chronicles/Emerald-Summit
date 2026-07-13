@@ -5,14 +5,10 @@
 /datum/reagent/erpjuice/cum
 	name = "Cum"
 	color = "#ffffe0"
-	var/nutriment_factor = 8
-	var/hydration = 6
 
 /datum/reagent/erpjuice/femcum
 	name = "Female Cum"
 	color = "#ffffe0"
-	var/nutriment_factor = 6
-	var/hydration = 8
 
 /datum/reagent/consumable/ethanol/beer/emberwine
 	name = "Emberwine"

@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(colorlist, list(
+var/global/list/colorlist = list(
 	"Swan White"="#ffffff",
 	"Chalk White" = "#f4ecde",
 	"Cream" = "#fffdd0",
@@ -43,7 +43,7 @@ GLOBAL_LIST_INIT(colorlist, list(
 	"Blacksteel Grey"="#404040",
 	"Dark Grey" = "#505050",
 	"Darkest Night" = "#414143"
-	))
+	)
 
 
 // DYE BIN
@@ -71,7 +71,7 @@ GLOBAL_LIST_INIT(colorlist, list(
 
 /obj/machinery/gear_painter/Initialize()
 	..()
-	used_colors = GLOB.colorlist
+	used_colors = colorlist
 
 /obj/machinery/gear_painter/Destroy()
 	if(inserted)
@@ -176,10 +176,10 @@ GLOBAL_LIST_INIT(colorlist, list(
 					activecolor = "#FFFFFF"
 			updateUsrDialog()
 		else
-			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in GLOB.colorlist
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor = GLOB.colorlist[choice]
+			activecolor = colorlist[choice]
 			updateUsrDialog()
 
 	if(href_list["select_detail"])
@@ -196,10 +196,10 @@ GLOBAL_LIST_INIT(colorlist, list(
 					activecolor_detail = "#FFFFFF"
 			updateUsrDialog()
 		else
-			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in GLOB.colorlist
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor_detail = GLOB.colorlist[choice]
+			activecolor_detail = colorlist[choice]
 			updateUsrDialog()
 
 	if(href_list["select_altdetail"])
@@ -216,10 +216,10 @@ GLOBAL_LIST_INIT(colorlist, list(
 					activecolor_altdetail = "#FFFFFF"
 			updateUsrDialog()
 		else
-			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in GLOB.colorlist
+			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
-			activecolor_altdetail = GLOB.colorlist[choice]
+			activecolor_altdetail = colorlist[choice]
 			updateUsrDialog()
 
 	if(href_list["paint"])

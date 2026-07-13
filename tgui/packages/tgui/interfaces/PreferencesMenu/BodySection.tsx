@@ -8,10 +8,10 @@ import {
 } from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
+import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
-import { CustomizerCard, CustomizerEntry } from './CustomizerCard';
 
 export type BodyData = {
   use_skintones: 0 | 1;
@@ -98,9 +98,7 @@ export const BodyAppearanceControls = ({ data, act }: BodySectionProps) => {
             displayText={body.skin_tone_name}
             options={[
               body.skin_tone_name,
-              ...body.skin_tone_options.filter(
-                (n) => n !== body.skin_tone_name,
-              ),
+              ...body.skin_tone_options.filter((n) => n !== body.skin_tone_name),
             ]}
             onSelected={(value) =>
               value !== body.skin_tone_name &&
@@ -173,9 +171,7 @@ export const BodyAppearanceControls = ({ data, act }: BodySectionProps) => {
         <>
           <LabeledList.Item label="Skin/Feathers color #1">
             <ColorSwatch hex={body.mcolor} />
-            <Button onClick={() => act('set_skin_feathers_pick')}>
-              Change
-            </Button>
+            <Button onClick={() => act('set_skin_feathers_pick')}>Change</Button>
             <Button
               ml={1}
               icon="circle-question"
@@ -284,13 +280,13 @@ export const BodySection = ({ data, act }: BodySectionProps) => {
     <Section title="Body">
       <Stack>
         <Stack.Item grow basis={0}>
-          <LabeledList>
-            <LabeledList.Item label="Update Colors With Change">
-              <Button onClick={() => act('toggle_update_mutant_colors')}>
-                {body.update_mutant_colors ? 'Yes' : 'No'}
-              </Button>
-            </LabeledList.Item>
-          </LabeledList>
+      <LabeledList>
+        <LabeledList.Item label="Update Colors With Change">
+          <Button onClick={() => act('toggle_update_mutant_colors')}>
+            {body.update_mutant_colors ? 'Yes' : 'No'}
+          </Button>
+        </LabeledList.Item>
+      </LabeledList>
         </Stack.Item>
         {earsCustomizer && (
           <Stack.Item grow basis={0}>

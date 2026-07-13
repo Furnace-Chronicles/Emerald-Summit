@@ -38,11 +38,6 @@
 	var/lip_style = null
 	var/lip_color = "white"
 
-	//Species face offset (OFFSET_FACE), captured from the owner so a dropped head can align its
-	//face overlays (eyes/lips) the same way the living mob does -- e.g. ogres shift theirs up.
-	var/face_offset_x = 0
-	var/face_offset_y = 0
-
 	offset = OFFSET_HEAD
 	offset_f = OFFSET_HEAD_F
 	//subtargets for crits
@@ -188,19 +183,7 @@
 			lip_color = "white"
 	..()
 
-/obj/item/bodypart/head/update_limb(dropping_limb, mob/living/carbon/source)
-	. = ..()
-	// Freeze the owner's face offset onto the head so we can reuse it after decapitation, when owner is gone.
-	var/mob/living/carbon/C = source || owner
-	if(istype(C) && C.dna?.species)
-		var/datum/species/S = C.dna.species
-		var/face_key = (body_gender == FEMALE) ? OFFSET_FACE_F : OFFSET_FACE
-		var/list/foff = S.offset_features?[face_key]
-		face_offset_x = foff ? foff[1] : 0
-		face_offset_y = foff ? foff[2] : 0
-
 /obj/item/bodypart/head/update_icon_dropped()
-	dropped_face_overlays = null
 	var/list/standing = get_limb_icon(TRUE)
 	if(!standing.len)
 		icon_state = initial(icon_state)//no overlays found, we default back to initial icon.
@@ -208,18 +191,10 @@
 	for(var/image/I in standing)
 		I.pixel_x = px_x
 		I.pixel_y = px_y
-	// Nudge only the head's face/hair overlays (eyes/lips/debrain + hair/beard) by the species face
-	// offset so they line up on resized heads (e.g. ogres) without disturbing the base head or damage.
-	for(var/image/F in dropped_face_overlays)
-		F.pixel_x += face_offset_x
-		F.pixel_y += face_offset_y
 	add_overlay(standing)
 
 /obj/item/bodypart/head/get_limb_icon(dropped, hideaux = FALSE)
 	cut_overlays()
-	// Init before ..() so the parent's hair/beard feature overlays get tracked for the face-offset nudge too.
-	if(dropped)
-		dropped_face_overlays = list()
 	. = ..()
 	if(dropped) //certain overlays only appear when the limb is being detached from its owner.
 
@@ -231,7 +206,6 @@
 					debrain_overlay.icon = 'icons/mob/human_face.dmi'
 					debrain_overlay.icon_state = "debrained"
 				. += debrain_overlay
-				dropped_face_overlays += debrain_overlay
 			//ROGTODO add accessories (earrings, piercings) here
 
 		// lipstick
@@ -239,12 +213,10 @@
 			var/image/lips_overlay = image('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER, SOUTH)
 			lips_overlay.color = lip_color
 			. += lips_overlay
-			dropped_face_overlays += lips_overlay
 
 		// eyes
 		var/image/eyes_overlay = image('icons/mob/human_face.dmi', "eyes_missing", -BODY_LAYER, SOUTH)
 		. += eyes_overlay
-		dropped_face_overlays += eyes_overlay
 		if(eyes)
 			eyes_overlay.icon_state = eyes.eye_icon_state
 

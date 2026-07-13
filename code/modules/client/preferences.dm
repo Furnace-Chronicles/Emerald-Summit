@@ -79,6 +79,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/none
+	var/datum/virtue/virtue_background = new /datum/virtue/none
 	var/selected_title = "None"
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
@@ -492,6 +493,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
 			dat += "<BR>"
+			dat += "<b>Background:</b> <a href='?_src_=prefs;preference=background;task=input'>[virtue_background]</a><BR>"
 //			dat += "<a href='?_src_=prefs;preference=species;task=random'>Random Species</A> "
 //			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SPECIES]'>Always Random Species: [(randomise[RANDOM_SPECIES]) ? "Yes" : "No"]</A><br>"
 
@@ -2373,27 +2375,27 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if(loadout3.desc)
 								to_chat(user, "[loadout3.desc]")
 				if("loadout1hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item One Colour") as null|anything in GLOB.colorlist
-					if (choice && GLOB.colorlist[choice])
-						loadout_1_hex = GLOB.colorlist[choice]
+					var/choice = input(user, "Choose a color.", "Loadout Item One Colour") as null|anything in colorlist
+					if (choice && colorlist[choice])
+						loadout_1_hex = colorlist[choice]
 						if (loadout)
 							to_chat(user, "The colour for your [loadout::name] has been set to <b>[choice]</b>.")
 					else
 						loadout_1_hex = null
 						to_chat(user, "The colour for your <b>first</b> loadout item has been cleared.")
 				if("loadout2hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item Two Colour") as null|anything in GLOB.colorlist
-					if (choice && GLOB.colorlist[choice])
-						loadout_2_hex = GLOB.colorlist[choice]
+					var/choice = input(user, "Choose a color.", "Loadout Item Two Colour") as null|anything in colorlist
+					if (choice && colorlist[choice])
+						loadout_2_hex = colorlist[choice]
 						if (loadout2)
 							to_chat(user, "The colour for your [loadout2::name] has been set to <b>[choice]</b>.")
 					else
 						loadout_2_hex = null
 						to_chat(user, "The colour for your <b>second</b> loadout item has been cleared.")
 				if("loadout3hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item Three Colour") as null|anything in GLOB.colorlist
-					if (choice && GLOB.colorlist[choice])
-						loadout_3_hex = GLOB.colorlist[choice]
+					var/choice = input(user, "Choose a color.", "Loadout Item Three Colour") as null|anything in colorlist
+					if (choice && colorlist[choice])
+						loadout_3_hex = colorlist[choice]
 						if (loadout3)
 							to_chat(user, "The colour for your [loadout3::name] has been set to <b>[choice]</b>.")
 					else
@@ -2463,6 +2465,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							continue
 						if (istype(V, /datum/virtue/origin))
 							continue
+						if (istype(V, /datum/virtue/background))
+							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
 						if (V.restricted == TRUE)
@@ -2502,6 +2506,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (V.name == virtue.name || V.name == virtuetwo.name)
 							continue
 						if (istype(V, /datum/virtue/origin))
+							continue
+						if (istype(V, /datum/virtue/background))
 							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
@@ -2557,6 +2563,28 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							selected_patron = GLOB.patronlist[virtue_origin.uniquefaith[1].godhead]
 						else
 							selected_patron = /datum/patron/divine/astrata
+
+				if("background")
+					var/list/virtue_choices = list()
+					for (var/path as anything in GLOB.virtues)
+						var/datum/virtue/V = GLOB.virtues[path]
+						if (!V.name)
+							continue
+						if (V.name == virtue_background.name)
+							continue
+						if (!istype(V, /datum/virtue/background))
+							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
+						virtue_choices[V.name] = V
+					var/result = tgui_input_list(user, "What was your lyfe before?", "BACKGROUND (LOADOUTS PLACED WITHIN THY STASH)",virtue_choices)
+
+					if (result)
+						var/datum/virtue/virtue_chosen = virtue_choices[result]
+						virtue_background = virtue_chosen
+						to_chat(user, process_virtue_text(virtue_chosen))
+
 
 				if("charflaw")
 					var/list/coom = GLOB.character_flaws.Copy()
@@ -3404,9 +3432,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(V.origin_desc)
 		dat += "<font size = 3><a href='?_src_=prefs;preference=originhelp;task=input'>Read More</a></font><br>"
+	if(V.background_desc)
+		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(length(V.added_skills))
 		if(istype(V, /datum/virtue/origin))
 			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"
+		if(istype(V, /datum/virtue/background))
+			dat+= "<font color = '#a3e2ff'><font size = 3>This Background adds the following skills: <br>"
 		else
 			dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
 		for(var/list/L in V.added_skills)

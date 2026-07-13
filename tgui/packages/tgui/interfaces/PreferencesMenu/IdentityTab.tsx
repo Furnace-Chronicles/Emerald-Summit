@@ -1,14 +1,17 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
+import { BodyAppearanceControls, type BodyData } from './BodySection';
+import type { MarkingsDynamicData, MarkingsStaticData } from './MarkingsSection';
 // Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
 // list passes 7 options. (Replaces the per-tab RawDropdown + inline-Box wrapper.)
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
-import { BodyAppearanceControls, type BodyData } from './BodySection';
-import type {
-  MarkingsDynamicData,
-  MarkingsStaticData,
-} from './MarkingsSection';
 
 type IdentityData = {
   real_name: string;
@@ -30,6 +33,7 @@ type IdentityData = {
   origin_gives_language: 0 | 1;
   statpack_name: string;
   statpack_label?: string;
+  background_name : string;
   virtue_name: string;
   virtuetwo_name: string;
   show_virtuetwo: 0 | 1;
@@ -53,6 +57,7 @@ type IdentityData = {
   race_title_options: string[];
   statpack_options: string[];
   extra_language_options: string[];
+  background_options: string[];
   virtue_options: string[];
   charflaw_options: string[];
   faith_options: string[];
@@ -137,125 +142,126 @@ export const IdentityTab = ({ data, act }: IdentityTabProps) => {
         <Stack>
           <Stack.Item grow basis={0}>
             <Section title="Identity">
-              <LabeledList>
-                <LabeledList.Item label="Name">
-                  {id.name_is_banned ? (
-                    <Button color="bad" onClick={() => act('set_name')}>
-                      NAMEBANNED
-                    </Button>
-                  ) : (
-                    <>
-                      <Button onClick={() => act('set_name')}>
-                        {id.real_name || '(unset)'}
-                      </Button>
-                      <Button
-                        ml={1}
-                        icon="dice"
-                        onClick={() => act('randomize_name')}
-                        tooltip="Random name"
-                      />
-                    </>
-                  )}
-                </LabeledList.Item>
-                <LabeledList.Item label="Nickname">
-                  <Button onClick={() => act('set_nickname')}>
-                    {id.nickname || '(unset)'}
+          <LabeledList>
+            <LabeledList.Item label="Name">
+              {id.name_is_banned ? (
+                <Button color="bad" onClick={() => act('set_name')}>
+                  NAMEBANNED
+                </Button>
+              ) : (
+                <>
+                  <Button onClick={() => act('set_name')}>
+                    {id.real_name || '(unset)'}
                   </Button>
-                </LabeledList.Item>
-                <LabeledList.Item label="Pronouns">
-                  <Dropdown
-                    width="180px"
-                    menuWidth="220px"
-                    selected={id.pronouns}
-                    displayText={id.pronouns}
-                    options={data.pronoun_options}
-                    onSelected={(value) =>
-                      value !== id.pronouns &&
-                      act('set_pronouns_direct', { name: value })
-                    }
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Voice Identity">
-                  <Dropdown
-                    width="180px"
-                    menuWidth="220px"
-                    selected={id.voice_type}
-                    displayText={id.voice_type}
-                    options={data.voice_type_options}
-                    onSelected={(value) =>
-                      value !== id.voice_type &&
-                      act('set_voice_type_direct', { name: value })
-                    }
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Voice Pack">
-                  <Stack>
-                    <Stack.Item>
-                      <Dropdown
-                        width="180px"
-                        menuWidth="220px"
-                        selected={id.voice_pack}
-                        displayText={id.voice_pack}
-                        options={data.voice_pack_options}
-                        onSelected={(value) =>
-                          value !== id.voice_pack &&
-                          act('set_voice_pack_direct', { name: value })
-                        }
-                      />
-                    </Stack.Item>
-                    {id.voice_pack !== 'Default' && (
-                      <Stack.Item>
-                        <Button
-                          icon="volume-high"
-                          tooltip="Play a sample"
-                          onClick={() => act('preview_voice_pack')}
-                        >
-                          Sample
-                        </Button>
-                      </Stack.Item>
-                    )}
-                  </Stack>
-                </LabeledList.Item>
-                <LabeledList.Item label="Age">
-                  <Dropdown
-                    width="180px"
-                    menuWidth="220px"
-                    selected={id.age}
-                    displayText={id.age}
-                    options={id.age_options}
-                    onSelected={(value) =>
-                      value !== id.age && act('set_age_direct', { name: value })
-                    }
-                  />
                   <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this age's stat effects to chat"
-                    onClick={() => act('show_age_info')}
+                    ml={1}
+                    icon="dice"
+                    onClick={() => act('randomize_name')}
+                    tooltip="Random name"
                   />
-                </LabeledList.Item>
-                {!id.agender_species && (
-                  <LabeledList.Item label="Body Type">
-                    <Button onClick={() => act('toggle_gender')}>
-                      {id.gender === 'male' ? 'Masculine' : 'Feminine'}
+                </>
+              )}
+            </LabeledList.Item>
+            <LabeledList.Item label="Nickname">
+              <Button onClick={() => act('set_nickname')}>
+                {id.nickname || '(unset)'}
+              </Button>
+            </LabeledList.Item>
+            <LabeledList.Item label="Pronouns">
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={id.pronouns}
+                displayText={id.pronouns}
+                options={data.pronoun_options}
+                onSelected={(value) =>
+                  value !== id.pronouns &&
+                  act('set_pronouns_direct', { name: value })
+                }
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Voice Identity">
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={id.voice_type}
+                displayText={id.voice_type}
+                options={data.voice_type_options}
+                onSelected={(value) =>
+                  value !== id.voice_type &&
+                  act('set_voice_type_direct', { name: value })
+                }
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Voice Pack">
+              <Stack>
+                <Stack.Item>
+                  <Dropdown
+                    width="180px"
+                    menuWidth="220px"
+                    selected={id.voice_pack}
+                    displayText={id.voice_pack}
+                    options={data.voice_pack_options}
+                    onSelected={(value) =>
+                      value !== id.voice_pack &&
+                      act('set_voice_pack_direct', { name: value })
+                    }
+                  />
+                </Stack.Item>
+                {id.voice_pack !== 'Default' && (
+                  <Stack.Item>
+                    <Button
+                      icon="volume-high"
+                      tooltip="Play a sample"
+                      onClick={() => act('preview_voice_pack')}
+                    >
+                      Sample
                     </Button>
-                  </LabeledList.Item>
+                  </Stack.Item>
                 )}
-                <LabeledList.Item label="Dominance">
-                  <Button onClick={() => act('toggle_domhand')}>
-                    {id.domhand === 1 ? 'Left-handed' : 'Right-handed'}
-                  </Button>
-                </LabeledList.Item>
-                <LabeledList.Item label="Unrevivable">
-                  <Button
-                    color={id.dnr_pref ? 'bad' : 'default'}
-                    onClick={() => act('toggle_dnr')}
-                  >
-                    {id.dnr_pref ? 'Yes' : 'No'}
-                  </Button>
-                </LabeledList.Item>
-              </LabeledList>
-            </Section>
+              </Stack>
+            </LabeledList.Item>
+            <LabeledList.Item label="Age">
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={id.age}
+                displayText={id.age}
+                options={id.age_options}
+                onSelected={(value) =>
+                  value !== id.age &&
+                  act('set_age_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this age's stat effects to chat"
+                onClick={() => act('show_age_info')}
+              />
+            </LabeledList.Item>
+            {!id.agender_species && (
+              <LabeledList.Item label="Body Type">
+                <Button onClick={() => act('toggle_gender')}>
+                  {id.gender === 'male' ? 'Masculine' : 'Feminine'}
+                </Button>
+              </LabeledList.Item>
+            )}
+            <LabeledList.Item label="Dominance">
+              <Button onClick={() => act('toggle_domhand')}>
+                {id.domhand === 1 ? 'Left-handed' : 'Right-handed'}
+              </Button>
+            </LabeledList.Item>
+            <LabeledList.Item label="Unrevivable">
+              <Button
+                color={id.dnr_pref ? 'bad' : 'default'}
+                onClick={() => act('toggle_dnr')}
+              >
+                {id.dnr_pref ? 'Yes' : 'No'}
+              </Button>
+            </LabeledList.Item>
+          </LabeledList>
+        </Section>
           </Stack.Item>
           {/* Right column: Family stacked vertically above Palate. */}
           <Stack.Item grow basis={0}>
@@ -415,317 +421,328 @@ export const IdentityTab = ({ data, act }: IdentityTabProps) => {
         <Stack reverse>
           <Stack.Item grow basis={0} style={{ minWidth: 0 }}>
             <Section title="Virtue & Vice">
-              <LabeledList>
-                <LabeledList.Item label="Virtue">
-                  <Dropdown
-                    width="160px"
-                    menuWidth="220px"
-                    selected={id.virtue_name}
-                    displayText={id.virtue_name}
-                    options={[id.virtue_name, ...id.virtue_options].map(
-                      (name) => ({
-                        value: name,
-                        displayText: name,
-                        // Grey out whatever the second virtue already holds (the two
-                        // Virtuous slots must differ); "None" stays selectable.
-                        disabled:
-                          name === id.virtuetwo_name &&
-                          id.virtuetwo_name !== 'None',
-                      }),
-                    )}
-                    onSelected={(value) =>
-                      value !== id.virtue_name &&
-                      act('set_virtue_direct', { name: value })
-                    }
-                  />
-                  <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this virtue's description to chat"
-                    onClick={() => act('show_virtue_desc')}
-                  />
-                </LabeledList.Item>
-                {!!id.show_virtuetwo && (
-                  <LabeledList.Item label="Second Virtue">
-                    <Dropdown
-                      width="220px"
-                      menuWidth="260px"
-                      selected={id.virtuetwo_name}
-                      displayText={id.virtuetwo_name}
-                      options={[id.virtuetwo_name, ...id.virtue_options].map(
-                        (name) => ({
-                          value: name,
-                          displayText: name,
-                          // Grey out the first virtue's pick so the slots can't match;
-                          // "None" stays selectable.
-                          disabled:
-                            name === id.virtue_name &&
-                            id.virtue_name !== 'None',
-                        }),
-                      )}
-                      onSelected={(value) =>
-                        value !== id.virtuetwo_name &&
-                        act('set_virtuetwo_direct', { name: value })
-                      }
-                    />
-                    <Button
-                      ml={0.5}
-                      icon="circle-info"
-                      tooltip="Print this virtue's description to chat"
-                      onClick={() => act('show_virtuetwo_desc')}
-                    />
-                  </LabeledList.Item>
-                )}
-                <LabeledList.Item label="Vice">
-                  <Dropdown
-                    width="160px"
-                    menuWidth="220px"
-                    selected={id.charflaw_name}
-                    displayText={id.charflaw_name}
-                    options={[id.charflaw_name, ...id.charflaw_options]}
-                    onSelected={(value) =>
-                      value !== id.charflaw_name &&
-                      act('set_charflaw_direct', { name: value })
-                    }
-                  />
-                  <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this vice's description to chat"
-                    onClick={() => act('show_charflaw_desc')}
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Faith">
-                  <Dropdown
-                    width="160px"
-                    menuWidth="220px"
-                    selected={id.faith_name || '—'}
-                    displayText={id.faith_name || '—'}
-                    options={id.faith_options}
-                    onSelected={(value) =>
-                      value !== id.faith_name &&
-                      act('set_faith_direct', { name: value })
-                    }
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Patron">
-                  <Dropdown
-                    width="160px"
-                    menuWidth="220px"
-                    selected={id.patron_name || '—'}
-                    displayText={id.patron_name || '—'}
-                    options={id.patron_options}
-                    onSelected={(value) =>
-                      value !== id.patron_name &&
-                      act('set_patron_direct', { name: value })
-                    }
-                  />
-                  <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this patron's description to chat"
-                    onClick={() => act('show_patron_desc')}
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Combat Music">
-                  <Dropdown
-                    width="160px"
-                    menuWidth="220px"
-                    selected={id.combat_music_name || '—'}
-                    displayText={id.combat_music_name || '—'}
-                    options={id.combat_music_options}
-                    onSelected={(value) =>
-                      value !== id.combat_music_name &&
-                      act('set_combat_music_direct', { name: value })
-                    }
-                  />
-                  <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this track's description to chat"
-                    onClick={() => act('show_combat_music_desc')}
-                  />
-                </LabeledList.Item>
-              </LabeledList>
-            </Section>
+          <LabeledList>
+            <LabeledList.Item label="Virtue">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.virtue_name}
+                displayText={id.virtue_name}
+                options={[id.virtue_name, ...id.virtue_options].map((name) => ({
+                  value: name,
+                  displayText: name,
+                  // Grey out whatever the second virtue already holds (the two
+                  // Virtuous slots must differ); "None" stays selectable.
+                  disabled:
+                    name === id.virtuetwo_name && id.virtuetwo_name !== 'None',
+                }))}
+                onSelected={(value) =>
+                  value !== id.virtue_name &&
+                  act('set_virtue_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this virtue's description to chat"
+                onClick={() => act('show_virtue_desc')}
+              />
+            </LabeledList.Item>
+            {!!id.show_virtuetwo && (
+              <LabeledList.Item label="Second Virtue">
+                <Dropdown
+                  width="220px"
+                  menuWidth="260px"
+                  selected={id.virtuetwo_name}
+                  displayText={id.virtuetwo_name}
+                  options={[id.virtuetwo_name, ...id.virtue_options].map(
+                    (name) => ({
+                      value: name,
+                      displayText: name,
+                      // Grey out the first virtue's pick so the slots can't match;
+                      // "None" stays selectable.
+                      disabled:
+                        name === id.virtue_name && id.virtue_name !== 'None',
+                    }),
+                  )}
+                  onSelected={(value) =>
+                    value !== id.virtuetwo_name &&
+                    act('set_virtuetwo_direct', { name: value })
+                  }
+                />
+                <Button
+                  ml={0.5}
+                  icon="circle-info"
+                  tooltip="Print this virtue's description to chat"
+                  onClick={() => act('show_virtuetwo_desc')}
+                />
+              </LabeledList.Item>
+            )}
+            <LabeledList.Item label="Vice">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.charflaw_name}
+                displayText={id.charflaw_name}
+                options={[id.charflaw_name, ...id.charflaw_options]}
+                onSelected={(value) =>
+                  value !== id.charflaw_name &&
+                  act('set_charflaw_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this vice's description to chat"
+                onClick={() => act('show_charflaw_desc')}
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Faith">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.faith_name || '—'}
+                displayText={id.faith_name || '—'}
+                options={id.faith_options}
+                onSelected={(value) =>
+                  value !== id.faith_name &&
+                  act('set_faith_direct', { name: value })
+                }
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Patron">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.patron_name || '—'}
+                displayText={id.patron_name || '—'}
+                options={id.patron_options}
+                onSelected={(value) =>
+                  value !== id.patron_name &&
+                  act('set_patron_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this patron's description to chat"
+                onClick={() => act('show_patron_desc')}
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Combat Music">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.combat_music_name || '—'}
+                displayText={id.combat_music_name || '—'}
+                options={id.combat_music_options}
+                onSelected={(value) =>
+                  value !== id.combat_music_name &&
+                  act('set_combat_music_direct', { name: value })
+                }
+              />
+            </LabeledList.Item>
+          </LabeledList>
+        </Section>
           </Stack.Item>
           <Stack.Item grow basis={0} style={{ minWidth: 0 }}>
             {/* Race / Origin — right half of the V&V row. */}
             <Section title="Race & Origin">
               <LabeledList>
                 <LabeledList.Item label="Race">
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={id.species_name}
+                displayText={id.species_name}
+                options={[id.species_name, ...id.species_options]}
+                onSelected={(value) =>
+                  value !== id.species_name &&
+                  act('set_species_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this race's lore description to chat"
+                onClick={() => act('show_species_desc')}
+              />
+              <Button
+                ml={0.5}
+                icon="circle-question"
+                tooltip="Race symbol meaning"
+                onClick={() => act('show_race_help')}
+              >
+                <Box
+                  inline
+                  color={id.species_psydonic ? 'good' : 'bad'}
+                  bold
+                >
+                  {id.species_psydonic ? 'ᛉ' : 'ᛣ'}
+                </Box>
+              </Button>
+            </LabeledList.Item>
+            <LabeledList.Item label="Subrace">
+              {id.has_subspecies_options ? (
+                <>
                   <Dropdown
                     width="180px"
                     menuWidth="220px"
-                    selected={id.species_name}
-                    displayText={id.species_name}
-                    options={[id.species_name, ...id.species_options]}
+                    selected={id.subspecies_name}
+                    displayText={id.subspecies_name}
+                    options={[id.subspecies_name, ...id.subspecies_options]}
                     onSelected={(value) =>
-                      value !== id.species_name &&
-                      act('set_species_direct', { name: value })
+                      value !== id.subspecies_name &&
+                      act('set_subspecies_direct', { name: value })
                     }
                   />
                   <Button
                     ml={0.5}
                     icon="circle-info"
-                    tooltip="Print this race's lore description to chat"
-                    onClick={() => act('show_species_desc')}
+                    tooltip="Print this subrace's lore description to chat"
+                    onClick={() => act('show_subspecies_desc')}
                   />
+                </>
+              ) : (
+                <Box inline color="label">
+                  No subraces for this race
+                </Box>
+              )}
+            </LabeledList.Item>
+            {!!id.species_use_titles && (
+              <LabeledList.Item label="Race Title">
+                <Dropdown
+                  width="180px"
+                  menuWidth="220px"
+                  selected={id.selected_title}
+                  displayText={id.selected_title}
+                  options={id.race_title_options}
+                  onSelected={(value) =>
+                    value !== id.selected_title &&
+                    act('set_race_title_direct', { name: value })
+                  }
+                />
+              </LabeledList.Item>
+            )}
+            <LabeledList.Item label="Origin">
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={id.origin_name}
+                displayText={id.origin_name}
+                options={[id.origin_name, ...id.origin_options]}
+                onSelected={(value) =>
+                  value !== id.origin_name &&
+                  act('set_origin_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this origin's description to chat"
+                onClick={() => act('show_origin_help')}
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Background">
+              <Dropdown
+                width="160px"
+                menuWidth="220px"
+                selected={id.background_name}
+                displayText={id.background_name}
+                options={[id.background_name, ...id.background_options].map((name) => ({
+                  value: name,
+                  displayText: name,
+                }))}
+                onSelected={(value) =>
+                  value !== id.background_name &&
+                  act('set_background_direct', { name: value })
+                }
+              />
+              <Button
+                ml={0.5}
+                icon="circle-info"
+                tooltip="Print this background's description to chat"
+                onClick={() => act('show_background_desc')}
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Statpack">
+              <Dropdown
+                width="320px"
+                menuWidth="360px"
+                selected={id.statpack_label || id.statpack_name}
+                displayText={id.statpack_label || id.statpack_name}
+                options={[
+                  id.statpack_label || id.statpack_name,
+                  ...id.statpack_options,
+                ]}
+                onSelected={(value) =>
+                  value !== (id.statpack_label || id.statpack_name) &&
+                  act('set_statpack_direct', { name: value })
+                }
+              />
+            </LabeledList.Item>
+            <LabeledList.Item label="Free Language">
+              {id.origin_gives_language ? (
+                <Dropdown
+                  width="180px"
+                  menuWidth="220px"
+                  selected={id.extra_language_name}
+                  displayText={id.extra_language_name}
+                  options={id.extra_language_options}
+                  onSelected={(value) =>
+                    value !== id.extra_language_name &&
+                    act('set_extra_language_direct', { name: value })
+                  }
+                />
+              ) : (
+                <Box inline color="label">
+                  Your current Origin does not grant a free language.
+                </Box>
+              )}
+            </LabeledList.Item>
+            {!!id.has_lamian_tail && (
+              <>
+                <LabeledList.Item label="Tail Type">
+                  <Dropdown
+                    width="200px"
+                    menuWidth="240px"
+                    selected={id.tail_type_name}
+                    displayText={id.tail_type_name}
+                    options={id.tail_type_options}
+                    onSelected={(value) =>
+                      value !== id.tail_type_name &&
+                      act('set_tail_type_direct', { name: value })
+                    }
+                  />
+                </LabeledList.Item>
+                <LabeledList.Item label="Tail Color">
                   <Button
-                    ml={0.5}
-                    icon="circle-question"
-                    tooltip="Race symbol meaning"
-                    onClick={() => act('show_race_help')}
+                    onClick={() => act('set_tail_color')}
+                    backgroundColor={'#' + (id.tail_color || 'ffffff')}
                   >
-                    <Box
-                      inline
-                      color={id.species_psydonic ? 'good' : 'bad'}
-                      bold
-                    >
-                      {id.species_psydonic ? 'ᛉ' : 'ᛣ'}
-                    </Box>
+                    {' '}
+                    Change
                   </Button>
                 </LabeledList.Item>
-                <LabeledList.Item label="Subrace">
-                  {id.has_subspecies_options ? (
-                    <>
-                      <Dropdown
-                        width="180px"
-                        menuWidth="220px"
-                        selected={id.subspecies_name}
-                        displayText={id.subspecies_name}
-                        options={[id.subspecies_name, ...id.subspecies_options]}
-                        onSelected={(value) =>
-                          value !== id.subspecies_name &&
-                          act('set_subspecies_direct', { name: value })
-                        }
-                      />
-                      <Button
-                        ml={0.5}
-                        icon="circle-info"
-                        tooltip="Print this subrace's lore description to chat"
-                        onClick={() => act('show_subspecies_desc')}
-                      />
-                    </>
-                  ) : (
-                    <Box inline color="label">
-                      No subraces for this race
-                    </Box>
-                  )}
-                </LabeledList.Item>
-                {!!id.species_use_titles && (
-                  <LabeledList.Item label="Race Title">
-                    <Dropdown
-                      width="180px"
-                      menuWidth="220px"
-                      selected={id.selected_title}
-                      displayText={id.selected_title}
-                      options={id.race_title_options}
-                      onSelected={(value) =>
-                        value !== id.selected_title &&
-                        act('set_race_title_direct', { name: value })
-                      }
-                    />
-                  </LabeledList.Item>
-                )}
-                <LabeledList.Item label="Origin">
-                  <Dropdown
-                    width="180px"
-                    menuWidth="220px"
-                    selected={id.origin_name}
-                    displayText={id.origin_name}
-                    options={[id.origin_name, ...id.origin_options]}
-                    onSelected={(value) =>
-                      value !== id.origin_name &&
-                      act('set_origin_direct', { name: value })
-                    }
-                  />
+                <LabeledList.Item label="Marking Color">
                   <Button
-                    ml={0.5}
-                    icon="circle-info"
-                    tooltip="Print this origin's description to chat"
-                    onClick={() => act('show_origin_help')}
-                  />
+                    onClick={() => act('set_tail_markings_color')}
+                    backgroundColor={'#' + (id.tail_markings_color || 'ffffff')}
+                  >
+                    {' '}
+                    Change
+                  </Button>
                 </LabeledList.Item>
-                <LabeledList.Item label="Statpack">
-                  <Dropdown
-                    width="320px"
-                    menuWidth="360px"
-                    selected={id.statpack_label || id.statpack_name}
-                    displayText={id.statpack_label || id.statpack_name}
-                    options={[
-                      id.statpack_label || id.statpack_name,
-                      ...id.statpack_options,
-                    ]}
-                    onSelected={(value) =>
-                      value !== (id.statpack_label || id.statpack_name) &&
-                      act('set_statpack_direct', { name: value })
-                    }
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Free Language">
-                  {id.origin_gives_language ? (
-                    <Dropdown
-                      width="180px"
-                      menuWidth="220px"
-                      selected={id.extra_language_name}
-                      displayText={id.extra_language_name}
-                      options={id.extra_language_options}
-                      onSelected={(value) =>
-                        value !== id.extra_language_name &&
-                        act('set_extra_language_direct', { name: value })
-                      }
-                    />
-                  ) : (
-                    <Box inline color="label">
-                      Your current Origin does not grant a free language.
-                    </Box>
-                  )}
-                </LabeledList.Item>
-                {!!id.has_lamian_tail && (
-                  <>
-                    <LabeledList.Item label="Tail Type">
-                      <Dropdown
-                        width="200px"
-                        menuWidth="240px"
-                        selected={id.tail_type_name}
-                        displayText={id.tail_type_name}
-                        options={id.tail_type_options}
-                        onSelected={(value) =>
-                          value !== id.tail_type_name &&
-                          act('set_tail_type_direct', { name: value })
-                        }
-                      />
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Tail Color">
-                      <Button
-                        onClick={() => act('set_tail_color')}
-                        backgroundColor={'#' + (id.tail_color || 'ffffff')}
-                      >
-                        {' '}
-                        Change
-                      </Button>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Marking Color">
-                      <Button
-                        onClick={() => act('set_tail_markings_color')}
-                        backgroundColor={
-                          '#' + (id.tail_markings_color || 'ffffff')
-                        }
-                      >
-                        {' '}
-                        Change
-                      </Button>
-                    </LabeledList.Item>
-                  </>
-                )}
-              </LabeledList>
-            </Section>
+              </>
+            )}
+          </LabeledList>
+        </Section>
           </Stack.Item>
         </Stack>
       </Stack.Item>
 
       {/* Body + Markings sections moved to the Features tab. */}
+
     </Stack>
   );
 };

@@ -15,11 +15,6 @@
 	RegisterSignal(i, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 	RegisterSignal(i, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_use))
 	RegisterSignal(i, COMSIG_ITEM_HIT_RESPONSE, PROC_REF(on_hit_response))
-	// If the item is enchanted while already worn/held, the equip signal never fired for this effect,
-	// so apply the equip effect now instead of forcing the wearer to unequip and re-equip it.
-	if(ismob(i.loc))
-		var/mob/wearer = i.loc
-		on_equip(i, wearer, wearer.is_holding(i) ? ITEM_SLOT_HANDS : null)
 
 /datum/magic_item/proc/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)	//when enchanted item hits a mob/living, do effect.
 

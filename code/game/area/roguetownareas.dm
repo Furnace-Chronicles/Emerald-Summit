@@ -1054,10 +1054,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	icon_state = "chapel"
 	first_time_text = "THE HOUSE OF THE TEN"
 
-// dun_world's chapel: was a per-tile name var-edit on every chapel turf in the map; hoisted here so the map uses a plain path.
-/area/rogue/indoors/town/church/chapel/sanctum
-	name = "Sanctum of the Beast"
-
 /area/rogue/indoors/town/church/basement
 	icon_state = "church"
 	droning_sound = 'sound/music/area/catacombs.ogg'

@@ -1,30 +1,28 @@
 import {
-  Box,
   Button,
   LabeledList,
   Section,
-  Stack,
   TimeDisplay,
+  Box,
+  Stack,
 } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
-// Plain records rather than enums: `null` as an enum member name crashes
-// eslint's unused-imports rule; indexing behavior is identical (null coerces to "null").
-const PrefToColorEnum: Record<string, string> = {
-  null: 'red',
-  low: 'orange',
-  medium: 'green',
-  high: 'red',
-};
+enum PrefToColorEnum {
+  null = 'red',
+  'low' = 'orange',
+  'medium' = 'green',
+  'high' = 'red',
+}
 
-const PrefToTextEnum: Record<string, string> = {
-  null: 'NEVER',
-  low: '+',
-  medium: '++',
-  high: '+++',
-};
+enum PrefToTextEnum {
+  null = 'NEVER',
+  'low' = '+',
+  'medium' = '++',
+  'high' = '+++',
+}
 
 interface Clan {
   clanName: string;

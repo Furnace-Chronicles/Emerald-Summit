@@ -76,16 +76,16 @@
 	var/quest_reroll_last_ds = 0
 
 // GLOB
-GLOBAL_LIST_EMPTY(divine_miracles_cache)
-GLOBAL_LIST_EMPTY(inhumen_miracles_cache)
-GLOBAL_VAR_INIT(miracle_caches_built, FALSE)
+var/global/list/divine_miracles_cache  = list()
+var/global/list/inhumen_miracles_cache = list()
+var/global/miracle_caches_built = FALSE
 
-GLOBAL_LIST_EMPTY(divine_patrons_index)
-GLOBAL_LIST_EMPTY(inhumen_patrons_index)
-GLOBAL_VAR_INIT(divine_patrons_built, FALSE)
-GLOBAL_VAR_INIT(inhumen_patrons_built, FALSE)
+var/global/list/divine_patrons_index = list()
+var/global/list/inhumen_patrons_index = list()
+var/global/divine_patrons_built = FALSE
+var/global/inhumen_patrons_built = FALSE
 
-GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
+var/global/list/PATRON_ARTIFACTS = list(
 	"Astrata" = list(/obj/item/artifact/astrata_star),
 /*	"Noc"     = list(/obj/item/artefact/noc_phylactery), */
 	"Dendor"  = list(/obj/item/artefact/dendor_hose),
@@ -96,14 +96,14 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 	"Pestra"  = list(/obj/item/rogueweapon/surgery/multitool, /obj/item/needle/pestra, /obj/item/natural/worms/leech/cheele),
 	"Malum"   = list(/obj/item/rogueweapon/hammer/artefact/malum),
 	"Eora"    = list(/obj/item/artefact/eora_heart),
-))
+)
 
 //HE:LP
 /proc/build_miracle_caches()
-	if(GLOB.miracle_caches_built) return
-	build_cache_for_root(/datum/patron/divine,  GLOB.divine_miracles_cache)
-	build_cache_for_root(/datum/patron/inhumen, GLOB.inhumen_miracles_cache)
-	GLOB.miracle_caches_built = TRUE
+	if(miracle_caches_built) return
+	build_cache_for_root(/datum/patron/divine,  divine_miracles_cache)
+	build_cache_for_root(/datum/patron/inhumen, inhumen_miracles_cache)
+	miracle_caches_built = TRUE
 
 /proc/build_cache_for_root(root_type, list/cache)
 	for(var/p_type in typesof(root_type))
@@ -123,7 +123,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 	open_learn_ui(H)
 
 /proc/build_divine_patrons_index()
-	if(GLOB.divine_patrons_built) return
+	if(divine_patrons_built) return
 	for(var/p_type in typesof(/datum/patron/divine))
 		if(p_type == /datum/patron/divine) continue
 		var/datum/patron/P = new p_type
@@ -131,16 +131,16 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		if(P && P.name)
 			var/domain = ""; if("domain" in P.vars) domain = "[P.vars["domain"]]"
 			var/desc   = ""; if("desc"   in P.vars) desc   = "[P.vars["desc"]]"
-			GLOB.divine_patrons_index["[P.name]"] = list(
+			divine_patrons_index["[P.name]"] = list(
 				"path"   = p_type,
 				"domain" = domain,
 				"desc"   = desc
 			)
 		qdel(P)
-	GLOB.divine_patrons_built = TRUE
+	divine_patrons_built = TRUE
 
 /proc/build_inhumen_patrons_index()
-	if(GLOB.inhumen_patrons_built) return
+	if(inhumen_patrons_built) return
 	for(var/p_type in typesof(/datum/patron/inhumen))
 		if(p_type == /datum/patron/inhumen) continue
 		var/datum/patron/P_inh_idx = new p_type
@@ -148,21 +148,21 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		if(P_inh_idx && P_inh_idx.name)
 			var/domain = ""; if("domain" in P_inh_idx.vars) domain = "[P_inh_idx.vars["domain"]]"
 			var/desc   = ""; if("desc"   in P_inh_idx.vars) desc   = "[P_inh_idx.vars["desc"]]"
-			GLOB.inhumen_patrons_index["[P_inh_idx.name]"] = list(
+			inhumen_patrons_index["[P_inh_idx.name]"] = list(
 				"path"   = p_type,
 				"domain" = domain,
 				"desc"   = desc
 			)
 		qdel(P_inh_idx)
-	GLOB.inhumen_patrons_built = TRUE
+	inhumen_patrons_built = TRUE
 
 /proc/is_divine_spell(obj/effect/proc_holder/spell/S)
-	if(!GLOB.miracle_caches_built) build_miracle_caches()
-	return !!GLOB.divine_miracles_cache[S.type]
+	if(!miracle_caches_built) build_miracle_caches()
+	return !!divine_miracles_cache[S.type]
 
 /proc/is_inhumen_spell(obj/effect/proc_holder/spell/S)
-	if(!GLOB.miracle_caches_built) build_miracle_caches()
-	return !!GLOB.inhumen_miracles_cache[S.type]
+	if(!miracle_caches_built) build_miracle_caches()
+	return !!inhumen_miracles_cache[S.type]
 
 /proc/get_spell_patron_names(spell_input)
 	var/spell_path = null
@@ -178,8 +178,8 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// divine
 	build_divine_patrons_index()
-	for(var/n in GLOB.divine_patrons_index)
-		var/list/rec = GLOB.divine_patrons_index[n]; if(!islist(rec)) continue
+	for(var/n in divine_patrons_index)
+		var/list/rec = divine_patrons_index[n]; if(!islist(rec)) continue
 		var/p_type = rec["path"]; if(!p_type) continue
 		var/datum/patron/P = new p_type
 		if(P && islist(P.miracles) && (spell_path in P.miracles))
@@ -188,8 +188,8 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// inhumen
 	build_inhumen_patrons_index()
-	for(var/n2 in GLOB.inhumen_patrons_index)
-		var/list/rec2 = GLOB.inhumen_patrons_index[n2]; if(!islist(rec2)) continue
+	for(var/n2 in inhumen_patrons_index)
+		var/list/rec2 = inhumen_patrons_index[n2]; if(!islist(rec2)) continue
 		var/p2 = rec2["path"]; if(!p2) continue
 		var/datum/patron/P_inh2 = new p2
 		if(P_inh2 && islist(P_inh2.miracles) && (spell_path in P_inh2.miracles))
@@ -324,8 +324,8 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// divine
 	build_divine_patrons_index()
-	for(var/n in GLOB.divine_patrons_index)
-		var/list/rec = GLOB.divine_patrons_index[n]
+	for(var/n in divine_patrons_index)
+		var/list/rec = divine_patrons_index[n]
 		if(!islist(rec)) continue
 		var/p_type = rec["path"]; if(!p_type) continue
 		var/datum/patron/P = new p_type
@@ -335,8 +335,8 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// inhumen
 	build_inhumen_patrons_index()
-	for(var/n2 in GLOB.inhumen_patrons_index)
-		var/list/rec2 = GLOB.inhumen_patrons_index[n2]
+	for(var/n2 in inhumen_patrons_index)
+		var/list/rec2 = inhumen_patrons_index[n2]
 		if(!islist(rec2)) continue
 		var/p2 = rec2["path"]; if(!p2) continue
 		var/datum/patron/P_inh2 = new p2
@@ -349,7 +349,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 /proc/_is_inhumen_patron_name(n as text)
 	if(!istext(n) || !length(n)) return FALSE
 	build_inhumen_patrons_index()
-	return (n in GLOB.inhumen_patrons_index)
+	return (n in inhumen_patrons_index)
 
 // I forgot what it does but probably it unlocks shunned relations
 /proc/_shunned_relations_unlocked(mob/living/carbon/human/H)
@@ -357,7 +357,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 	if(_is_churchling(H)) return TRUE
 	build_inhumen_patrons_index()
 	if(!islist(H.patron_relations)) return FALSE
-	for(var/n in GLOB.inhumen_patrons_index)
+	for(var/n in inhumen_patrons_index)
 		if(n in H.patron_relations)
 			return TRUE
 	return FALSE
@@ -401,7 +401,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		H.patron_relations = list()
 
 	build_divine_patrons_index()
-	for(var/n in GLOB.divine_patrons_index)
+	for(var/n in divine_patrons_index)
 		if(!(n in H.patron_relations))
 			H.patron_relations[n] = 0
 
@@ -412,14 +412,14 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 			H.patron_relations[myname] = 4
 
 	if(_shunned_relations_unlocked(H))
-		for(var/sn in GLOB.inhumen_patrons_index)
+		for(var/sn in inhumen_patrons_index)
 			if(!(sn in H.patron_relations))
 				H.patron_relations[sn] = 0
 
 //  LEARN
 
 /obj/effect/proc_holder/spell/self/learnmiracle/proc/_build_learn_buckets(mob/living/carbon/human/H, include_inhumen = FALSE)
-	if(!GLOB.miracle_caches_built) build_miracle_caches()
+	if(!miracle_caches_built) build_miracle_caches()
 	_ensure_relations(H)
 	build_divine_patrons_index()
 	build_inhumen_patrons_index()
@@ -439,8 +439,8 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// ***  divine + inhumen double soul cultivation into SET
 	var/list/all_spell_types = list()
-	for(var/st1 in GLOB.divine_miracles_cache)  all_spell_types[st1] = TRUE
-	for(var/st2 in GLOB.inhumen_miracles_cache) all_spell_types[st2] = TRUE
+	for(var/st1 in divine_miracles_cache)  all_spell_types[st1] = TRUE
+	for(var/st2 in inhumen_miracles_cache) all_spell_types[st2] = TRUE
 
 	var/list/buckets = list() // patron_name -> list(entries)
 
@@ -498,11 +498,11 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 	build_inhumen_patrons_index()
 
 	var/list/names_div = list()
-	for(var/pn1 in GLOB.divine_patrons_index) names_div += "[pn1]"
+	for(var/pn1 in divine_patrons_index) names_div += "[pn1]"
 	names_div = sortList(names_div)
 
 	var/list/names_inh = list()
-	for(var/pn2 in GLOB.inhumen_patrons_index) names_inh += "[pn2]"
+	for(var/pn2 in inhumen_patrons_index) names_inh += "[pn2]"
 	names_inh = sortList(names_inh)
 
 	var/sh_unl = _shunned_relations_unlocked(H)
@@ -727,7 +727,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 
 	// - Relations content STARTS HERE OH MY GOD I HATE BLANCE
 	if(src.current_rel_tab == "ten" || (src.current_rel_tab == "shunned" && _shunned_relations_unlocked(H)))
-		var/list/idx = (src.current_rel_tab == "shunned") ? GLOB.inhumen_patrons_index : GLOB.divine_patrons_index
+		var/list/idx = (src.current_rel_tab == "shunned") ? inhumen_patrons_index : divine_patrons_index
 		if(idx && idx.len)
 			// To be or not to be
 			html += "<br><b>[src.current_rel_tab == "shunned" ? "Shunned" : "Ten"] - Patron Relationships</b><br>"
@@ -806,7 +806,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 	// Artefacts
 	if(H.unlocked_research_artefacts)
 		build_divine_patrons_index()
-		if(GLOB.divine_patrons_index && length(GLOB.divine_patrons_index))
+		if(divine_patrons_index && length(divine_patrons_index))
 			html += "<hr><b>Artefacts</b><br>"
 
 			var/list/nav = list()
@@ -814,7 +814,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 			else nav += "<a href='?src=[REF(src)];arttab=none'>None</a>"
 
 			var/list/names2 = list()
-			for(var/n2 in GLOB.divine_patrons_index) names2 += "[n2]"
+			for(var/n2 in divine_patrons_index) names2 += "[n2]"
 			names2 = sortList(names2)
 
 			for(var/n2 in names2)
@@ -826,7 +826,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 			if(src.current_art_tab == "none")
 				html += "<i>Artefacts list hidden (None).</i>"
 			else
-				var/rec2 = GLOB.divine_patrons_index[src.current_art_tab]
+				var/rec2 = divine_patrons_index[src.current_art_tab]
 				if(rec2)
 					var/domain2 = "[rec2["domain"]]"
 					var/desc2   = "[rec2["desc"]]"
@@ -836,7 +836,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 					if(length(desc2))   html += "<div style='color:#7f8c8d'>[desc2]</div>"
 					html += "<br>"
 
-					var/list/art_list = GLOB.PATRON_ARTIFACTS ? GLOB.PATRON_ARTIFACTS[src.current_art_tab] : null
+					var/list/art_list = PATRON_ARTIFACTS ? PATRON_ARTIFACTS[src.current_art_tab] : null
 					if(islist(art_list) && art_list.len)
 						html += "<table width='100%' cellspacing='2' cellpadding='2'>"
 						html += "<tr><th align='left'>Artefact</th><th width='160'>Action</th></tr>"
@@ -1089,10 +1089,10 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		var/god = href_list["relten_up"]
 		build_divine_patrons_index()
 		build_inhumen_patrons_index()
-		if(!(god in GLOB.divine_patrons_index) && !(god in GLOB.inhumen_patrons_index)) { open_research_ui(H); return }
+		if(!(god in divine_patrons_index) && !(god in inhumen_patrons_index)) { open_research_ui(H); return }
 
 		// YES OR YES NO OR NO
-		if((god in GLOB.inhumen_patrons_index))
+		if((god in inhumen_patrons_index))
 			if(!_shunned_relations_unlocked(H))
 				if(!(H.devotion && H.devotion.patron && "[H.devotion.patron.vars["name"]]" == god))
 					open_research_ui(H); return
@@ -1145,12 +1145,12 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		var/can_select = FALSE
 
 		// divine
-		if(tb2 in GLOB.divine_patrons_index)
+		if(tb2 in divine_patrons_index)
 			var/relv = H.patron_relations && (tb2 in H.patron_relations) ? H.patron_relations[tb2] : 0
 			if(relv > 0) can_select = TRUE
 
 		// inhumen
-		if(!can_select && (tb2 in GLOB.inhumen_patrons_index))
+		if(!can_select && (tb2 in inhumen_patrons_index))
 			if(_shunned_relations_unlocked(H))
 				var/relv2 = H.patron_relations && (tb2 in H.patron_relations) ? H.patron_relations[tb2] : 0
 				if(relv2 > 0) can_select = TRUE
@@ -1271,7 +1271,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		if(tbA == "none") src.current_art_tab = "none"
 		else
 			build_divine_patrons_index()
-			if(GLOB.divine_patrons_index && (tbA in GLOB.divine_patrons_index)) src.current_art_tab = "[tbA]"
+			if(divine_patrons_index && (tbA in divine_patrons_index)) src.current_art_tab = "[tbA]"
 			else src.current_art_tab = "none"
 		open_research_ui(H); return
 
@@ -1281,11 +1281,11 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		var/god2 = href_list["buyart"]
 		var/item_txt = href_list["item"]
 		build_divine_patrons_index()
-		if(!(god2 in GLOB.divine_patrons_index)) { open_research_ui(H); return }
+		if(!(god2 in divine_patrons_index)) { open_research_ui(H); return }
 		if(item_txt)
 			var/item_path = text2path(item_txt)
 			if(!ispath(item_path, /obj/item)) { to_chat(H, span_warning("Invalid artefact type.")); open_research_ui(H); return }
-			var/list/art_list = GLOB.PATRON_ARTIFACTS ? GLOB.PATRON_ARTIFACTS[god2] : null
+			var/list/art_list = PATRON_ARTIFACTS ? PATRON_ARTIFACTS[god2] : null
 			if(!islist(art_list) || !art_list.Find(item_path)) { to_chat(H, span_warning("This artefact does not belong to [god2].")); open_research_ui(H); return }
 			if(H.church_favor < ARTEFACT_PRICE_FAVOR) { open_research_ui(H); return }
 			if(alert(H, "Buy [item_txt] of [god2] for [ARTEFACT_PRICE_FAVOR] Favor?", "Confirm", "Buy", "Cancel") != "Buy") { open_research_ui(H); return }
@@ -1354,7 +1354,7 @@ GLOBAL_LIST_INIT(PATRON_ARTIFACTS, list(
 		H.personal_research_points = max(0, H.personal_research_points - UNLOCK_SHUNNED_RP)
 		build_inhumen_patrons_index()
 		if(!islist(H.patron_relations)) H.patron_relations = list()
-		for(var/n in GLOB.inhumen_patrons_index)
+		for(var/n in inhumen_patrons_index)
 			if(!(n in H.patron_relations))
 				H.patron_relations[n] = 0
 		to_chat(H, span_notice("Shunned knowledges unlocked."))

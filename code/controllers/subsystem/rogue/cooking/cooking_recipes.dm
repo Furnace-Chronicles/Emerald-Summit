@@ -21,7 +21,3 @@
 	var/experience_per_step = 0.5
 	/// Cookbook menu category (metadata; see ITEM_CAT_FOODSTUFF_FRESH note above).
 	var/display_category = ITEM_CAT_FOODSTUFF_FRESH
-	/// Minimum cooking skill required to recall this recipe by examining an ingredient/precursor.
-	/// Apprentice-tier (the default) recipes surface at skill 2; flag fancier "improvement" recipes
-	/// as SKILL_LEVEL_EXPERT so only Expert+ cooks can recall them.
-	var/min_skill = SKILL_LEVEL_APPRENTICE

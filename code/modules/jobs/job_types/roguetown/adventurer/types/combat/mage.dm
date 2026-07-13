@@ -44,7 +44,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff/implement_magi2 // lesser staff. Go work for it.
+	backr = /obj/item/rogueweapon/woodstaff/implement_magi2/greater // Magi 2: greater staff implement (T3 Sorcerer)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/spellbook_unfinished/pre_arcyne = 1,

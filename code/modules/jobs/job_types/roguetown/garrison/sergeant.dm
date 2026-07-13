@@ -16,7 +16,7 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+		/datum/virtue/background/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	outfit = /datum/outfit/job/sergeant
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)
@@ -62,6 +62,9 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	id = /obj/item/scomstone/garrison
+	beltl = /obj/item/quiver/bolts
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	beltr = /obj/item/rogueweapon/sword/sabre
 
 //Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
 /datum/advclass/sergeant/sergeant

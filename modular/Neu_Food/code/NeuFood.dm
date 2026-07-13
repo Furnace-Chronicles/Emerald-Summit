@@ -37,26 +37,13 @@
 		var/next_path = active_recipe.ingredients[current_step]
 		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: Add [initial(next_path:name)].")
 
-	// Recipe recall is gated by cooking skill: Apprentice (2) recalls ordinary recipes, while fancier
-	// "improvement" recipes (food_recipe.min_skill, e.g. Expert) only surface for higher-skilled cooks.
 	var/list/possible = SScooking.recipe_index[src.type]
 	if(possible && possible.len)
-		var/cook_skill = user.get_skill_level(/datum/skill/craft/cooking)
-		if(cook_skill < SKILL_LEVEL_APPRENTICE)
-			. += span_smallnotice("Someone with cooking training might know what to prepare from this.")
-		else
-			var/list/recipe_names = list()
-			var/withheld = FALSE
-			for(var/datum/food_recipe/R in possible)
-				if(cook_skill < R.min_skill)
-					withheld = TRUE
-					continue
-				var/ingredient = R.ingredients[1]
-				recipe_names += "[R.name] (starts with [initial(ingredient:name)])"
-			if(length(recipe_names))
-				. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
-			if(withheld)
-				. += span_smallnotice("There are finer preparations for this beyond my current skill.")
+		var/list/recipe_names = list()
+		for(var/datum/food_recipe/R in possible)
+			var/ingredient = R.ingredients[1]
+			recipe_names += "[R.name] (starts with [initial(ingredient:name)])"
+		. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
 
 	if(cooked_type && fried_type == cooked_type)
 		// Most foods set cooked_type == fried_type; show one line instead of two duplicates.

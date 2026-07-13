@@ -21,9 +21,7 @@
     font-style: italic;
     letter-spacing: 1px;
     border-bottom: 1px solid transparent;
-    transition:
-      color 0.2s,
-      border-color 0.2s;
+    transition: color 0.2s, border-color 0.2s;
     user-select: none;
   }
 
@@ -37,9 +35,7 @@
   &__chapter-entry {
     padding: 5px 10px;
     cursor: pointer;
-    transition:
-      color 0.15s,
-      background 0.15s;
+    transition: color 0.15s, background 0.15s;
     user-select: none;
     border-left: 2px solid transparent;
   }
@@ -93,9 +89,7 @@
   &__pointbuy-entry {
     padding: 5px 10px;
     cursor: pointer;
-    transition:
-      color 0.15s,
-      background 0.15s;
+    transition: color 0.15s, background 0.15s;
     user-select: none;
   }
 
@@ -106,10 +100,7 @@
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 2px;
-    transition:
-      color 0.15s,
-      background 0.15s,
-      border-color 0.15s;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
     user-select: none;
   }
 
@@ -137,9 +128,7 @@
     text-align: center;
     cursor: pointer;
     letter-spacing: 1px;
-    transition:
-      background 0.15s,
-      border-color 0.15s;
+    transition: background 0.15s, border-color 0.15s;
     user-select: none;
   }
 

@@ -63,18 +63,6 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
 	qdel(src)
 
-/// Called when an opponent strikes the hand holding this bottle (and the blow wasn't parried).
-/// Spills the contents over the holder and shatters the bottle.
-/obj/item/reagent_containers/glass/bottle/proc/shatter_inhand(mob/living/holder, mob/living/attacker)
-	var/turf/T = get_turf(holder)
-	holder.visible_message(span_danger("[attacker] shatters [src] in [holder]'s grip!"), \
-		span_userdanger("[attacker] shatters [src] in my grip!"))
-	playsound(T, 'sound/combat/hits/onglass/glassbreak (4).ogg', 100)
-	if(reagents?.total_volume)
-		reagents.reaction(holder, TOUCH)
-		reagents.clear_reagents()
-	shatter(T)
-
 /obj/item/reagent_containers/glass/bottle/rmb_self(mob/user)
 	. = ..()
 	toggle_cork(user)

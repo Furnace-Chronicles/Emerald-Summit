@@ -6,8 +6,8 @@
 
 import {
   colorList,
-  hexToHsva,
   type HsvaColor,
+  hexToHsva,
   hsvaToHex,
   hsvaToHslString,
   hsvaToRgba,
@@ -31,7 +31,6 @@ import {
 } from 'tgui-core/components';
 import { clamp } from 'tgui-core/math';
 import { type BooleanLike, classes } from 'tgui-core/react';
-
 import { InputButtons } from './common/InputButtons';
 import { Loader } from './common/Loader';
 

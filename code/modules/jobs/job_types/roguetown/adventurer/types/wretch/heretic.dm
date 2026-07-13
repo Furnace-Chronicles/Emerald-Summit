@@ -43,7 +43,7 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.mind.current.faction += "[H.name]_faction"
 	H.set_blindness(0)
-	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!!")
+	var/weapons = list("Longsword", "Mace", "Flail", "Axe", "Spear", "MY BARE HANDS!!")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Longsword")
@@ -424,8 +424,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/wretch/heretic_monk
 	category_tags = list(CTAG_WRETCH)
-	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers.<br>\
-		The listed stats are your base. Most weapon choices only grant combat skill, but picking <b>\"MY FAITH ALONE IS ENOUGH!\"</b> instead makes you a support caster: Intelligence: <b><font color='#91cf68'>IV</font></b>, Strength: <b><font color='#cf2a2a'>-II</font></b> and Legendary Holy magic."
+	extra_context = "If your patron is the following: Psydon, Astrata, Ravox, Necra or Eora, your patron will be set to ZIZO. Excommunication does not work on the Ten worshippers."
 
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_CIVILIZEDBARBARIAN, TRAIT_HERETIC_DEVOUT, TRAIT_DODGEEXPERT,)
 	// Pretty much templar monk but evil and thus better. Time to wrastle! Gonna have it be a little supportive as well. They can pretend to be more like inhuman priests if they want? Preach rather then frag

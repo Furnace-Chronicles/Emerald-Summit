@@ -44,23 +44,6 @@
 			return
 	return ..()
 
-/obj/machinery/light/rogue/oven/examine(mob/user)
-	. = ..()
-	if(!length(food))
-		. += "It is empty."
-		return
-	// Level 0: anyone can tell something is inside, but nothing about its progress.
-	if(user.get_skill_level(/datum/skill/craft/cooking) < SKILL_LEVEL_NOVICE)
-		. += on ? "There is something cooking inside, but I can't tell how far along it is." : "There is something inside."
-		return
-	// Level 1+: per-item readout scaled by the examiner's skill (oven adds 10/tick; lastuser sets rate).
-	for(var/obj/item/I in food)
-		var/list/lines = istype(I, /obj/item/reagent_containers/food/snacks) ? cooking_progress_lines(user, I, 10, lastuser, on) : null
-		if(length(lines))
-			. += lines
-		else
-			. += "There is \a [I] inside." // not time-cooked (already done, or a non-food item)
-
 /obj/machinery/light/rogue/oven/process()
 	..()
 	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)

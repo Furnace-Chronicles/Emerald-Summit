@@ -42,14 +42,6 @@
 		// this is a strict replacement for two whole-ass block iteration things that did the same thing (or nothing at all)
 		heal_wounds(heal_amount)
 		
-	// Deadites passively regenerate while conscious -- unless set ablaze (any fire stacks). (AP #7325)
-	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE))
-		if(!(has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
-			handle_wounds()
-			heal_overall_damage(3, 2)
-			for(var/datum/wound/wound as anything in get_wounds())
-				wound.heal_wound(0.5)
-
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 

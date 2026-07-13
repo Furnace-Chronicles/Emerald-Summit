@@ -337,9 +337,6 @@
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(food)
 				. += "There's \a [attachment.name] on it with \a [food.name] in it."
-				// Level 0 sees only that food is in the pan; Novice+ get a skill-scaled readout
-				// (hearth pan adds 20/tick; lastuser sets the cooking rate; suppress time-left when unlit).
-				. += cooking_progress_lines(user, food, 20, lastuser, on)
 			else
 				. += "There's \a [attachment.name] on it."
 		else if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))

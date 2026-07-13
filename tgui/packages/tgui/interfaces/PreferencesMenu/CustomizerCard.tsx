@@ -1,4 +1,10 @@
-import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 // Searchable drop-in: identical to the stock Dropdown for short lists, but grows
 // a filter box once a list passes 7 options. Replaces the old per-tab RawDropdown
@@ -133,7 +139,8 @@ export const CustomizerPickerList = ({
                       displayText={p.text || ''}
                       options={p.options}
                       onSelected={(value) =>
-                        value !== p.text && send(p.task, { picked_name: value })
+                        value !== p.text &&
+                        send(p.task, { picked_name: value })
                       }
                     />
                   ) : (
@@ -189,7 +196,11 @@ export const CustomizerCard = ({
       {/* Reserve a fixed-height top row so the picker list below lines up
           across cards regardless of whether this customizer has an On/Off
           toggle or a variant dropdown. */}
-      <Stack align="center" mb={1} style={{ minHeight: '24px' }}>
+      <Stack
+        align="center"
+        mb={1}
+        style={{ minHeight: '24px' }}
+      >
         {!!c.allows_disabling && (
           <Stack.Item>
             <Button
@@ -209,24 +220,25 @@ export const CustomizerCard = ({
             choice_name !== name: the testicles customizer is named "Testicles" and its default
             choice is also "Testicles", so that extra check hid the dropdown and made the second
             choice ("Internal testicles") unreachable. */}
-        {!c.disabled && !!c.has_multiple_choices && (
-          <Stack.Item>
-            <Dropdown
-              width="180px"
-              menuWidth="220px"
-              selected={c.choice_name}
-              displayText={c.choice_name}
-              options={c.choice_options}
-              onSelected={(value) =>
-                value !== c.choice_name &&
-                act('customizer_change_choice_direct', {
-                  customizer_type: c.customizer_type,
-                  name: value,
-                })
-              }
-            />
-          </Stack.Item>
-        )}
+        {!c.disabled &&
+          !!c.has_multiple_choices && (
+            <Stack.Item>
+              <Dropdown
+                width="180px"
+                menuWidth="220px"
+                selected={c.choice_name}
+                displayText={c.choice_name}
+                options={c.choice_options}
+                onSelected={(value) =>
+                  value !== c.choice_name &&
+                  act('customizer_change_choice_direct', {
+                    customizer_type: c.customizer_type,
+                    name: value,
+                  })
+                }
+              />
+            </Stack.Item>
+          )}
       </Stack>
       {!c.disabled && c.pref_data.length > 0 && (
         <CustomizerPickerList

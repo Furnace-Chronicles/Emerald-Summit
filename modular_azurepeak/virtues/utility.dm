@@ -67,11 +67,6 @@
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
 	added_traits = list(TRAIT_NOMOOD)
 
-/datum/virtue/utility/light_steps
-	name = "Light Steps"
-	desc = "Years of skulking about have left my steps quiet, and my hunched gait quicker."
-	added_traits = list(TRAIT_LIGHT_STEP)
-	added_skills = list(list(/datum/skill/misc/sneaking, 3, 6))
 
 /datum/virtue/utility/resident
 	name = "Resident"
@@ -142,57 +137,6 @@
 	to_chat(recipient, span_notice("Though you failed to become a knight, your training in equipment maintenance and repair remains useful."))
 	to_chat(recipient, span_notice("You can retrieve your hammer and polishing tools from a tree, statue, or clock."))*/
 
-/datum/virtue/utility/linguist
-	name = "Intellectual"
-	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
-	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of 3 languages to learn upon joining. +1 INT."
-	added_traits = list(TRAIT_INTELLECTUAL)
-	added_skills = list(list(/datum/skill/misc/reading, 3, 6))
-	added_stashed_items = list(
-		"Quill" = /obj/item/natural/feather,
-		"Scroll" = /obj/item/paper/scroll,
-		"Unfinished Skillbook" = /obj/item/skillbook/unfinished
-	)
-
-/datum/virtue/utility/linguist/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.change_stat("intelligence", 1)
-	addtimer(CALLBACK(src, .proc/linguist_apply, recipient), 50)
-
-/datum/virtue/utility/linguist/proc/linguist_apply(mob/living/carbon/human/recipient)
-	var/static/list/selectable_languages = list(
-		/datum/language/elvish,
-		/datum/language/dwarvish,
-		/datum/language/orcish,
-		/datum/language/hellspeak,
-		/datum/language/draconic,
-		/datum/language/celestial,
-		/datum/language/grenzelhoftian,
-		/datum/language/kazengunese,
-		/datum/language/otavan,
-		/datum/language/etruscan,
-		/datum/language/gronnic,
-		/datum/language/aavnic,
-		/datum/language/abyssal
-	)
-
-	var/list/choices = list()
-	for(var/language_type in selectable_languages)
-		if(recipient.has_language(language_type))
-			continue
-		var/datum/language/a_language = new language_type()
-		choices[a_language.name] = language_type
-
-	if(length(choices))	//If this isn't true then we have no new languages learn -- we probably picked archivist
-		var/lang_count = 3
-		var/count = lang_count
-		for(var/i in 1 to lang_count)
-			var/chosen_language = input(recipient, "Choose your extra spoken language.", "VIRTUE: [count] LEFT") as null|anything in choices
-			if(chosen_language)
-				var/language_type = choices[chosen_language]
-				recipient.grant_language(language_type)
-				choices -= chosen_language
-				to_chat(recipient, span_info("I recall my knowledge of [chosen_language]..."))
-				count--
 
 /datum/virtue/utility/deathless
 	name = "Deathless"
@@ -202,51 +146,7 @@
 /datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.mob_biotypes |= MOB_UNDEAD
 */
-/datum/virtue/utility/blacksmith
-	name = "Blacksmith's Apprentice"
-	desc = "In my youth, I worked under a skilled blacksmith, honing my skills with an anvil."
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
-						list(/datum/skill/craft/weaponsmithing, 2, 2),
-						list(/datum/skill/craft/armorsmithing, 2, 2),
-						list(/datum/skill/craft/blacksmithing, 2, 2),
-						list(/datum/skill/craft/smelting, 2, 2)
-	)
 
-/datum/virtue/utility/hunter
-	name = "Hunter's Apprentice"
-	desc = "In my youth, I trained under a skilled hunter, learning how to butcher animals and work with leather/hide."
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
-						list(/datum/skill/craft/traps, 2, 2),
-						list(/datum/skill/labor/butchering, 2, 2),
-						list(/datum/skill/misc/sewing, 2, 2),
-						list(/datum/skill/craft/tanning, 2, 2),
-						list(/datum/skill/misc/tracking, 2, 2)
-	)
-
-/datum/virtue/utility/artificer
-	name = "Artificer's Apprentice"
-	desc = "In my youth, I worked under a skilled artificer, studying construction and engineering."
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
-						list(/datum/skill/craft/carpentry, 2, 2),
-						list(/datum/skill/craft/masonry, 2, 2),
-						list(/datum/skill/craft/engineering, 2, 2),
-						list(/datum/skill/craft/smelting, 2, 2),
-						list(/datum/skill/misc/ceramics, 2, 2)
-	)
-	added_stashed_items = list(
-		"Hammer" = /obj/item/rogueweapon/hammer/wood,
-		"Chisel" = /obj/item/rogueweapon/chisel,
-		"Hand Saw" = /obj/item/rogueweapon/handsaw
-	)
-
-/datum/virtue/utility/physician
-	name = "Physician's Apprentice"
-	desc = "In my youth, I worked under a skilled physician, studying medicine and alchemy."
-	added_stashed_items = list("Medicine Pouch" = /obj/item/storage/belt/rogue/pouch/medicine)
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2),
-						list(/datum/skill/craft/alchemy, 2, 2),
-						list(/datum/skill/misc/medicine, 2, 2)
-	)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
@@ -265,67 +165,6 @@
 			to_chat(recipient, "Your eyes have become permanently colorblind.")
 		else
 			recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
-
-/datum/virtue/utility/performer
-	name = "Performer"
-	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
-	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
-	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
-	added_skills = list(list(/datum/skill/misc/music, 4, 6))
-
-/datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
-    addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)
-
-/datum/virtue/utility/performer/proc/performer_apply(mob/living/carbon/human/recipient)
-	var/list/instruments = list()
-	for(var/instrument_type in subtypesof(/obj/item/rogue/instrument))
-		if(instrument_type == /obj/item/rogue/instrument/harp/handcarved)
-			continue //Skip the donator personal item harp.
-		var/obj/item/rogue/instrument/instr = new instrument_type()
-		instruments[instr.name] = instrument_type
-		qdel(instr)  // Clean up the temporary instance
-
-	var/chosen_name = input(recipient, "What instrument did I stash?", "STASH") as null|anything in instruments
-	if(chosen_name)
-		var/instrument_type = instruments[chosen_name]
-		recipient.mind?.special_items[chosen_name] = instrument_type
-
-/datum/virtue/utility/larcenous
-	name = "Larcenous"
-	desc = "Whether it was asked of you, or by a calling for the rush deep within your hollow heart, you seek things that don't belong you. You know how to work a lock, and have stashed a ring of them, for just the occasion."
-	added_stashed_items = list("Lockpick Ring" = /obj/item/lockpickring/mundane)
-	added_skills = list(list(/datum/skill/misc/lockpicking, 3, 6))
-
-/datum/virtue/utility/swiftfingers
-	name = "Swift Fingers"
-	desc = "You have a natural talent for weaving your hands into the pockets of others unnoticed, or weightlessly untying a belt. You know how to take away goods from their owners far easier than most travelers."
-	added_skills = list(list(/datum/skill/misc/stealing, 3, 4))
-
-/datum/virtue/utility/granary
-	name = "Cunning Provisioner"
-	desc = "You've worked in or around the docks enough to steal away a sack of supplies that no one would surely miss, just in case. You've picked up on some cooking and fishing tips in your spare time, as well."
-	added_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food)
-	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
-						list(/datum/skill/labor/fishing, 2, 6))
-
-/datum/virtue/utility/forester
-	name = "Forester"
-	desc = "The forest is your home, or at least, it used to be. You always long to return and roam free once again, and you have not forgotten your knowledge on how to be self sufficient."
-	added_stashed_items = list("Trusty hoe" = /obj/item/rogueweapon/hoe)
-	added_skills = list(list(/datum/skill/craft/cooking, 2, 2),
-						list(/datum/skill/misc/athletics, 2, 2),
-						list(/datum/skill/labor/farming, 2, 2),
-						list(/datum/skill/labor/fishing, 2, 2),
-						list(/datum/skill/labor/lumberjacking, 2, 2)
-	)
-
-/datum/virtue/utility/mining
-	name = "Miner's Apprentice"
-	desc = "The dark shafts, the damp smells of ichor and the laboring hours are no stranger to me. I keep my pickaxe and lamptern close, and have been taught how to mine well."
-	added_stashed_items = list(
-		"Steel Pickaxe" = /obj/item/rogueweapon/pick/steel,
-		"Lamptern" = /obj/item/flashlight/flare/torch/lantern)
-	added_skills = list(list(/datum/skill/labor/mining, 3, 6))
 
 /datum/virtue/utility/ugly
 	name = "Ugly"
@@ -355,13 +194,6 @@
 	desc = "Cowering from authorities, loved ones or by a generous gift of the gods, you've adapted a keen sense of hearing, and can identify the speakers even when they are out of sight, their whispers ringing louder."
 	added_traits = list(TRAIT_KEENEARS)
 	custom_text = "You can identify known people who speak even when they are out of sight. You can hear people speaking normally above and below you, regardless of obstacles in the way. You can hear whispers from one tile further."
-
-/datum/virtue/utility/tracker
-	name = "Sleuth"
-	desc = "You realised long ago that the ability to find a man is as helpful to aid the law as it is to evade it."
-	added_skills = list(list(/datum/skill/misc/tracking, 3, 6))
-	added_traits = list(TRAIT_SLEUTH)
-	custom_text = "- Upon right clicking a track, you will Mark the person who made them <i>(Expert skill required, not exclusive to this Virtue)</i>.\n- Further tracks found will be automatically highlighted as theirs, along with the person themselves, if they are not sneaking or invisible at the time.\n- Reduces the cooldown for tracking, allows track examining right away, and movement no longer cancels tracking."
 
 /datum/virtue/utility/bronzearm_r
 	name = "Bronze Arm (R)"

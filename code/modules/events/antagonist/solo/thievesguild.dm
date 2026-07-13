@@ -23,7 +23,6 @@
 		"Merchant",
 		"Priest",
 		"Acolyte",
-		"Mystic Theurge",
 		"Martyr",
 		"Templar",
 		"Councillor",

@@ -9,9 +9,7 @@
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
 	allowed_patrons = ALL_INHUMEN_PATRONS
-	extra_context = "Choose 1 of 2 archetypes at spawn, each with its own stat spread, skills and gear:<br>\
-		<b>Leðurháls</b> (Byrine Grunt, medium armor): Strength: <b><font color='#91cf68'>II</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b>, Intelligence: <b><font color='#cf2a2a'>-I</font></b> — Medium Armor.<br>\
-		<b>Skemmdarvargur</b> (Ravager, light armor): Strength: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>I</font></b>, Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert; then pick Handclaws (Expert unarmed) or Dual Handaxes (Expert axes, Dual Wielder)."
+	extra_context = "This subclass has 2 loadouts with various stats, skills & equipment."
 	subclass_skills = list(
 	//Universal skills
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,

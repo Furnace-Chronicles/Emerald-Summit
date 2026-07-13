@@ -47,7 +47,6 @@ SUBSYSTEM_DEF(familytree)
 		"Nightswain",
 		"Churchling",
 		"Acolyte",
-		"Mystic Theurge",
 		"Templar",
 		"Martyr",
 		"Priest",

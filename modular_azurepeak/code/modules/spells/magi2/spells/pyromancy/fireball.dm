@@ -102,7 +102,7 @@
 				arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Fireball (Blast)", \
 					allow_shield_check = TRUE, damage_type = BURN, \
-					npc_simple_damage_mult = npc_damage_mult, \
+					npc_damage_mult = npc_damage_mult, \
 					skip_animation = TRUE)
 				L.adjust_fire_stacks(1)
 				L.ignite_mob()
