@@ -279,11 +279,7 @@
 	tutorial = "You were a sell-sword, a warrior of coin. Your pockets were never light, you always had a warm place to stay and food in your belly, but you knew that every battle could be your last. You're the last of your unit, and you can't help but regret it."
 	allowed_races = RACES_ALL_KINDS //Mercenary, and thus, the same options as the Mercenary class.
 	outfit = /datum/outfit/job/vet/merc
-	extra_context = "Choose 1 of 3 archetypes at spawn, each with its own stat spread, skills and gear:<br>\
-		<b>Grenzelhoft</b> (heavy armor, two-hander): Intelligence: <b><font color='#91cf68'>I</font></b>, Endurance: <b><font color='#91cf68'>III</font></b>, Constitution: <b><font color='#91cf68'>I</font></b>, Speed: <b><font color='#cf2a2a'>-I</font></b>, Strength: <b><font color='#91cf68'>II</font></b> — Heavy Armor. Zweihander or Halberd.<br>\
-		<b>Janissary</b> (medium armor, sword-and-board): Strength: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#cf2a2a'>-I</font></b>, Speed: <b><font color='#91cf68'>II</font></b> — Medium Armor. Heavy Mace, Shamshir and Shield, or Spear and Shield.<br>\
-		<b>Condottiero</b> (crossbow scout): Strength: <b><font color='#cf2a2a'>-I</font></b>, Endurance: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#91cf68'>III</font></b>, Speed: <b><font color='#91cf68'>II</font></b>, Intelligence: <b><font color='#91cf68'>II</font></b> — Dodge Expert.<br>\
-		(Older characters gain extra skill ranks.)"
+	extra_context = "Choose between Grenzelhoftian, Janissary or Condottiero mercenary."
 	category_tags = list(CTAG_VETERAN)
 	classes = list("Grenzelhoft" = "Having once served with zweihandler or halberd in the professional echelons of the Grenzelhoft mercenary guild, they are now free from the guild to pursue lordly service rather then highest bidder.",
 					"Janissary" = "The elite infantry of Ranesheni, you have found yourself far from home, may your current liege prove a better choice then the Autarchy back home.",

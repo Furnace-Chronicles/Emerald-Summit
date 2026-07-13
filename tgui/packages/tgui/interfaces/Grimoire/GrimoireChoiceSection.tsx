@@ -83,7 +83,6 @@ export const GrimoireChoiceSection = ({
               <div
                 className="AspectPicker__spell-desc"
                 style={{ marginLeft: '18px' }}
-                // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
                 dangerouslySetInnerHTML={{ __html: spell.desc }}
               />
             )}
@@ -91,7 +90,6 @@ export const GrimoireChoiceSection = ({
               <div
                 className="AspectPicker__spell-fluff"
                 style={{ marginLeft: '18px' }}
-                // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
                 dangerouslySetInnerHTML={{ __html: spell.fluff_desc }}
               />
             )}

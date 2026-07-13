@@ -509,25 +509,3 @@
 /datum/anvil_recipe/tools/bowl/aalloy
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/bowl/aalloy
-
-// --------- HEARTBEAST TOOLS -----------
-/datum/anvil_recipe/tools/heartbeast_vials
-	name = "Blood vials"
-	req_bar = /obj/item/ingot/copper
-	created_item = /obj/item/heart_blood_vial
-	craftdiff = SKILL_LEVEL_APPRENTICE
-	createditem_num = 5
-
-/datum/anvil_recipe/tools/heartbeast_canisters
-	name = "Blood canisters"
-	req_bar = /obj/item/ingot/copper
-	created_item = /obj/item/heart_blood_canister
-	craftdiff = SKILL_LEVEL_APPRENTICE
-	createditem_num = 2
-
-/datum/anvil_recipe/tools/aspect_canisters
-	name = "Aspect canisters"
-	req_bar = /obj/item/ingot/copper
-	created_item = /obj/item/heart_canister
-	craftdiff = SKILL_LEVEL_APPRENTICE
-	createditem_num = 3

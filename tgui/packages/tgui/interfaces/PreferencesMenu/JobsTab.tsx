@@ -218,7 +218,11 @@ const JobTutorialView = ({
         </Box>
       )}
       {explainReady && (
-        <Box mt={1} pt={1} style={{ borderTop: '1px solid #444' }}>
+        <Box
+          mt={1}
+          pt={1}
+          style={{ borderTop: '1px solid #444' }}
+        >
           <PreservingHtml html={explainHtml!} />
         </Box>
       )}
@@ -242,8 +246,7 @@ export const JobsTab = ({ data, act }: JobsTabProps) => {
   // "available" with no priority — defensive against transient pushes.
   const mergedJobs: JobEntry[] = jobsStatic.jobs.map((s) => ({
     ...s,
-    ...(jobsDynamic.jobs[s.title] ||
-      ({ state: 'available' } as JobEntryDynamic)),
+    ...(jobsDynamic.jobs[s.title] || ({ state: 'available' } as JobEntryDynamic)),
   }));
 
   // If a row's name was clicked, swap the entire tab content for a tutorial
@@ -343,7 +346,9 @@ export const JobsTab = ({ data, act }: JobsTabProps) => {
                                     key={job.title}
                                     job={job}
                                     act={act}
-                                    onShowTutorial={() => setTutorialJob(job)}
+                                    onShowTutorial={() =>
+                                      setTutorialJob(job)
+                                    }
                                   />
                                 ))}
                               </Table>

@@ -12,14 +12,12 @@ export const GrimoireSpellEntry = ({ spell }: { spell: Spell }) => (
     {spell.desc && (
       <div
         className="AspectPicker__spell-desc"
-        // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
         dangerouslySetInnerHTML={{ __html: spell.desc }}
       />
     )}
     {spell.fluff_desc && (
       <div
         className="AspectPicker__spell-fluff"
-        // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
         dangerouslySetInnerHTML={{ __html: spell.fluff_desc }}
       />
     )}

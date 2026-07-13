@@ -1,38 +1,30 @@
 @use 'azure_base' as *;
 
 .theme-grimoire:root {
-  @include azure-theme(
-    (
-      'base': #2a2118,
-      'base-light': #2a2118,
-      'base-dark': #2a2118,
-      'section': rgba(60, 48, 32, 0.25),
-      'section-title': #c8b078,
-      'text': #c0aa80,
-      'label': #8a7a5a,
-      'accent': rgba(160, 130, 80, 0.3),
-      'accent-bright': rgba(200, 170, 100, 0.5),
-      'border': rgba(120, 95, 55, 0.3),
-      'btn-text': #c0aa80,
-      'btn-selected': rgba(100, 140, 80, 0.3),
-      'btn-disabled': #5a5040,
-      'scrollbar-thumb': rgba(160, 130, 80, 0.3),
-      'glow': rgba(120, 95, 55, 0.1),
-      'link': #b09060,
-      'link-visited': #d4b888,
-      'link-hover': #e0cc9a,
-    ),
-    '../assets/azure_default/topbar_red.svg'
-  );
+  @include azure-theme((
+    'base':            #2a2118,
+    'base-light':      #2a2118,
+    'base-dark':       #2a2118,
+    'section':         rgba(60, 48, 32, 0.25),
+    'section-title':   #c8b078,
+    'text':            #c0aa80,
+    'label':           #8a7a5a,
+    'accent':          rgba(160, 130, 80, 0.3),
+    'accent-bright':   rgba(200, 170, 100, 0.5),
+    'border':          rgba(120, 95, 55, 0.3),
+    'btn-text':        #c0aa80,
+    'btn-selected':    rgba(100, 140, 80, 0.3),
+    'btn-disabled':    #5a5040,
+    'scrollbar-thumb': rgba(160, 130, 80, 0.3),
+    'glow':            rgba(120, 95, 55, 0.1),
+    'link':            #b09060,
+    'link-visited':    #d4b888,
+    'link-hover':      #e0cc9a,
+  ), '../assets/azure_default/topbar_red.svg');
 
   // ── Seamless background ──────────────────────────────────────────
   // Window, layout, and content all match the parchment base
-  &,
-  .Window,
-  .Layout,
-  .Layout__content,
-  .Window__rest,
-  .Window__content {
+  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content {
     background: #2a2118 !important;
     background-image: none !important;
   }
@@ -79,7 +71,12 @@
 
   // ── Pages — slightly lighter than the base for subtle depth ──────
   .AspectPicker__page {
-    background: linear-gradient(160deg, #332a1e 0%, #2e2518 50%, #31281c 100%);
+    background: linear-gradient(
+      160deg,
+      #332a1e 0%,
+      #2e2518 50%,
+      #31281c 100%
+    );
     border: none;
   }
 

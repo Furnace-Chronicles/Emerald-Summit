@@ -191,12 +191,6 @@
 	item_flags = DROPDEL
 	//masquerade_violating = TRUE
 
-/obj/item/rogueweapon/gangrel/Initialize()
-	. = ..()
-	// Bound to the hands by the power. Blocks involuntary drops (e.g. a water trap's knockdown) which
-	// would otherwise DROPDEL the claws mid-duration, leaving the vampire clawless until the timer ran out.
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
-
 /obj/item/rogueweapon/gangrel/afterattack(atom/target, mob/living/carbon/user, proximity)
 	if(!proximity)
 		return

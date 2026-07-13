@@ -190,7 +190,10 @@ export const OocPrefsTab = ({ data, act }: OocPrefsTabProps) => {
                     }}
                     onClick={() => act('admin_set_asaycolor')}
                   />
-                  <Button ml={1} onClick={() => act('admin_set_asaycolor')}>
+                  <Button
+                    ml={1}
+                    onClick={() => act('admin_set_asaycolor')}
+                  >
                     Change
                   </Button>
                 </LabeledList.Item>
@@ -223,7 +226,9 @@ export const OocPrefsTab = ({ data, act }: OocPrefsTabProps) => {
                         FORCED
                       </Box>
                     ) : (
-                      <Button onClick={() => act('admin_toggle_deadmin_antag')}>
+                      <Button
+                        onClick={() => act('admin_toggle_deadmin_antag')}
+                      >
                         {op.admin.deadmin_antag ? 'Deadmin' : 'Keep Admin'}
                       </Button>
                     )}
@@ -234,7 +239,9 @@ export const OocPrefsTab = ({ data, act }: OocPrefsTabProps) => {
                         FORCED
                       </Box>
                     ) : (
-                      <Button onClick={() => act('admin_toggle_deadmin_head')}>
+                      <Button
+                        onClick={() => act('admin_toggle_deadmin_head')}
+                      >
                         {op.admin.deadmin_head ? 'Deadmin' : 'Keep Admin'}
                       </Button>
                     )}

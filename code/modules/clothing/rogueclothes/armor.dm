@@ -247,8 +247,8 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in GLOB.colorlist
-		var/playerchoice = GLOB.colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Fencing colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"
@@ -347,8 +347,8 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in GLOB.colorlist
-		var/playerchoice = GLOB.colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"
@@ -433,13 +433,6 @@
 	desc = "More form over function, this armor is fit for demonstration of might rather than open combat. The aged gilding slowly tarnishes away."
 	icon_state = "shadowplate"
 	item_state = "shadowplate"
-	body_parts_covered = COVERAGE_VEST
-	armor = ARMOR_CUIRASS
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
-	max_integrity = 200
-	armor_class = ARMOR_CLASS_MEDIUM
-	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	name = "arming jacket"
@@ -1470,9 +1463,6 @@
 				if(ishuman(user))
 					var/mob/living/carbon/H = user
 					H.update_inv_armor()
-		// Legacy toggle only moved the static body_parts_covered; armor coverage and surgery access
-		// read body_parts_covered_dynamic, so the half-plate state never actually exposed anything.
-		body_parts_covered_dynamic = body_parts_covered
 
 /obj/item/clothing/suit/roguetown/armor/brigandine
 	slot_flags = ITEM_SLOT_ARMOR

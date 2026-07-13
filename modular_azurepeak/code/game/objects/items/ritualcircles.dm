@@ -932,16 +932,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	var/was_caster = HAS_TRAIT(target, TRAIT_ARCYNE_T2) || HAS_TRAIT(target, TRAIT_ARCYNE_T3) || HAS_TRAIT(target, TRAIT_ARCYNE_T4)
 	target.Stun(60)
 	target.Knockdown(60)
-	target.set_nutrition (NUTRITION_LEVEL_WELL_FED) //for good measure with whats coming below.
-	target.set_hydration (HYDRATION_LEVEL_HYDRATED)
-	target.remove_status_effect(/datum/status_effect/debuff/thirstyt1) //we shall avoid all the most common cases of endurance loss I can think of.
-	target.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-	target.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
-	target.remove_status_effect(/datum/status_effect/debuff/rotted) //yes including rot. We are going BEYOND Rot at this point.
-	target.remove_status_effect(/datum/status_effect/debuff/revived) //yes including revived. Your soul/lux/whatever is inherently  different now.
-	target.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-	target.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-	target.energy_add(9999) //full mana since its about to get frozen forever by TRAIT_INFINITE_ENERGY. And no this wont give them 9999.
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/misc/astratascream.ogg', 50)
@@ -961,9 +951,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 		ADD_TRAIT(target, TRAIT_EASYDISMEMBER, "[type]")
 		ADD_TRAIT(target, TRAIT_SILVER_WEAK, "[type]")
 		target.dna.species.species_traits |= NOBLOOD
+		target.change_stat("speed", -1)
 		target.change_stat("constitution", -2)
-		target.change_stat("Intelligence", 2)
-		target.adjust_skillrank_up_to(/datum/skill/misc/athletics, 3, TRUE) // TRAIT_INFINITE_ENERGY prevents gaining althetics skill via normal means. So on the niche chance you had none lets get you passable for getting those juicey spells out.
 		// Arcyne power - only for hosts already trained in the arcyne (T2+). Mundane hosts skip all of this.
 		if(was_caster)
 			target.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation) // avoid a double grant when re-added below
@@ -980,11 +969,10 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			// magi2 stack if they aren't a caster yet, otherwise just widen their existing loadout.
 			if(target.mind)
 				if(!LAZYLEN(target.mind.mage_aspect_config))
-					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE), grant_staff = FALSE)
+					_magi2_setup_caster(target, list("major" = 1, "minor" = 1, "utilities" = 0, "ward" = TRUE), grant_staff = FALSE)
 				else
 					target.mind.mage_aspect_config["major"] += 1
 					target.mind.mage_aspect_config["minor"] += 1
-					target.mind.mage_aspect_config["utilities"] += 4
 		target.mob_biotypes |= MOB_UNDEAD
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
@@ -1233,7 +1221,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	name = "Rune of Desire"
 	desc = "A Holy Rune of Baotha. Relief for the broken hearted."
 	icon_state = "baotha_chalky" // mortosasye
-	var/baotharites = list("Rite of Joy", "Unholy Boon of Fertility", "Rite of Glimmerwardy")
+	var/baotharites = list("Rite of Joy", "Unholy Boon of Fertility")
 
 /obj/structure/ritualcircle/baotha/proc/baothablessing(mob/living/carbon/human/target)
 	if(!target || QDELETED(target) || target.loc != loc)
@@ -1327,37 +1315,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							user.say("Baotha, fill my cup with endless mirth!")
 							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
 							user.apply_status_effect(/datum/status_effect/joybringer)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
-							spawn(120)
-								icon_state = "baotha_chalky" 
-		if("Rite of Glimmerwardy")
-			if(HAS_TRAIT(user, TRAIT_RITES_BLOCKED))
-				to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
-				return
-			if(!Adjacent(user))
-				to_chat(user, "You must stand close to the rune to receive Zizo's blessing.")
-				return
-			var/list/valids_on_rune = list()
-			for(var/mob/living/carbon/human/peep in range(0, loc))
-				if(HAS_TRAIT(peep, TRAIT_DEPRAVED))
-					valids_on_rune += peep
-			if(!valids_on_rune.len)
-				loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE FALLEN!"))
-				return
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in valids_on_rune
-			if(!target || QDELETED(target) || target.loc != loc)
-				return
-			if(do_after(user, 50))
-				user.say("let them see bliss!")
-				if(do_after(user, 50))
-					user.say("let your beauty be seen!")
-					if(do_after(user, 50))
-						user.say("shroud me with a kiss!")
-						if(do_after(user, 50))
-							icon_state = "baotha_active"
-							playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
-							target.mind.RemoveSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
-							target.mind.AddSpell (new /datum/action/cooldown/spell/conjure_arcyne_ward_magi2/bathyhide)
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
 							spawn(120)
 								icon_state = "baotha_chalky" 

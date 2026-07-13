@@ -17,7 +17,7 @@
 	chargetime = 1
 	no_early_release = TRUE
 	movement_interrupt = FALSE
-	recharge_time = 12 SECONDS
+	recharge_time = 4 SECONDS
 	hide_charge_effect = TRUE // Left handed magick babe
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/miracle
@@ -70,10 +70,6 @@
 	damage = 40
 	damage_type = BRUTE
 	woundclass = BCLASS_PIERCE
-	// Bone is a physical projectile - route it through real armor instead of the
-	// magic flag (which no armor protects against), so plate actually stops it.
-	flag = "piercing"
-	armor_penetration = 30
 	nodamage = FALSE
 	var/embed_prob = 10
 	npc_damage_mult = 1.5
@@ -83,9 +79,6 @@
 	name = "profaned bone lance"
 	damage = 55
 	woundclass = BCLASS_CUT
-	// Checked against stab armor: blacksteel (90) is the only plate tier high
-	// enough to fully stop the lance after penetration; lesser plate gets chipped.
-	flag = "stab"
 	embed_prob = 30
 	npc_damage_mult = 2
 

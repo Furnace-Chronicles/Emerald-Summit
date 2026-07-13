@@ -1,11 +1,13 @@
 import { type ReactNode, useState } from 'react';
-import { Box, Button, Icon, Input, Popper } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Icon,
+  Input,
+  Popper,
+} from 'tgui-core/components';
 
-type DropdownEntry = {
-  value: any;
-  displayText?: ReactNode;
-  disabled?: boolean;
-};
+type DropdownEntry = { value: any; displayText?: ReactNode; disabled?: boolean };
 type Option = string | DropdownEntry;
 
 type Props = {
@@ -74,8 +76,7 @@ export function SearchableDropdown(props: Props) {
     : entries;
 
   const current = entries.find((e) => e.value === selected);
-  const buttonLabel =
-    displayText ?? (current ? current.displayText : placeholder);
+  const buttonLabel = displayText ?? (current ? current.displayText : placeholder);
 
   const close = () => {
     setOpen(false);
@@ -115,11 +116,12 @@ export function SearchableDropdown(props: Props) {
             <div
               key={i}
               className={
-                'Dropdown__menu--entry' +
-                (e.value === selected ? ' selected' : '')
+                'Dropdown__menu--entry' + (e.value === selected ? ' selected' : '')
               }
               style={
-                e.disabled ? { opacity: 0.4, cursor: 'not-allowed' } : undefined
+                e.disabled
+                  ? { opacity: 0.4, cursor: 'not-allowed' }
+                  : undefined
               }
               onClick={() => {
                 if (e.disabled) {

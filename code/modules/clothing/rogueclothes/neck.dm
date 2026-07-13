@@ -131,7 +131,7 @@
 	cansnout = TRUE
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/ComponentInitialize()
-	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
+	AddComponent(/datum/component/adjustable_clothing, (NECK|MOUTH), null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/iron
 	name = "iron chain mantle"
@@ -201,12 +201,6 @@
 				H.update_inv_head()
 		else if(adjustable == CADJUSTED_MORE)
 			ResetAdjust(user)
-		// Keep the live coverage in lockstep with the toggle. Armor coverage, surgery/biting access and
-		// drinking all read body_parts_covered_dynamic, but this legacy AdjustClothes/ResetAdjust path
-		// only moved the static body_parts_covered -- so the mouth stayed "covered" while the coif was
-		// pulled down and you couldn't drink lowered. Every branch above sets body_parts_covered
-		// (ResetAdjust restores the initial), so this one sync line covers all three states.
-		body_parts_covered_dynamic = body_parts_covered
 		if(ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_neck()

@@ -96,7 +96,8 @@ export const GrimoireAspectPicker = () => {
   const utilitiesFull = utility_points_spent >= max_utilities;
 
   const allFilled =
-    attuned_majors.length >= max_majors && attuned_minors.length >= max_minors;
+    attuned_majors.length >= max_majors &&
+    attuned_minors.length >= max_minors;
   const hasAny = attuned_majors.length > 0 || attuned_minors.length > 0;
   const hasUnbinds =
     staged_unbind_aspects.length > 0 || staged_unbind_utilities.length > 0;
@@ -130,7 +131,9 @@ export const GrimoireAspectPicker = () => {
 
   const getSealLabel = (): string => {
     if (!initial_setup && hasUnbinds) {
-      return sealReady ? 'Seal the Circuit' : 'Confirm Changes';
+      return sealReady
+        ? 'Seal the Circuit'
+        : 'Confirm Changes';
     }
     if (utilityOnly) {
       return sealReady
@@ -249,10 +252,10 @@ export const GrimoireAspectPicker = () => {
                   <GrimoireAspectDetail
                     aspect={selected}
                     isAttuned={false}
-                    isLocked
+                    isLocked={true}
                     isStaged={false}
                     isPendingUnbind={false}
-                    slotsFull
+                    slotsFull={true}
                     tab={tab}
                     userTier={user_tier}
                     initialSetup={initial_setup}

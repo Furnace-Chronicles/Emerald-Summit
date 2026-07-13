@@ -8,11 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	subclass_languages = list(/datum/language/aavnic)
-	extra_context = "Choose 1 of 4 archetypes at spawn, each with its own stat spread, skills and gear:<br>\
-		<b>Szabrista</b> (Saber Veteran, medium armor): Strength: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b> — Medium Armor.<br>\
-		<b>Árkász</b> (Elite Sapper, medium armor): Strength: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>II</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Speed: <b><font color='#cf2a2a'>-III</font></b> — Medium Armor.<br>\
-		<b>Druzhina</b> (Light Archer): Perception: <b><font color='#91cf68'>III</font></b>, Endurance: <b><font color='#91cf68'>I</font></b>, Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert.<br>\
-		<b>Kozak</b> (Light Infantry): Strength: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert, Outdoorsman."
+	extra_context = "This subclass has 4 loadouts with various stats, skills & equipment."
 	origin_override_type = /datum/virtue/origin/avar
 	subclass_skills = list(
 	//Universal skills
@@ -186,67 +182,3 @@
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
-
-
-/datum/advclass/mercenary/Strelki
-	name = "Strelki"
-	tutorial = "Orginally hailing from one of the self sufficiant enclaves in the land of Avar. Skilled in the use of the Axe and Gun."
-	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/mercenary/strelki
-	class_select_category = CLASS_CAT_AAVNR
-	category_tags = list(CTAG_MERCENARY)
-	cmode_music = 'sound/music/combat_steppe.ogg'
-	subclass_languages = list(/datum/language/aavnic)
-	origin_override_type = /datum/virtue/origin/avar
-
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_FUSILIER)
-	maximum_possible_slots = 2
-	subclass_stats = list(
-		STATKEY_SPD = 1,
-		STATKEY_END = 1,
-		STATKEY_PER = 2, 
-		STATKEY_STR = 1,// 1 STR for the axe and crossbow reload. END for chopping trees, a bit of SPD for running, PER for shooting. -1 CON bc you aint a frontliner
-		STATKEY_CON = -1 
-	)
-
-	hiredbuff = /datum/status_effect/buff/merchired/steppesman
-
-	subclass_skills = list(
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,		// gotta get to a vantage point,		
-		/datum/skill/combat/firearms = SKILL_LEVEL_MASTER,		//every combat class with a ranged weapon gets this . eat my jorts. They have no dodge expert.
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,		// Make your energy count, little silly individual
-	)
-
-/datum/status_effect/buff/merchired/steppesman
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_END = 1)
-
-/datum/outfit/job/mercenary/strelki/pre_equip(mob/living/carbon/human/H)
-	..()
-	to_chat(H, span_warning("Orginally hailing from one of the self sufficiant enclaves in the land of Avar. Skilled in the use of the Axe and Gun."))
-
-
-	belt = /obj/item/storage/belt/rogue/leather/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	neck = /obj/item/clothing/neck/roguetown/bevor
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
-	backr = /obj/item/gun/ballistic/firearm/flintgonne
-	l_hand = /obj/item/rogueweapon/halberd/bardiche
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
-	cloak = /obj/item/clothing/cloak/raincloak/furcloak
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	beltr = /obj/item/quiver/bullet/lead
-	backl = /obj/item/storage/backpack/rogue/satchel/short
-	backpack_contents = list(
-		/obj/item/roguekey/mercenary,
-		/obj/item/storage/belt/rogue/pouch/coins/poor,
-		/obj/item/rogueweapon/whip/nagaika,
-		/obj/item/powderflask = 1
-		)

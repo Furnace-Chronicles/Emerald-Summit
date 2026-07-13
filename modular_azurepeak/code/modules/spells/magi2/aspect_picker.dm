@@ -89,9 +89,8 @@
 	// ES has tiered arcyne traits (T1-T4) rather than a single TRAIT_ARCYNE; any training = caster.
 	var/is_caster = HAS_TRAIT(owner, TRAIT_ARCYNE_T1) || HAS_TRAIT(owner, TRAIT_ARCYNE_T2) || HAS_TRAIT(owner, TRAIT_ARCYNE_T3) || HAS_TRAIT(owner, TRAIT_ARCYNE_T4)
 	data["user_tier"] = mastery ? 4 : (is_caster ? 3 : 0)
-	// No class config (override_max_* null) => not a sanctioned caster: zero slots, not the MAX_* baseline.
-	data["max_majors"] = isnull(override_max_majors) ? 0 : override_max_majors
-	data["max_minors"] = isnull(override_max_minors) ? 0 : override_max_minors
+	data["max_majors"] = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
+	data["max_minors"] = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
 	data["max_utilities"] = max_utilities
 	data["initial_setup"] = initial_setup
 	// Send locked aspect paths to the UI
@@ -290,8 +289,8 @@
 	if(!owner?.mind)
 		return
 
-	var/max_majors = isnull(override_max_majors) ? 0 : override_max_majors
-	var/max_minors_resolved = isnull(override_max_minors) ? 0 : override_max_minors
+	var/max_majors = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
+	var/max_minors_resolved = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
 
 	switch(action)
 		if("attune")
@@ -375,7 +374,7 @@
 			var/restored_type = temp.aspect_type
 			qdel(temp)
 			if(restored_type == ASPECT_MAJOR)
-				var/max_maj = isnull(override_max_majors) ? 0 : override_max_majors
+				var/max_maj = isnull(override_max_majors) ? MAX_MAJOR_ASPECTS : override_max_majors
 				var/current_count = length(owner.mind.major_aspects) - length(staged_unbind_aspects & get_attuned_paths(ASPECT_MAJOR))
 				// Remove staged majors that aren't already attuned until we're within budget
 				while(current_count + length(staged_majors - get_attuned_paths(ASPECT_MAJOR)) > max_maj)
@@ -385,7 +384,7 @@
 						break
 					staged_majors -= removable[length(removable)]
 			else if(restored_type == ASPECT_MINOR)
-				var/max_min = isnull(override_max_minors) ? 0 : override_max_minors
+				var/max_min = isnull(override_max_minors) ? MAX_MINOR_ASPECTS : override_max_minors
 				var/current_count = length(owner.mind.minor_aspects) - length(staged_unbind_aspects & get_attuned_paths(ASPECT_MINOR))
 				while(current_count + length(staged_minors - get_attuned_paths(ASPECT_MINOR)) > max_min)
 					var/list/removable = staged_minors - get_attuned_paths(ASPECT_MINOR)
@@ -481,10 +480,6 @@
 				staged_utilities -= spell_path
 			else
 				var/resolved_path = text2path(spell_path)
-				// Already unlocked (aspect grant, class/legacy grant, a prior pick)? It's already
-				// counted and can only be held once — don't let them re-pick and waste budget.
-				if(resolved_path && owner.mind.has_spell(resolved_path))
-					return
 				if(ispath(resolved_path, /datum/action/cooldown/spell))
 					var/datum/action/cooldown/spell/S = resolved_path
 					if(initial(S.requires_aspect_access))
@@ -553,7 +548,9 @@
 			var/path_str = "[path]"
 			if(path_str in staged_unbind_utilities)
 				continue
-			if(counts_toward_utility_budget(path))
+			if(owner.mind.has_spell(path))
+				if(!is_utility_learned(path))
+					continue
 				util_total += get_spell_cost_from_path(path)
 		for(var/spell_path_str in staged_utilities)
 			util_total += get_spell_cost_from_path(text2path(spell_path_str))
@@ -710,13 +707,9 @@
 		if(owner.mind.has_spell(spell_path))
 			continue
 		var/datum/new_spell = new spell_path
-		// Mark player-learned (both spell families) so it counts on reopen and can be unbound.
 		if(istype(new_spell, /datum/action/cooldown/spell))
 			var/datum/action/cooldown/spell/S = new_spell
 			S.utility_learned = TRUE
-		else if(istype(new_spell, /obj/effect/proc_holder/spell))
-			var/obj/effect/proc_holder/spell/P = new_spell
-			P.utility_learned = TRUE
 		owner.mind.AddSpell(new_spell)
 
 	if(has_unbinds)
@@ -822,8 +815,7 @@
 /// Get total utility points spent — includes already-known utilities (minus pending unbinds) and staged selections
 /datum/aspect_picker/proc/get_utility_points_spent()
 	var/total = 0
-	// Count already-owned utilities that aren't aspect-given — Grimoire picks AND free class/legacy
-	// grants both count, so a caster can't stack a fresh budget on top of spells they already have.
+	// Always count already-known utility spells that the player manually learned (not given by aspects)
 	for(var/path in GLOB.utility_spells)
 		var/path_str = "[path]"
 		if(path_str in staged_unbind_utilities)
@@ -831,7 +823,9 @@
 		// Skip spells we're about to add from staged — they're counted below
 		if(path_str in staged_utilities)
 			continue
-		if(counts_toward_utility_budget(path))
+		if(owner.mind.has_spell(path))
+			if(!is_utility_learned(path))
+				continue
 			total += get_spell_cost_from_path(path)
 	// Count new staged selections
 	for(var/spell_path_str in staged_utilities)
@@ -841,25 +835,9 @@
 /// Check if a known utility spell was manually learned by the player (counts against budget)
 /// Returns FALSE for spells given free by aspects.
 /datum/aspect_picker/proc/is_utility_learned(spell_path)
-	// Check both spell families, else proc_holder utilities read as aspect-given (free) forever.
 	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
 		if(S.type == spell_path && S.utility_learned)
 			return TRUE
-	for(var/obj/effect/proc_holder/spell/S in owner.mind.spell_list)
-		if(S.type == spell_path && S.utility_learned)
-			return TRUE
-	return FALSE
-
-/// TRUE if the owner already has this utility-list spell AND it isn't provided free by a bound aspect.
-/// Anything with source_aspect set is aspect-given (free); everything else the owner holds — Grimoire
-/// picks (utility_learned) and free class/legacy grants alike — counts, so they can't double up.
-/datum/aspect_picker/proc/counts_toward_utility_budget(spell_path)
-	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
-		if(S.type == spell_path)
-			return !S.source_aspect
-	for(var/obj/effect/proc_holder/spell/S in owner.mind.spell_list)
-		if(S.type == spell_path)
-			return !S.source_aspect
 	return FALSE
 
 /// Get spell cost from a type path (handles both spell systems)

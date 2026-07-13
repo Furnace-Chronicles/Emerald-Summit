@@ -58,7 +58,6 @@ export const GrimoireVariantSection = ({
               {swap.to.desc && (
                 <div
                   className="AspectPicker__spell-desc"
-                  // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
                   dangerouslySetInnerHTML={{ __html: swap.to.desc }}
                 />
               )}

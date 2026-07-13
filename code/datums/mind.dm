@@ -960,49 +960,37 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/restore_spell_list(list/stored_spells, list/always_keep_types)
 	if(!current)
 		return FALSE
-
-	// Remove all current spell actions — handles both legacy proc_holder and magi2 datum/action spells.
-	for(var/X in spell_list)
-		if(istype(X, /obj/effect/proc_holder/spell))
-			var/obj/effect/proc_holder/spell/S = X
-			S.action?.Remove(current)
-		else if(istype(X, /datum/action))
-			var/datum/action/A = X
-			A.Remove(current)
-
+	
+	// Remove all current spell actions
+	for(var/obj/effect/proc_holder/spell/S in spell_list)
+		S.action?.Remove(current)
+	
 	// Build new spell list
 	var/list/new_spell_list = list()
 	var/list/present_types = list()
-
+	
 	// Add spells that should always be kept (by type)
 	if(always_keep_types && length(always_keep_types))
-		for(var/X in spell_list)
-			var/xtype = X:type
-			if(xtype in always_keep_types)
-				new_spell_list += X
-				present_types[xtype] = TRUE
-
-	// Add stored spells (actual spell objects, both proc_holder and magi2 datum/action)
+		for(var/obj/effect/proc_holder/spell/S in spell_list)
+			if(S.type in always_keep_types)
+				new_spell_list += S
+				present_types[S.type] = TRUE
+	
+	// Add stored spells (actual spell objects)
 	if(stored_spells && length(stored_spells))
-		for(var/X in stored_spells)
-			var/xtype = X:type
-			if(present_types[xtype])
+		for(var/obj/effect/proc_holder/spell/S in stored_spells)
+			if(present_types[S.type])
 				continue
-			new_spell_list += X
-			present_types[xtype] = TRUE
-
+			new_spell_list += S
+			present_types[S.type] = TRUE
+	
 	// Update spell_list
 	spell_list = new_spell_list
-
-	// Grant all actions for the new spell list (both spell families)
-	for(var/X in spell_list)
-		if(istype(X, /obj/effect/proc_holder/spell))
-			var/obj/effect/proc_holder/spell/S = X
-			S.action?.Grant(current)
-		else if(istype(X, /datum/action))
-			var/datum/action/A = X
-			A.Grant(current)
-
+	
+	// Grant all actions for the new spell list
+	for(var/obj/effect/proc_holder/spell/S in spell_list)
+		S.action?.Grant(current)
+	
 	return TRUE
 
 /datum/mind/proc/add_mercenary(datum/mind/new_merc)

@@ -39,8 +39,6 @@
 				if(ishuman(user))
 					var/mob/living/carbon/H = user
 					H.update_inv_pants()
-		// Sync live coverage to the toggle; coverage checks read the dynamic value.
-		body_parts_covered_dynamic = body_parts_covered
 #else
 	return
 #endif
@@ -221,8 +219,8 @@
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in GLOB.colorlist
-		var/playerchoice = GLOB.colorlist[choice]
+		var/choice = input(user, "Choose a color.", "Grenzelhoft colors") as anything in colorlist
+		var/playerchoice = colorlist[choice]
 		picked = TRUE
 		detail_color = playerchoice
 		detail_tag = "_detail"

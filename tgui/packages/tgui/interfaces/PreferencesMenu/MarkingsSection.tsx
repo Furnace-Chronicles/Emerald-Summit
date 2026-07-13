@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { Box, Button, Section, Stack } from 'tgui-core/components';
 
 import type { ActFunctionType } from '../../backend';
+// Searchable drop-in: stock Dropdown for short lists, adds a filter box once a
+// list passes 7 options.
 import { SearchableDropdown as Dropdown } from '../common/SearchableDropdown';
 
 type MarkingEntry = {
@@ -25,7 +26,7 @@ type MarkingZoneDynamic = {
   markings: MarkingEntry[];
 };
 
-// Merged view consumed by ZoneEditor. `available` is derived client-side by
+// Merged view consumed by ZoneCard. `available` is derived client-side by
 // subtracting the current selections from `all_candidates`.
 export type MarkingZone = {
   key: string;
@@ -56,30 +57,89 @@ type Data = {
 
 type MarkingsSectionProps = { data: Data; act: ActFunctionType };
 
-// Preferred display order for zone selector buttons.
-const ZONE_ORDER = [
-  'head',
-  'chest',
-  'l_arm',
-  'r_arm',
-  'l_hand',
-  'r_hand',
-  'l_leg',
-  'r_leg',
+// Anatomical 3-row grid for body markings. Each row has cells with explicit
+// grow weights so single-zone rows don't stretch full width:
+//   Row 1:  pad(1)  | Head(3) | pad(1)            — Head sits above the arm row's center trio
+//   Row 2:  L Hand  | L Arm | Chest | R Arm | R Hand  (5 equal columns)
+//   Row 3:  pad(1)  | L Leg | pad(1) | R Leg | pad(1)  — legs aligned under L Arm and R Arm
+type GridCell = { key: string | null; grow: number };
+
+const MARKING_GRID: GridCell[][] = [
+  [
+    { key: null, grow: 1 },
+    { key: 'head', grow: 3 },
+    { key: null, grow: 1 },
+  ],
+  [
+    { key: 'l_hand', grow: 1 },
+    { key: 'l_arm', grow: 1 },
+    { key: 'chest', grow: 1 },
+    { key: 'r_arm', grow: 1 },
+    { key: 'r_hand', grow: 1 },
+  ],
+  [
+    { key: null, grow: 1 },
+    { key: 'l_leg', grow: 1 },
+    { key: null, grow: 1 },
+    { key: 'r_leg', grow: 1 },
+    { key: null, grow: 1 },
+  ],
 ];
 
-const ZoneEditor = ({
+const MarkingsGrid = ({
+  zones,
+  act,
+}: {
+  zones: MarkingZone[];
+  act: (action: string, payload?: object) => void;
+}) => {
+  const zoneByKey = new Map<string, MarkingZone>();
+  for (const z of zones) {
+    zoneByKey.set(z.key, z);
+  }
+  return (
+    <Stack vertical>
+      {MARKING_GRID.map((row, rowIdx) => {
+        const hasAnyZone = row.some(
+          (cell) => cell.key && zoneByKey.has(cell.key),
+        );
+        if (!hasAnyZone) return null;
+        return (
+          <Stack.Item key={rowIdx}>
+            <Stack>
+              {row.map((cell, colIdx) => (
+                <Stack.Item
+                  key={colIdx}
+                  grow={cell.grow}
+                  basis={0}
+                  style={{ minWidth: 0, overflow: 'hidden' }}
+                >
+                  {cell.key && zoneByKey.has(cell.key) ? (
+                    <ZoneCard zone={zoneByKey.get(cell.key)!} act={act} />
+                  ) : null}
+                </Stack.Item>
+              ))}
+            </Stack>
+          </Stack.Item>
+        );
+      })}
+    </Stack>
+  );
+};
+
+const ZoneCard = ({
   zone,
   act,
 }: {
   zone: MarkingZone;
   act: (action: string, payload?: object) => void;
 }) => (
-  <Section title={zone.label} style={{ height: '100%' }}>
+  <Section title={zone.label}>
     {zone.markings.length === 0 ? (
       zone.available.length > 0 ? (
         <Dropdown
           fluid
+          menuWidth="200px"
           selected={null}
           displayText="+ Add marking…"
           options={zone.available}
@@ -96,6 +156,7 @@ const ZoneEditor = ({
           <Box mb={1}>
             <Dropdown
               fluid
+              menuWidth="200px"
               selected={null}
               displayText="+ Add another marking…"
               options={zone.available}
@@ -107,43 +168,33 @@ const ZoneEditor = ({
         )}
         {zone.markings.map((m) => (
           <Box key={m.name} mb={1}>
-            <Stack align="center">
-              <Stack.Item grow={1}>
-                <b>{m.name}</b>
-              </Stack.Item>
-              <Stack.Item>
-                <span title={m.color ? '#' + m.color : '(unset)'}>
-                  <Box
-                    inline
-                    width="32px"
-                    height="14px"
-                    backgroundColor={'#' + (m.color || 'ffffff')}
-                    style={{
-                      cursor: 'pointer',
-                      border: '1px solid #000',
-                      verticalAlign: 'middle',
-                    }}
-                    onClick={() =>
-                      act('marking_color', { zone: zone.key, name: m.name })
-                    }
-                  />
-                </span>
-              </Stack.Item>
-              <Stack.Item>
-                <Button
-                  icon="trash"
-                  color="bad"
-                  tooltip="Remove"
+            <Box>
+              <b>{m.name}</b>
+              {/* Native span carries the HTML title attribute (tgui's
+                  Box doesn't whitelist it); Box keeps the swatch styling. */}
+              <span title={m.color ? '#' + m.color : '(unset)'}>
+                <Box
+                  inline
+                  ml={1}
+                  width="32px"
+                  height="14px"
+                  backgroundColor={'#' + (m.color || 'ffffff')}
+                  style={{
+                    cursor: 'pointer',
+                    border: '1px solid #000',
+                    verticalAlign: 'middle',
+                  }}
                   onClick={() =>
-                    act('marking_remove', { zone: zone.key, name: m.name })
+                    act('marking_color', { zone: zone.key, name: m.name })
                   }
                 />
-              </Stack.Item>
-            </Stack>
+              </span>
+            </Box>
             {zone.available.length > 0 && (
               <Box mt={0.5}>
                 <Dropdown
                   fluid
+                  menuWidth="200px"
                   selected={null}
                   displayText="Change to…"
                   options={zone.available}
@@ -157,6 +208,16 @@ const ZoneEditor = ({
                 />
               </Box>
             )}
+            <Box mt={0.5}>
+              <Button
+                icon="trash"
+                color="bad"
+                tooltip="Remove"
+                onClick={() =>
+                  act('marking_remove', { zone: zone.key, name: m.name })
+                }
+              />
+            </Box>
           </Box>
         ))}
       </>
@@ -165,26 +226,21 @@ const ZoneEditor = ({
 );
 
 export const MarkingsSection = ({ data, act }: MarkingsSectionProps) => {
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
-
   const markingsStatic = data.markings_static;
   const markingsDynamic = data.markings;
   if (!markingsStatic || !markingsDynamic) return null;
 
+  // Merge static zones (label + all_candidates) with dynamic zones (current
+  // markings list) by zone key. `available` is computed here by subtracting
+  // already-picked names from the candidate pool, and `can_add` from limb
+  // capacity vs. the merged availability. This is the same filtering the
+  // server used to do per push.
   const dynamicByKey = new Map<string, MarkingZoneDynamic>();
   for (const z of markingsDynamic.zones) {
     dynamicByKey.set(z.key, z);
   }
   const maxPerLimb = markingsStatic.max_per_limb;
-
-  // Build merged zones sorted by preferred display order.
-  const staticSorted = [...markingsStatic.zones].sort((a, b) => {
-    const ai = ZONE_ORDER.indexOf(a.key);
-    const bi = ZONE_ORDER.indexOf(b.key);
-    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-  });
-
-  const zones: MarkingZone[] = staticSorted.map((s) => {
+  const zones: MarkingZone[] = markingsStatic.zones.map((s) => {
     const d = dynamicByKey.get(s.key);
     const currentMarkings = d?.markings || [];
     const pickedNames = new Set(currentMarkings.map((m) => m.name));
@@ -193,13 +249,11 @@ export const MarkingsSection = ({ data, act }: MarkingsSectionProps) => {
       key: s.key,
       label: s.label,
       markings: currentMarkings,
-      can_add: currentMarkings.length < maxPerLimb && available.length > 0,
+      can_add:
+        currentMarkings.length < maxPerLimb && available.length > 0,
       available,
     };
   });
-
-  const activeKey = selectedKey ?? zones[0]?.key ?? null;
-  const activeZone = zones.find((z) => z.key === activeKey) ?? null;
 
   return (
     <Section
@@ -219,47 +273,9 @@ export const MarkingsSection = ({ data, act }: MarkingsSectionProps) => {
       }
     >
       {!!markingsStatic.species_has_no_markings && (
-        <Box color="label" mb={1}>
-          Your species has no body markings available.
-        </Box>
+        <Box color="label">Your species has no body markings available.</Box>
       )}
-      <Stack>
-        {/* Left: zone selector */}
-        <Stack.Item width="130px">
-          <Stack vertical>
-            {zones.map((zone) => (
-              <Stack.Item key={zone.key}>
-                <Button
-                  fluid
-                  selected={zone.key === activeKey}
-                  onClick={() => setSelectedKey(zone.key)}
-                >
-                  <Stack>
-                    <Stack.Item grow={1}>{zone.label}</Stack.Item>
-                    {zone.markings.length > 0 && (
-                      <Stack.Item>
-                        <Box
-                          inline
-                          style={{
-                            opacity: 0.7,
-                            fontSize: '0.85em',
-                          }}
-                        >
-                          {zone.markings.length}
-                        </Box>
-                      </Stack.Item>
-                    )}
-                  </Stack>
-                </Button>
-              </Stack.Item>
-            ))}
-          </Stack>
-        </Stack.Item>
-        {/* Right: full-width zone editor — dropdowns have room to expand freely */}
-        <Stack.Item grow={1} style={{ minWidth: 0 }}>
-          {activeZone && <ZoneEditor zone={activeZone} act={act} />}
-        </Stack.Item>
-      </Stack>
+      <MarkingsGrid zones={zones} act={act} />
     </Section>
   );
 };

@@ -38,13 +38,13 @@ export const ExaminePanel = () => {
   let pageContents;
   switch (currentPage) {
     case Page.FlavorText:
-      pageContents = <FlavorTextPage data={data} />;
+      pageContents = <FlavorTextPage data={data} act={act} />;
       break;
     case Page.ImageGallery:
-      pageContents = <ImageGalleryPage data={data} />;
+      pageContents = <ImageGalleryPage data={data} act={act} />;
       break;
     case Page.NsfwImageGallery:
-      pageContents = <NsfwImageGalleryPage data={data} />;
+      pageContents = <NsfwImageGalleryPage data={data} act={act} />;
       break;
   }
 
@@ -118,12 +118,7 @@ export const ExaminePanel = () => {
             </Stack>
           )}
           {showTabs && <Stack.Divider />}
-          <Stack.Item
-            grow
-            position="relative"
-            overflowX="hidden"
-            overflowY="auto"
-          >
+          <Stack.Item grow position="relative" overflowX="hidden" overflowY="auto">
             {pageContents}
           </Stack.Item>
         </Stack>

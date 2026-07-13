@@ -853,36 +853,6 @@
 			return
 	return ..()
 
-/// Finds the sewing/tanning crafting recipe whose crafted result shares this item's name and returns
-/// a fresh instance of it (caller inspects/mutates and qdels), or null when nothing matches.
-/// Hoardmaster favor purchases never match: their salvage_result was rewritten to ash at purchase,
-/// and refunding real recipe materials would defeat that (favor -> materials mint).
-/obj/item/proc/get_salvage_recipe()
-	if(flags_1 & HOARDMASTER_SPAWNED_1)
-		return null
-	for(var/recipe in GLOB.crafting_recipes) // Loops through sewing / weaving & leatherworking (skincraft) recipes
-		var/datum/crafting_recipe/R = recipe
-		if(R.name == "")
-			continue
-		if(R.skillcraft != /datum/skill/misc/sewing && R.skillcraft != /datum/skill/craft/tanning)
-			continue
-		var/obj/item/recipe_result
-		if(islist(R.result)) // result may be a list or a bare type path; .len on a path runtimes and killed the whole salvage
-			if(!length(R.result))
-				continue
-			recipe_result = R.result[1]
-		else
-			recipe_result = R.result
-		if(lowertext(recipe_result.name) == lowertext(initial(name))) // initial() check for player name changed items
-			return new R.type
-	return null
-
-/// TRUE when this salvage recipe crafts several items at once - refunding its reqs (or spawning raw
-/// salvage_result) per output would mint materials (one cured leather makes three shoes, one hide
-/// makes two glove pairs); such items scrap to fibers only.
-/proc/is_multi_output_recipe(datum/crafting_recipe/R)
-	return R && islist(R.result) && length(R.result) > 1
-
 /obj/item/rogueweapon/huntingknife/scissors/attack_obj(obj/O, mob/living/user)
 	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
 		var/obj/item/item = O
@@ -893,20 +863,33 @@
 			if(!do_after(user, salvage_time, target = user))
 				return
 			var/turf/T = get_turf(item)
-			var/datum/crafting_recipe/item_recipe = item.get_salvage_recipe()
-			var/multi_output_recipe = is_multi_output_recipe(item_recipe) // only fibers may be reclaimed - refunding reqs per output would be an infinite production loop
-			if(multi_output_recipe)
-				QDEL_NULL(item_recipe)
-			if(istype(item, /obj/item/storage)) // Bag? Yeet that shit out - BEFORE any roll can delete it with the contents still inside.
-				var/obj/item/storage/bag = item
-				bag.emptyStorage()
+			var/datum/crafting_recipe/item_recipe
+			for(var/recipe in GLOB.crafting_recipes) // Loops through sewing / weaving & leatherworking (skincraft) recipes 
+				var/datum/crafting_recipe/R = recipe
+				if(R.name == "")
+					continue
+				if(R.skillcraft != /datum/skill/misc/sewing && R.skillcraft != /datum/skill/craft/tanning)
+					continue
+				var/obj/item/recipe_result
+				if(R.result.len)
+					recipe_result = R.result[1]
+				else
+					recipe_result = R.result
+				if(lowertext(recipe_result.name) == lowertext(initial(item.name))) // initial() check for player name changed items
+					if(R.result.len > 1) // We return early and cancel the scrapping if the recipe to make it gives multiple of the item. (Reason? one cured leather makes three shoes, at legendary sewing you'd get 3 leather back.)
+						to_chat(user, span_warning("I can't seem to get any proper salvage from [item]."))
+						return
+					item_recipe = new R.type // This is qdel'd later.
+					break
 			user.mind.add_sleep_experience(/datum/skill/misc/sewing, (user.STAINT)) // You get XP regardless of failing or not.
 			if(prob(20 - (skill_level * 10))) // IF YOU REALLLLLY FUCK UP? You get jackshit. Skill Level: (20% ----> -40%)
 				to_chat(user, span_danger("I ruined the [item] due to my lack of skill..."))
 				playsound(item, 'sound/foley/cloth_rip.ogg', 50, TRUE)
-				qdel(item_recipe)
 				qdel(item)
 				return //We are returning early if the skill check fails critically!
+			if(istype(item, /obj/item/storage)) // Bag? Yeet that shit out.
+				var/obj/item/storage/bag = item
+				bag.emptyStorage()
 			// We found a recipe! Time to use its requirements to give back a portion of what they used
 			// Skill Level: Novice 20% ----> Legendary (100%) return rates (not linear between skill jumps)
 			var/list/skill_bonuses = alist(
@@ -945,13 +928,9 @@
 							new ingredient(T)
 					else
 						to_chat(user, span_info("I wasn't able to salvage any usable [I.name], there wasn't enough.")) // Feedback if you lose some.
-				qdel(item_recipe) // Clean up :)
+					qdel(item_recipe) // Clean up :)
 			else
-				if(item.flags_1 & HOARDMASTER_SPAWNED_1) // bandit favor gear only ever yields ash - tell the player why
-					to_chat(user, span_warning("The Hoardmaster's make betrays itself - [item] comes apart into worthless ash."))
-				if(multi_output_recipe) // its salvage_result would out-yield the craft cost; skip it, fibers below are the consolation
-					to_chat(user, span_info("I can only tease a few usable fibers out of [item]."))
-				else if(item.salvage_result) // no recipe found, defaulting to salvage result
+				if(item.salvage_result) // no recipe found, defaulting to salvage result
 					item.salvage_amount -= item.torn_sleeve_number
 					for(var/i = 0; i < item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleeves!
 						new item.salvage_result(T)

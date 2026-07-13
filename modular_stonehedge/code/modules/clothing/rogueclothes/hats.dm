@@ -56,10 +56,6 @@
 					H.update_inv_head()
 					H.update_inv_neck()
 					H.process_pending_icon_updates()
-		// Same fix as the full chain coif: the legacy toggle only moved the static body_parts_covered,
-		// so a hood pulled down to the neck still "covered" the head/face for armor, surgery and
-		// drinking checks (which read body_parts_covered_dynamic). Sync the live coverage to match.
-		body_parts_covered_dynamic = body_parts_covered
 
 /obj/item/clothing/head/roguetown/helmet/leather/armorhood/MiddleClick(mob/user)
 	if(!ishuman(user))

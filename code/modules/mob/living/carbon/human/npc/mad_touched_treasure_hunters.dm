@@ -10,7 +10,6 @@
 	ambushable = FALSE
 	dodgetime = 15
 	flee_in_pain = FALSE
-	npc_recover_threshold = 0 // relentless by design - never backs off to catch its breath
 	possible_rmb_intents = list()
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush

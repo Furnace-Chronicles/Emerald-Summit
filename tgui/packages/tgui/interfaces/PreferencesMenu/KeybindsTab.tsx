@@ -147,7 +147,10 @@ export const KeybindsTab = ({ data, act }: KeybindsTabProps) => {
       </Stack.Item>
 
       {!!capture && (
-        <CaptureOverlay target={capture} onCancel={() => setCapture(null)} />
+        <CaptureOverlay
+          target={capture}
+          onCancel={() => setCapture(null)}
+        />
       )}
     </Stack>
   );

@@ -9,7 +9,7 @@
 /*
 	ZOMBIFICATION
 */
-/datum/wound/proc/zombie_infect_attempt(mob/living/carbon/human/biter)
+/datum/wound/proc/zombie_infect_attempt()
 	if (QDELETED(src) || QDELETED(owner) || QDELETED(bodypart_owner))
 		return
 	if (zombie_infection_timer || werewolf_infection_timer || !ishuman(owner)) //Other timers present
@@ -19,12 +19,7 @@
 
 	var/mob/living/carbon/human/wound_owner = owner
 
-	// The biter is passed in explicitly: usr is null/stale when the bite comes from NPC AI
-	// (SSnpc, not a click), which crashed the source checks and made NPC chews never infect.
-	// Bails (returns falsey) if the victim is deadite-immune/otherwise unturnable, so we don't
-	// mark a biohazard wound or report a successful infection for a bite that can't take hold.
-	if (!wound_owner.attempt_zombie_infection(source = biter, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME)) //Infect the unit
-		return
+	wound_owner.attempt_zombie_infection(source = usr, infection_type = "wound", wake_delay = ZOMBIE_INFECTION_TIME) //Infect the unit
 
 	severity = WOUND_SEVERITY_BIOHAZARD //Show the wound
 	if (bodypart_owner)

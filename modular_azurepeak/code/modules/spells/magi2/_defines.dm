@@ -212,7 +212,6 @@
 // Brigandine is a tough mid-tier alternative — better than leather, worse than plate.
 #define ARMOR_DRAGONHIDE list("blunt" = 50, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 70, "acid" = 0)
 #define ARMOR_BRIGANDINE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 0, "acid" = 0)
-#define ARMOR_BATHYHIDE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 70, "fire" = 0, "acid" = 0)
 
 // ---- Lightning adaptation (Fulgurmancy Bolt of Lightning) ----
 // Gates the immobilize/clickcd/lightningstruck CC stack so a target can't be perma-locked
@@ -245,9 +244,7 @@
 #define TRAIT_SPELLBLOCK     "spellblock"
 #define TRAIT_NOC_CURSE      "noc_curse"
 #define TRAIT_ATHEISM_CURSE  "atheism_curse"
-// TRAIT_PSYDONITE stub removed: core traits.dm defines it as "Psydonite's Devotion". The stub's
-// "psydonite" string redefined the macro for everything compiled after this file (pantheon spells,
-// virtues), silently splitting the trait in two.
+#define TRAIT_PSYDONITE      "psydonite"
 // Dragonhide ward grants TRAIT_FIRE_RESIST. Nothing in ES currently checks this trait
 // (upstream's fire damage reduction lives in Azure-Peak's burn-handling code we haven't
 // ported), so the trait is functionally inert until that wiring lands.

@@ -17,24 +17,23 @@
 
 /datum/reagent/medicine/minorhealthpot/on_mob_life(mob/living/carbon/M) // Heals half as much as health potion, but not wounds.
 	var/list/wCount = M.get_wounds()
-	var/heal_mult = (M.mobility_flags & MOBILITY_STAND) ? 0.5 : 1 // Halve healing if the drinker isn't lying down.
-	var/blood_restore = (M.blood_volume <= BLOOD_VOLUME_BAD ? 7 : 6) * heal_mult
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 7 : 6
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
-		M.heal_wounds(3 * heal_mult)
+		M.heal_wounds(3)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
 	for(var/datum/reagent/toxin/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.type,1)
-	M.adjustBruteLoss(-1 * heal_mult, 0)
-	M.adjustFireLoss(-1 * heal_mult, 0)
-	M.adjustOxyLoss(-1.5 * heal_mult, 0)
-	M.adjustCloneLoss(-1 * heal_mult, 0)
+	M.adjustBruteLoss(-1, 0)
+	M.adjustFireLoss(-1, 0)
+	M.adjustOxyLoss(-1.5, 0)
+	M.adjustCloneLoss(-1, 0)
 	for(var/obj/item/organ/organny in M.internal_organs)
-		M.adjustOrganLoss(organny.slot, -3 * heal_mult)
+		M.adjustOrganLoss(organny.slot, -3)
 	..()
 	. = 1
 
@@ -68,24 +67,23 @@
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
-	var/heal_mult = (M.mobility_flags & MOBILITY_STAND) ? 0.5 : 1 // Halve healing if the drinker isn't lying down.
-	var/blood_restore = (M.blood_volume <= BLOOD_VOLUME_BAD ? 8 : 6) * heal_mult
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 8 : 6
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
 	else
 		M.blood_volume = min(M.blood_volume+ (blood_restore / 2), BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
 		//some peeps dislike the church, this allows an alternative thats not a doctor or sleep.
-		M.heal_wounds(8 * heal_mult)
+		M.heal_wounds(8)
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
-	M.adjustBruteLoss(-5 * heal_mult, 0) //25 brute damage healed per sip. More than before, but blood recovery and wound healing were nerfed.
-	M.adjustFireLoss(-5 * heal_mult, 0)
-	M.adjustOxyLoss(-8 * heal_mult, 0) //200 oxyloss kills you, this reduces it by 40 each sip.
-	M.adjustCloneLoss(-3 * heal_mult, 0)
+	M.adjustBruteLoss(-5, 0) //25 brute damage healed per sip. More than before, but blood recovery and wound healing were nerfed.
+	M.adjustFireLoss(-5, 0)
+	M.adjustOxyLoss(-8, 0) //200 oxyloss kills you, this reduces it by 40 each sip.
+	M.adjustCloneLoss(-3, 0)
 	for(var/obj/item/organ/organny in M.internal_organs)
-		M.adjustOrganLoss(organny.slot, -3 * heal_mult)
+		M.adjustOrganLoss(organny.slot, -3)
 	..()
 	. = 1
 
@@ -98,23 +96,22 @@
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
 	var/list/wCount = M.get_wounds()
-	var/heal_mult = (M.mobility_flags & MOBILITY_STAND) ? 0.5 : 1 // Halve healing if the drinker isn't lying down.
-	var/blood_restore = (M.blood_volume <= BLOOD_VOLUME_BAD ? 15 : 8) * heal_mult
+	var/blood_restore = M.blood_volume <= BLOOD_VOLUME_BAD ? 15 : 8
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 		M.blood_volume = min(M.blood_volume + blood_restore, BLOOD_VOLUME_POTION_MAX) //+100 blood per sip, 960 blood per bottle. Still enough to fill up your blood twice over.
 	else
 		M.blood_volume = min(M.blood_volume+ (blood_restore / 2), BLOOD_VOLUME_POTION_MAX)
 	if(wCount.len > 0)
-		M.heal_wounds(12 * heal_mult) //Less wound healing. Two sips will fix an artery, but only barely.
+		M.heal_wounds(12) //Less wound healing. Two sips will fix an artery, but only barely. 
 		M.update_damage_overlays()
 		if(prob(10))
 			to_chat(M, span_nicegreen("I feel my wounds mending."))
-	M.adjustBruteLoss(-8 * heal_mult, 0) // 48u (1 bottle) = 384 brute damage healed. Enough to fully fix any one limb.
-	M.adjustFireLoss(-8 * heal_mult, 0)
-	M.adjustOxyLoss(-15 * heal_mult, 0) //You cannot die if this is fed to you, realistically.
-	M.adjustCloneLoss(-7 * heal_mult, 0)
+	M.adjustBruteLoss(-8, 0) // 48u (1 bottle) = 384 brute damage healed. Enough to fully fix any one limb.
+	M.adjustFireLoss(-8, 0)
+	M.adjustOxyLoss(-15, 0) //You cannot die if this is fed to you, realistically.
+	M.adjustCloneLoss(-7, 0)
 	for(var/obj/item/organ/organny in M.internal_organs)
-		M.adjustOrganLoss(organny.slot, -7 * heal_mult)
+		M.adjustOrganLoss(organny.slot, -7)
 	..()
 	. = 1
 

@@ -106,7 +106,9 @@ const JobRow = ({
           <Button
             tooltip="Subclass info"
             color="transparent"
-            onClick={() => act('subclass_info', { job: job.title })}
+            onClick={() =>
+              act('subclass_info', { job: job.title })
+            }
           >
             <Box inline bold style={{ color: '#6b6743' }}>
               (!)
@@ -138,7 +140,8 @@ const JobRow = ({
         >
           {unavailable ? (
             <Box inline color={onCooldown ? undefined : 'label'}>
-              {job.display_name}{' '}
+              {job.display_name}
+              {' '}
               <Box
                 inline
                 italic
@@ -301,7 +304,9 @@ export const LateJoinChoices = () => {
                       basis={0}
                       style={{ minWidth: 0 }}
                     >
-                      {cat ? <CategoryColumn category={cat} act={act} /> : null}
+                      {cat ? (
+                        <CategoryColumn category={cat} act={act} />
+                      ) : null}
                     </Stack.Item>
                   ))}
                 </Stack>

@@ -32,8 +32,7 @@
 	job_subclasses = list(
 		/datum/advclass/manorguard/footsman,
 		/datum/advclass/manorguard/skirmisher,
-		/datum/advclass/manorguard/cavalry,
-		/datum/advclass/manorguard/musketeer
+		/datum/advclass/manorguard/cavalry
 	)
 
 /datum/outfit/job/manorguard
@@ -106,7 +105,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear", "Pike")
+	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -127,9 +126,6 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
-		if("Pike")
-			r_hand = /obj/item/rogueweapon/halberd/glaive/steelpike
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
@@ -321,80 +317,3 @@
 
 	if (H.mind && !H.mind.has_spell(/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount))
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount)
-
-// Gun Class for MAA
-/datum/advclass/manorguard/musketeer
-	name = "Musketeer"
-	tutorial = "You are a professional soldier of the realm, trained in the use of a Gun to aid in the defense of the realm"
-	outfit = /datum/outfit/job/manorguard/musketeer
-
-	category_tags = list(CTAG_MENATARMS)
-
-	//Garrison ranged/speed class. Time to go wild
-	// traits_applied = list(TRAIT_DODGEEXPERT) (removing this per request, can be tweaked later if needed)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_FUSILIER) // given so they can't have arcyne potential. sorry! you can still dodge if you want. allow them to train their firearms
-	maximum_possible_slots = 2 // limited slots, guns are uncommon that not even the garrison can bring many
-	subclass_stats = list(
-		STATKEY_SPD = 3,// +1 spd so they can use their missing DE a little better
-		STATKEY_PER = 2,
-		STATKEY_END = 1
-	)
-	// extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor." (why does this exist? you don't choose anything anymore.)
-
-	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN, 		// Still have a cugel.
-		/datum/skill/combat/firearms = SKILL_LEVEL_EXPERT,		//Only effects draw and reload time.
-		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, // A little better; run fast, weak boy.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, // lowered to jman. you're a bowman with a dagger, not a brawler. use your speed.
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
-	)
-
-/datum/outfit/job/manorguard/musketeer/pre_equip(mob/living/carbon/human/H)
-	..()
-
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord			// Cant wear chainmail anymoooree
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/half		//Cuirass... Since they now have medium armor trait.
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	beltr = /obj/item/quiver/bullet/lead
-	backl = /obj/item/gun/ballistic/firearm/arquebus
-
-	H.adjust_blindness(-3)
-	var/weapons = list("Sword","Dagger","Trusty Cudgel")
-	var/weapons_choice = input(H, "Choose your melee weapon.", "TAKE UP ARMS") as anything in weapons
-	switch(weapons_choice)
-		if("Sword")
-			r_hand = /obj/item/rogueweapon/sword
-			l_hand = /obj/item/rogueweapon/scabbard/sword
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		if("Dagger")
-			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
-		if("Trusty Cudgel")
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
-	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rope/chain = 1,
-		/obj/item/storage/keyring/guardcastle,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/powderflask = 1,
-	)
-	H.verbs |= /mob/proc/haltyell
-
-	var/helmets = list(
-	"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-	"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-	"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
-	"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-	"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-	"None"
-	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-	if(helmchoice != "None")
-		head = helmets[helmchoice]

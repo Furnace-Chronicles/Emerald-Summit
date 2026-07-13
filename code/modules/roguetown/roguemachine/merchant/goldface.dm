@@ -32,7 +32,6 @@
 		"Alcohols",
 		"Apparel",
 		"Consumable",
-		"Games",
 		"Gems",
 		"Instruments",
 		"Luxury",

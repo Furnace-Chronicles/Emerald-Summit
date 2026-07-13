@@ -78,6 +78,7 @@
 	if(steps != 0 && !LM.has_gravity(T)) // don't need to step as often when you hop around
 		return
 	return T
+var/list/kick_verb
 /datum/component/footstep/proc/play_simplestep()
 	if(HAS_TRAIT(parent, TRAIT_SILENT_FOOTSTEPS))
 		return

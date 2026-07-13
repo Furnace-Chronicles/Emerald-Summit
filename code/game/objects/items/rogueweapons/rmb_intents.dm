@@ -75,10 +75,7 @@
 		return
 	if(user == target)
 		return
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't bait.
-		to_chat(user, span_warning(pick("I stare uselessly at their weapon..", "I drool as I stare at their weapon..", "I stare at their weapon... and forgot what I was doing..")))
-		return
-
+	
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
@@ -87,10 +84,14 @@
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
+	if(user.STAINT < 8) //We don't want this happening if their intelligence is 7 or below.
+		to_chat(HU, span_danger("Argh! This is too complicated, I've made a fool of myself!"))
+		HU.stamina_add(HU.max_stamina * 0.2)
+		HU.emote("huh")
+		return
+
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	// INT no longer hard-gates baiting; it scales the cooldown instead. 1 INT sits at the 90s max and it
-	// drops ~4s per point down to the 15s floor at 20 INT, then the tempo bonus applies on top.
-	var/newcd = (clamp(94 - (user.STAINT * 4), 15, 90)) SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
+	var/newcd = 30 SECONDS - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 	HU.stamina_add(HU.max_stamina * 0.2)
 
@@ -163,9 +164,6 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't perform special attacks.
-		to_chat(user, span_warning(pick("I use the ancient technique... of nearly falling over..", "I muster all of my strength... and forgot what I was doing..", "I trip and stumble while wildly flailing around..", "I focus... and... feel too hungry to do so..", "I... feel suddenly very... what is stupid..?", "I focus... but the concept slipped my mind..")))
-		return
 
 	user.face_atom(target)
 
@@ -209,9 +207,6 @@
 	if(!user.mind)
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
-		return
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites can't feint.
-		to_chat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
 		return
 	var/mob/living/L = target
 	if (L.client && !L.cmode)
@@ -349,9 +344,6 @@
 	return "neutrally" // shouldn't see this
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)	//Wish we could breakline these somehow.
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites are too stiff to riposte.
-		to_chat(user, span_warning("...What?"))
-		return
 	user.attempt_riposte(user, target)
 
 /datum/rmb_intent/guard

@@ -457,17 +457,3 @@
 				/obj/item/natural/stoneblock = 3)
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 5
-
-/datum/crafting_recipe/roguetown/survival/wardenpyke
-	name = "Warden's Mole Pike"
-	category = "Tools"
-	result = /obj/item/rogueweapon/halberd/glaive/molepike
-	reqs = list(/obj/item/grown/log/tree/small = 1,
-				/obj/item/natural/head/mole = 1,
-				/obj/item/ingot/iron = 1,
-				/obj/item/natural/fibers = 1)
-	skillcraft = /datum/skill/craft/carpentry
-	craftdiff = 5
-
-/obj/item/rogueweapon/halberd/glaive/molepike/crafted
-	sellprice = 125

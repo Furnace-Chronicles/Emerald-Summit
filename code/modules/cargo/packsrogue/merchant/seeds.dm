@@ -103,17 +103,6 @@
 					/obj/item/seeds/poppy,
 				)
 
-/datum/supply_pack/rogue/seeds/sunflower
-	name = "Sunflower"
-	cost = 15
-	contains = list(
-					/obj/item/seeds/sunflower,
-					/obj/item/seeds/sunflower,
-					/obj/item/seeds/sunflower,
-					/obj/item/seeds/sunflower,
-					/obj/item/seeds/sunflower,
-				)
-
 
 /datum/supply_pack/rogue/seeds/coffee
 	name = "Coffee"

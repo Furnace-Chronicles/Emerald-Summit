@@ -114,7 +114,7 @@
 	// 2x structural damage in the AOE
 	for(var/turf/struct_turf in get_hear(1, T))
 		for(var/obj/structure/S in struct_turf)
-			S.take_damage(direct_damage * 2, BRUTE, "blunt") // ES take_damage has no object_damage_multiplier; doubled inline
+			S.take_damage(direct_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 
 	// Spawn the pillar — auto-qdel'd at end of cooldown
 	new /obj/effect/temp_visual/kinetic_blast(T)

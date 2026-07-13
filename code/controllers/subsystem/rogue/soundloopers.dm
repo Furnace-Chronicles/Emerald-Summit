@@ -1,7 +1,7 @@
 
 SUBSYSTEM_DEF(soundloopers)
 	name = "soundloopers"
-	wait = 5 // loop intervals are seconds long; 0.5s scheduling granularity is plenty
+	wait = 1
 	flags = SS_NO_INIT
 	priority = FIRE_PRIORITY_DEFAULT
 	var/list/processing = list()
@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(soundloopers)
 	var/check_clients = FALSE
 	client_ticker++
 
-	if(client_ticker>=1) //with wait=5 this keeps client range updates at the same ~0.5s cadence as before
+	if(client_ticker>=5) //this is dumb but necessary- clients update every half tick but sounds themselves need to be updated regularly
 		client_ticker = 0
 		check_clients = TRUE
 	else
