@@ -49,8 +49,6 @@ type ContractLedgerData = {
   active_max: number;
   active_max_base: number;
   active_fellowship_bonus: number;
-  townie_gate_remaining: number;
-  townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   pool: Contract[];
@@ -264,7 +262,6 @@ const ContractCard = (props: { contract: Contract }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   const c = props.contract;
   const noAccount = !data.has_account;
-  const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const atCap = data.active_count >= data.active_max;
   const cantAfford = data.balance < c.deposit;
@@ -273,25 +270,21 @@ const ContractCard = (props: { contract: Contract }) => {
     (data.user_fellowship_size || 0) < c.required_fellowship_size;
   const disabled =
     noAccount ||
-    gateRemaining > 0 ||
     takeCooldown > 0 ||
     atCap ||
     cantAfford ||
     fellowshipShort;
-  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
-    : gateRemaining > 0
-      ? `By Guild precedence, the first two daes of a week fall to masterless hands: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `Guild cooldown, wait ${takeCooldown}s before signing another.`
-        : atCap
-          ? `You already hold ${data.active_max} contracts.`
-          : cantAfford
-            ? `Requires ${c.deposit} mammon in your account.`
-            : fellowshipShort
-              ? `Requires a Fellowship of ${c.required_fellowship_size}, you have ${data.user_fellowship_size || 0}.`
-              : undefined;
+    : takeCooldown > 0
+      ? `Guild cooldown, wait ${takeCooldown}s before signing another.`
+      : atCap
+        ? `You already hold ${data.active_max} contracts.`
+        : cantAfford
+          ? `Requires ${c.deposit} mammon in your account.`
+          : fellowshipShort
+            ? `Requires a Fellowship of ${c.required_fellowship_size}, you have ${data.user_fellowship_size || 0}.`
+            : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
   if (c.is_defense) stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
@@ -423,16 +416,12 @@ const ActiveStrip = (props: {
   balance: number;
 }) => {
   const { act, data } = useBackend<ContractLedgerData>();
-  const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
-  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
-    : gateRemaining > 0
-      ? `The Guild observes the precedence of the masterless hand. The first two daes of the week fall to: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
-        : null;
+    : takeCooldown > 0
+      ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
+      : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
   const fellowshipNote =
     fellowshipBonus > 0
