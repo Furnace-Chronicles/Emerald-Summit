@@ -1,4 +1,4 @@
-#define MAX_FARM_ANIMALS 20
+#define MAX_FARM_ANIMALS 100
 
 GLOBAL_VAR_INIT(farm_animals, FALSE)
 
@@ -194,6 +194,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
 	///our current cell grid
 	var/datum/cell_tracker/our_cells
+	///If TRUE, Life() keeps ticking even when no players are nearby (AI goes IDLE but economy processing continues)
+	var/always_life = FALSE
+	///Tracks whether any player client is in our spatial grid cells
+	var/players_nearby = TRUE
 
 
 /mob/living/simple_animal/Initialize()
@@ -637,10 +641,28 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(is_flying_animal)
 		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 
+#define MAX_LOCAL_ANIMALS 10
+#define LOCAL_DENSITY_RANGE 7
+
+/mob/living/simple_animal/proc/check_local_density()
+	var/count = 0
+	for(var/mob/living/simple_animal/A in range(LOCAL_DENSITY_RANGE, src))
+		if(A == src)
+			continue
+		if(A.stat == DEAD)
+			continue
+		if(faction_check_mob(A))
+			count++
+			if(count >= MAX_LOCAL_ANIMALS)
+				return TRUE
+	return FALSE
+
 /mob/living/simple_animal/proc/make_babies() // <3 <3 <3
 	if(gender != FEMALE || stat || next_scan_time > world.time || !childtype || !animal_species || !SSticker.IsRoundInProgress())
 		return
 	if(GLOB.farm_animals >= MAX_FARM_ANIMALS)
+		return
+	if(check_local_density())
 		return
 	if(food < 10)
 		return
@@ -945,9 +967,14 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		if(length(grid.client_contents))
 			GLOB.mob_living_list |= src
 			GLOB.idle_mob_list -= src
+			players_nearby = TRUE
 			toggle_ai(AI_ON)
 			return TRUE
 
+	players_nearby = FALSE
+	if(always_life)
+		toggle_ai(AI_IDLE)
+		return TRUE
 	GLOB.mob_living_list -= src
 	GLOB.idle_mob_list |= src
 	toggle_ai(AI_IDLE)
@@ -997,11 +1024,13 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/proc/poop()
 	if(pooptype)
 		if(isturf(loc))
-			playsound(src, "fart", 100, TRUE)
+			if(players_nearby)
+				playsound(src, "fart", 100, TRUE)
 			new pooptype(loc)
 
 /mob/living/simple_animal/proc/on_client_enter(datum/source, atom/target)
 	SIGNAL_HANDLER
+	players_nearby = TRUE
 	if(AIStatus == AI_IDLE)
 		GLOB.mob_living_list |= src
 		GLOB.idle_mob_list -= src

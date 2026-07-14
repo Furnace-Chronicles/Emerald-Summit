@@ -313,7 +313,7 @@
 		E.pixel_x = rand(-6,6)
 		E.pixel_y = rand(-6,6)
 		if(eggsFertile)
-			if(chicken_count < MAX_CHICKENS && prob(25))
+			if(chicken_count < MAX_CHICKENS && !check_local_density() && prob(25))
 				START_PROCESSING(SSobj, E)
 
 /obj/item/reagent_containers/food/snacks/egg/var/amount_grown = 0

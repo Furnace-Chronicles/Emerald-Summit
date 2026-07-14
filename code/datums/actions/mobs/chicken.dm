@@ -18,7 +18,7 @@
 	E.pixel_x = rand(-6,6)
 	E.pixel_y = rand(-6,6)
 	src.visible_message(span_alert("[src] [pick(layMessage)]"))
-	if(chicken_count < MAX_CHICKENS && prob(50))
+	if(chicken_count < MAX_CHICKENS && !check_local_density() && prob(50))
 		E.fertile = TRUE
 		
 	StartCooldown()

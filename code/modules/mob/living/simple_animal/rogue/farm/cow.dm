@@ -1,5 +1,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow
+	always_life = TRUE
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
 	name = "cow"
 	desc = ""
@@ -136,6 +137,7 @@
 		..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull
+	always_life = TRUE
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
 	name = "cow"
 	icon_state = "bull"

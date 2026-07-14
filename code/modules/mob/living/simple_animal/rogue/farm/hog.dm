@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/swine
+	always_life = TRUE
 	icon = 'modular/Creechers/icons/piggie.dmi'
 	name = "swine sow"
 	desc = "A domesticated hog, won't be finding you any truffles."

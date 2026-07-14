@@ -52,6 +52,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat
+	always_life = TRUE
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goat"
 	desc = ""
@@ -190,6 +191,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale
+	always_life = TRUE
 	icon = 'icons/roguetown/mob/monster/gote.dmi'
 	name = "goat"
 	icon_state = "goatmale"
@@ -310,7 +312,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Life()
 	..()
-	if(stat == CONSCIOUS)
+	if(players_nearby && stat == CONSCIOUS)
 		if(!pulledby)
 			for(var/direction in shuffle(list(1,2,4,8,5,6,9,10)))
 				var/step = get_step(src, direction)

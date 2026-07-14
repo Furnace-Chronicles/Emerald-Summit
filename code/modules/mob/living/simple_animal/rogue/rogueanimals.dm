@@ -208,18 +208,19 @@
 	. = ..()
 	if(.)
 		if(enemies.len)
-			if(prob(4))
+			if(players_nearby && prob(4))
 				emote("cidle")
 			if(prob(deaggroprob))
 				if(mob_timers["aggro_time"])
 					if(world.time > mob_timers["aggro_time"] + 30 SECONDS)
 						enemies = list()
-						src.visible_message(span_info("[src] calms down."))
+						if(players_nearby)
+							src.visible_message(span_info("[src] calms down."))
 						LoseTarget()
 				else
 					mob_timers["aggro_time"] = world.time
 		else
-			if(prob(2)) //Plays an idle sound
+			if(players_nearby && prob(2))
 				emote("idle")
 
 			if(adult_growth)

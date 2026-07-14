@@ -1,5 +1,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken
+	always_life = TRUE
 	icon = 'icons/roguetown/mob/monster/chicken.dmi'
 	name = "\improper chicken"
 	desc = "A small, domestic, flightless bird. It's known for both its egg-laying and rapid breeding, making it a boon for carnivorous societies."
@@ -128,15 +129,16 @@
 	if(!stat && (production > 29) && egg_type && isturf(loc) && !enemies.len)
 		testing("laying egg with [production] production")
 		if(locate(/obj/structure/fluff/nest) in loc)
-			visible_message(span_alertalien("[src] [pick(layMessage)]"))
+			if(players_nearby)
+				visible_message(span_alertalien("[src] [pick(layMessage)]"))
 			production = max(production - 30, 0)
 			var/obj/item/reagent_containers/food/snacks/egg/E = new egg_type(get_turf(src))
 			E.pixel_x = rand(-6,6)
 			E.pixel_y = rand(-6,6)
 			if(eggsFertile)
-				if(chicken_count < MAX_CHICKENS && prob(50))
+				if(chicken_count < MAX_CHICKENS && !check_local_density() && prob(50))
 					E.fertile = TRUE
-		else if(!stop_automated_movement)
+		else if(players_nearby && !stop_automated_movement)
 			//look for nests
 			var/list/foundnests = list()
 			for(var/obj/structure/fluff/nest/N in oview(src))
