@@ -414,7 +414,7 @@
 	custom_text = "+2 Alchemy (Maximum Expert), Firebombs, Familiar Scroll, & Bomb Materials."
 	added_skills = list(list(/datum/skill/craft/alchemy, 2, 4))
 
-/datum/virtue/background/arsonist/apply_to_human(mob/living/carbon/human/H)
+/datum/virtue/background/roguealchemist/apply_to_human(mob/living/carbon/human/H)
 	var/equipment = list("Bomber")
 	var/equip_choice = input(H,"My lyfe before, STASHed away ...", "TREES and STATUES hold my things.") as anything in equipment
 	switch(equip_choice)
