@@ -44,7 +44,7 @@
 	npc_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_MEDIUM
-	armor_penetration = 10
+	armor_penetration = PEN_LIGHT
 	movement_type = UNSTOPPABLE
 	range = SPELL_RANGE_PROJECTILE
 	flag = "piercing"

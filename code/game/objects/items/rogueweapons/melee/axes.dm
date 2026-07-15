@@ -7,7 +7,7 @@
 	attack_verb = list("cuts", "slashes")
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	animname = "cut"
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	chargetime = 0
 	item_d_type = "slash"
 
@@ -18,7 +18,7 @@
 	attack_verb = list("chops", "hacks")
 	animname = "chop"
 	hitsound = list('sound/combat/hits/bladed/wpn_impact_blunt2hand_flesh_01.ogg', 'sound/combat/hits/bladed/wpn_impact_blunt2hand_flesh_02.ogg', 'sound/combat/hits/bladed/wpn_impact_blunt2hand_flesh_03.ogg')
-	penfactor = 35
+	penfactor = PEN_MEDIUM
 	swingdelay = 10
 	clickcd = 14
 	item_d_type = "slash"
@@ -27,19 +27,19 @@
 	reach = 2
 
 /datum/intent/axe/chop/stone
-	penfactor = 5
+	penfactor = PEN_NONE
 
 /datum/intent/axe/chop/battle
 	damfactor = 1.2 //36 on battleaxe
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 
 /datum/intent/axe/chop/battle/halberd
 	damfactor = 1.3
 	swingdelay = 12
-	penfactor = 20
+	penfactor = PEN_LIGHT
 
 /datum/intent/axe/cut/battle
-	penfactor = 25
+	penfactor = PEN_LIGHT
 
 /datum/intent/axe/bash
 	name = "bash"
@@ -49,7 +49,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 5
 	damfactor = 1.1
 	item_d_type = "blunt"
@@ -470,7 +470,7 @@
 	animname = "strike"
 	blade_class = null	//We don't use a blade class because it has on damage.
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 2	//Small delay to hook
 	damfactor = 0.1	//No real damage
 	clickcd = 22	//Can't spam this; long delay.
@@ -538,7 +538,7 @@
 	name = "ćiupaga lunge"
 	desc = "Grip your ćiupaga by the tail-end of the handle and swing in a circular motion to reach further ahead. It will deal extra damage if perfectly positioned, otherwise you'll just hit them with the handle."
 	damfactor = 1.75
-	penfactor = 42
+	penfactor = PEN_MEDIUM
 	blade_class = BCLASS_CHOP
 	reach = 2
 	swingdelay = 2

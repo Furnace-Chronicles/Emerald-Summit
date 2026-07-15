@@ -15,7 +15,7 @@
 /obj/projectile/bullet/firearm
 	name = "PARENT SMOKEPOWDER PROJECTILE"
 	damage = 80//Do you see how infrequently these things fire...
-	armor_penetration = 50//Lowered from 90 so heavy plate/heavy padding actually mitigate firearm damage instead of being treated as nothing.
+	armor_penetration = PEN_HEAVY//Lowered from 90 so heavy plate/heavy padding actually mitigate firearm damage instead of being treated as nothing.
 	range = 30//We want this to go a few screens. Regardless.
 	embedchance = 100//Yessir.
 	speed = 0.1//Take a guess.

@@ -109,7 +109,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	hitsound = "genslash"
-	penfactor = 60
+	penfactor = PEN_HEAVY
 	damfactor = 40
 	candodge = TRUE
 	canparry = TRUE

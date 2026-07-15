@@ -10,7 +10,7 @@
 	clickcd = CLICK_CD_CHARGED
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	item_d_type = "stab"
 	effective_range = 2
 	effective_range_type = EFF_RANGE_EXACT
@@ -31,7 +31,7 @@
 	clickcd = CLICK_CD_HEAVY + 3
 	swingdelay = 5
 	damfactor = 1.5
-	penfactor = 35
+	penfactor = PEN_MEDIUM
 	reach = 2
 	icon_state = "inlance"
 	attack_verb = list("lances", "runs through", "skewers")
@@ -42,27 +42,24 @@
 	reach = 1
 	swingdelay = 14
 	damfactor = 1.6
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	clickcd = CLICK_CD_RESIST
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
 	sharpness_penalty = 3
 
 /datum/intent/spear/thrust/militia
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 /datum/intent/spear/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
-	penfactor = 10
+	penfactor = PEN_NONE
 	damfactor = 0.8
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_STRONG
 
 /datum/intent/spear/bash/ranged
 	reach = 2
@@ -113,7 +110,7 @@
 /datum/intent/sword/cut/miaodao
 	reach = 2
 	swingdelay = 2
-	penfactor = 20
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/cut/miaodao/fast
 	clickcd = 10
@@ -128,7 +125,7 @@
 
 /datum/intent/sword/thrust/estoc
 	name = "thrust"
-	penfactor = 57	//At 57 pen + 25 base (82 total), you will always pen 80 stab armor, but you can't do it at range unlike a spear.
+	penfactor = PEN_HEAVY	//Estoc: dedicated point-blank plate-piercing thrust (was 57 pen).
 	swingdelay = 8
 
 /datum/intent/sword/lunge
@@ -139,7 +136,7 @@
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	reach = 2
-	penfactor = 20
+	penfactor = PEN_NONE
 	damfactor = 1.3	//Zwei will still deal ~7-10 more damage at the same range, depending on user's STR.
 	swingdelay = 10
 
@@ -148,7 +145,7 @@
 	blade_class = BCLASS_BLUNT
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 1.3
 	item_d_type = "blunt"
 
@@ -161,7 +158,7 @@
 	blade_class = BCLASS_CHOP
 	reach = 1
 	swingdelay = 15
-	penfactor = -100 // hard set to not penetrate armor as its original design intended
+	penfactor = PEN_NONE // hard set to not penetrate armor as its original design intended
 	damfactor = 2.5
 	clickcd = CLICK_CD_CHARGED
 	no_early_release = TRUE
@@ -172,7 +169,7 @@
 
 /datum/intent/rend/reach
 	name = "long rend"
-	penfactor = -100
+	penfactor = PEN_NONE
 	misscost = 5
 	swingdelay = 15
 	clickcd = CLICK_CD_HEAVY
@@ -199,7 +196,7 @@
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	clickcd = CLICK_CD_CHARGED
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 5
 	damfactor = 0.05
 	item_d_type = "slash"
@@ -210,19 +207,13 @@
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_WEAK//Use this instead of thrust for chip damage.
 
 /datum/intent/spear/thrust/quarterstaff
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	chargetime = 6 // Meant to be stronger than a bash, but with a delay.
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_MINUSCULE//See above.
 
 /datum/intent/spear/thrust/lance
 	damfactor = 1.5 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
@@ -233,7 +224,7 @@
 	attack_verb = list("lances", "runs through", "skewers")
 	animname = "stab"
 	item_d_type = "stab"
-	penfactor = BLUNT_DEFAULT_PENFACTOR // Not a mistake, to prevent it from nuking through armor.
+	penfactor = PEN_NONE // Not a mistake, to prevent it from nuking through armor.
 	chargetime = 4 SECONDS
 	damfactor = 4 // 80 damage on hit. It is gonna hurt.
 	reach = 3 // Yep! 3 tiles
@@ -955,11 +946,11 @@
 	sellprice = 40
 
 /datum/intent/spear/thrust/eaglebeak
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	damfactor = 1
 
 /datum/intent/spear/thrust/glaive
-	penfactor = 50
+	penfactor = PEN_HEAVY
 	damfactor = 1.1
 	chargetime = 0
 
@@ -968,7 +959,6 @@
 	swingdelay = 12
 	clickcd = 14
 	damfactor = 1.3
-	blunt_chip_strength = BLUNT_CHIP_ABSURD
 
 /obj/item/rogueweapon/spear/bronze
 	name = "Bronze Spear"

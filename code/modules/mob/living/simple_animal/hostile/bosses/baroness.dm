@@ -237,7 +237,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 15
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE

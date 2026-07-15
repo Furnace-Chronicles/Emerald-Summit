@@ -470,42 +470,32 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	var/str
 	if(isnull(rating))
 		rating = 0
+	// Armor is tier-based now (0-5): DBLOCK 0-4 for slash/stab/piercing, DR 0-5 for blunt.
+	// Layered readouts can sum above a single tier, so 6+ collapses to S+.
 	switch(rating)
-		if(0 to 9)
+		if(0)
 			var/color = "#f81a1a"
-			str = elaborate ? "<font color = '[color]'>[input] (F)</font>" : "<font color = '[color]'>[input] (F)</font>"
-		if(10 to 19)
-			var/color = "#680d0d"
-			str = elaborate ? "<font color = '[color]'>[input] (D)</font>" : "<font color = '[color]'>[input] (D)</font>"
-		if(20 to 39)
+			str = "<font color = '[color]'>[input] (F)</font>"
+		if(1)
 			var/color = "#753e11"
-			str = elaborate ? "<font color = '[color]'>[input] (D+)</font>" : "<font color = '[color]'>[input] (D+)</font>"
-		if(40 to 49)
+			str = "<font color = '[color]'>[input] (D)</font>"
+		if(2)
 			var/color = "#c0a739"
-			str = elaborate ? "<font color = '[color]'>[input] (C)</font>" : "<font color = '[color]'>[input] (C to C+)</font>"
-		if(50 to 59)
-			var/color = "#e3e63c"
-			str = elaborate ? "<font color = '[color]'>[input] (C+)</font>" : "<font color = '[color]'>[input] (C to C+)</font>"
-		if(60 to 69)
+			str = "<font color = '[color]'>[input] (C)</font>"
+		if(3)
 			var/color = "#425c33"
-			str = elaborate ? "<font color = '[color]'>[input] (B)</font>" : "<font color = '[color]'>[input] (B to B+)</font>"
-		if(70 to 79)
-			var/color = "#1a9c00"
-			str = elaborate ? "<font color = '[color]'>[input] (B+)</font>" : "<font color = '[color]'>[input] (B to B+)</font>"
-		if(80 to 89)
+			str = "<font color = '[color]'>[input] (B)</font>"
+		if(4)
 			var/color = "#0fe021"
-			str = elaborate ? "<font color = '[color]'>[input] (A)</font>" : "<font color = '[color]'>[input] (A to A+)</font>"
-		if(90 to 99)
-			var/color = "#ffffff"
-			str = elaborate ? "<font color = '[color]'>[input] (A+)</font>" : "<font color = '[color]'>[input] (A to A+)</font>"
-		if(100)
+			str = "<font color = '[color]'>[input] (A)</font>"
+		if(5)
 			var/color = "#339dff"
 			str = "<font color = '[color]'>[input] (S)</font>"
-		if(101 to 200)
+		if(6 to INFINITY)
 			var/color = "#c757af"
 			str = "<font color = '[color]'>[input] (S+)</font>"
 		else
-			str = "[input] (Under 0 or above 200! Contact coders.)"
+			str = "[input] (Invalid tier! Contact coders.)"
 	return str
 
 /*/proc/defense_report(var/obj/item/clothing/C, var/stupid, var/normal, var/smart, var/stupid_string)
