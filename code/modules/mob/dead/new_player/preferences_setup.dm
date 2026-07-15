@@ -27,6 +27,11 @@
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 	tail_color = "FFFFFF"
+	// Reset per-character background picks. Without this, the previously loaded slot's
+	// virtues carry over in memory when starting a fresh/empty slot and get silently baked
+	// into the next save - the "backgrounds are not character tied" bug.
+	virtue = new /datum/virtue/none
+	virtuetwo = new /datum/virtue/none
 
 /datum/preferences/proc/random_species()
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]

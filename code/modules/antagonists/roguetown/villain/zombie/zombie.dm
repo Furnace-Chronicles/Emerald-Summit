@@ -251,11 +251,12 @@
 	// separately and would otherwise keep blocking revival. Save the sources so they can be restored
 	// if the player is cured.
 	for(var/forbidden in list(TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_NECRAS_VOW))
-		if(zombie.status_traits?[forbidden])
+		var/list/trait_sources = zombie.status_traits?[forbidden]
+		if(trait_sources)
 			if(!stripped_traits)
 				stripped_traits = list()
-			stripped_traits[forbidden] = zombie.status_traits[forbidden].Copy()
-			REMOVE_TRAIT(zombie, forbidden, zombie.status_traits[forbidden].Copy())
+			stripped_traits[forbidden] = trait_sources.Copy()
+			REMOVE_TRAIT(zombie, forbidden, trait_sources.Copy())
 	if(zombie.mind)
 		special_role = zombie.mind.special_role
 		zombie.mind.special_role = name
@@ -410,11 +411,20 @@
 	if (!zombie_antag || !zombie_antag.has_turned) //Check that the zombie who bit us is real
 		return FALSE
 
+	// First-bite infections are rare -- roll before any side effects.
+	if (infection_type == "bite" && !prob(ZOMBIE_FIRST_BITE_CHANCE))
+		return FALSE
+
+	// Deadite-immune victims (and other antags) can't be turned. Gate on the convert result
+	// BEFORE showing any infection feedback, so immune people don't get the "I feel horrible"
+	// text, vomit, red flash, or a wake timer for a bite that can never take hold.
+	var/datum/antagonist/zombie/new_infection = victim.zombie_check_can_convert() //Adds the zombie antag mind unless immune/already an antag.
+	if (!new_infection)
+		return FALSE
+
 	//How did the victim get infected
 	switch (infection_type)
 		if ("bite")
-			if (!prob(ZOMBIE_FIRST_BITE_CHANCE)) // Chance to infect via first bite (rare)
-				return FALSE
 			to_chat(victim, span_danger("A growing cold seeps into my body. I feel horrible... REALLY horrible..."))
 			mob_timers["puke"] = world.time
 			vomit(1, blood = TRUE, stun = FALSE)
@@ -422,8 +432,6 @@
 		if ("wound")	//Chance to infect via chewing to open wound
 			flash_fullscreen("redflash3")
 			to_chat(victim, span_danger("Ow! It hurts. I feel horrible... REALLY horrible..."))
-
-	victim.zombie_check_can_convert() //They are given zombie antag mind here unless they're already an antag.
 
 //Delay on waking up as a zombie. /proc/wake_zombie(mob/living/carbon/zombie, infected_wake = FALSE, converted = FALSE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_zombie), victim, FALSE, TRUE), wake_delay, TIMER_STOPPABLE)

@@ -1,5 +1,9 @@
 node_modules
 public
 
+# Yarn PnP runtime artifacts are machine-generated; never reformat them.
+.pnp.cjs
+.pnp.loader.mjs
+
 # Running it on tgui.html is fine, however.
 !/public/tgui.html

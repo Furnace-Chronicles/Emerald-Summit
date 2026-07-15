@@ -27,6 +27,7 @@
 	job_subclasses = list(
 		/datum/advclass/templar/monk,
 		/datum/advclass/templar/crusader,
+		/datum/advclass/templar/tempest,
 	)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
@@ -251,7 +252,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,	//May tone down to 2; seems OK.
 	)
-	extra_context = "This subclass gains Expert skill in their weapon of choice."
+	extra_context = "This subclass gains Expert skill in their weapon of choice. Most weapons only affect skill, but Eora templars who pick a <b>Harp Bow (long or short)</b> become archers instead: Speed: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Strength: <b><font color='#cf2a2a'>-I</font></b>, Endurance: <b><font color='#cf2a2a'>-I</font></b>, Constitution: <b><font color='#cf2a2a'>-I</font></b> (with a cuirass in place of heavy plate)."
 
 /datum/outfit/job/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -318,7 +319,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/keyring/churchie
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	// scabbard is granted in choose_loadout once the weapon is picked, so archer loadouts can use SLOT_BELT_L for a quiver instead
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate	///Half-Plate not fullplate
 	backpack_contents = list(
@@ -352,7 +353,7 @@
 		if(/datum/patron/divine/ravox)
 			weapons += list("Duel Settler", "Ravoxian Glaive", "Judgement Edge")
 		if(/datum/patron/divine/eora)
-			weapons += list("The Heartstring", "Harp Bow (long)", "Harp Bow (short)")
+			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
 			weapons += "Tidecleaver"
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -408,7 +409,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Harp Bow (long)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
@@ -420,7 +421,7 @@
 			H.change_stat(STATKEY_END, -1)
 			H.change_stat(STATKEY_CON, -1)
 		if("Harp Bow (short)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
@@ -443,6 +444,171 @@
 		if("Dendorite Warstaff")
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+	// Archers took the hip slot for a quiver; everyone else gets the sword scabbard here.
+	if(weapon_choice != "Harp Bow (long)" && weapon_choice != "Harp Bow (short)")
+		H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+	// -- Start of section for god specific bonuses --
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE) // really good at fishing my ass, this mf can't even swim. no mermaidens?
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
+	// -- End of section for god specific bonuses --
+
+/datum/advclass/templar/tempest
+	name = "Tempest"
+	tutorial = "You are a templar of the Church, trained in ranged combat to bring a Tempest of holy wrath upon your enemies."
+	outfit = /datum/outfit/job/templar/tempest
+	category_tags = list(CTAG_TEMPLAR)
+	cmode_music = 'sound/music/combat_holy.ogg'
+
+	traits_applied = list(TRAIT_MEDIUMARMOR)
+	subclass_stats = list(
+		STATKEY_SPD = 3,// +1 spd so they can use their missing DE a little better
+		STATKEY_PER = 2,
+		STATKEY_END = 1,
+	)
+	
+	subclass_skills = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+	)
+
+/datum/outfit/job/templar/tempest/pre_equip(mob/living/carbon/human/H)
+	..()
+	switch(H.patron?.type)
+		if(/datum/patron/divine/astrata)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
+			cloak = /obj/item/clothing/cloak/templar/astratan
+			var/astrata_helmets = list(
+				"Astratan Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm,
+				"Astratan Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/astratan,
+				"Astratan Kulah khud" = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
+			)
+			var/astrata_choice = input(H, "Choose your helmet.", "Patron's Gift") as anything in astrata_helmets
+			head = astrata_helmets[astrata_choice]
+		if(/datum/patron/divine/abyssor)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm
+			cloak = /obj/item/clothing/cloak/abyssortabard
+		if(/datum/patron/divine/xylix)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/xylix
+			cloak = /obj/item/clothing/cloak/templar/xylixian
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm
+		if(/datum/patron/divine/dendor)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/dendor
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
+			cloak = /obj/item/clothing/cloak/templar/dendor
+		if(/datum/patron/divine/necra)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/necra
+			cloak = /obj/item/clothing/cloak/templar/necran
+			var/necra_helmets = list(
+				"Necran Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/necran,
+				"Necran Skull Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
+			)
+			var/necra_choice = input(H, "Choose your helmet.", "Patron's Gift") as anything in necra_helmets
+			head = necra_helmets[necra_choice]
+		if(/datum/patron/divine/pestra)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran
+			cloak = /obj/item/clothing/cloak/templar/pestran
+		if(/datum/patron/divine/eora) //Eora content from stonekeep
+			wrists = /obj/item/clothing/neck/roguetown/psicross/eora
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/eoran
+			cloak = /obj/item/clothing/cloak/templar/eoran
+		if(/datum/patron/divine/noc)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/noc
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
+			cloak = /obj/item/clothing/cloak/tabard/crusader/noc
+		if(/datum/patron/divine/ravox)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/ravox
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+			cloak = /obj/item/clothing/cloak/templar/ravox
+			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
+		if(/datum/patron/divine/malum)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
+			cloak = /obj/item/clothing/cloak/templar/malumite
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/malum
+		if(/datum/patron/old_god)
+			wrists = /obj/item/clothing/neck/roguetown/psicross
+			cloak = /obj/item/clothing/cloak/tabard/crusader/psydon
+	gloves = /obj/item/clothing/gloves/roguetown/chain
+	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	pants = /obj/item/clothing/under/roguetown/chainlegs
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	belt = /obj/item/storage/belt/rogue/leather/black
+	beltl = /obj/item/rogueweapon/huntingknife/combat
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/half	///steel breastplate
+	backpack_contents = list(
+		/obj/item/ritechalk,
+		/obj/item/storage/belt/rogue/pouch/coins/mid,
+		/obj/item/rope/chain,
+		/obj/item/rogueweapon/scabbard/sheath,
+		/obj/item/storage/keyring/churchie,
+		)
+
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles.
+
+/datum/outfit/job/templar/tempest/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/weapons = list("Crossbow","Bow")
+	switch(H.patron?.type)
+		if(/datum/patron/divine/eora)
+			weapons += list("Harp Bow (long)", "Harp Bow (short)")
+	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapon_choice)
+		if("Crossbow")
+			H.equip_to_slot_or_del(new /obj/item/quiver/bolts, SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, TRUE)
+		if("Bow") // They can head down to the armory to sideshift into one of the other bows.
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve, TRUE)
+		if("Harp Bow (long)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
+		if("Harp Bow (short)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)

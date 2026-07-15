@@ -477,6 +477,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["familiar_ooc_notes_display"]		>> familiar_prefs.familiar_ooc_notes_display
 	S["familiar_ooc_extra"]				>> familiar_prefs.familiar_ooc_extra
 	S["familiar_ooc_extra_link"]		>> familiar_prefs.familiar_ooc_extra_link
+	// _display fields are derived from the raw text; regenerate them on load so
+	// stale renders saved by older builds (which html_encoded AFTER parsing the
+	// markup, leaving visible tag soup) self-heal.
+	if(familiar_prefs.familiar_flavortext)
+		familiar_prefs.familiar_flavortext_display = render_examine_display(familiar_prefs.familiar_flavortext)
+	if(familiar_prefs.familiar_ooc_notes)
+		familiar_prefs.familiar_ooc_notes_display = render_examine_display(familiar_prefs.familiar_ooc_notes)
 
 /datum/preferences/proc/_load_gnoll_prefs(S)
 	S["gnoll_name"]						>> gnoll_prefs.gnoll_name
@@ -509,6 +516,38 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["gnoll_flavortext_display"]		>> gnoll_prefs.gnoll_flavortext_display
 	S["gnoll_ooc_notes"]				>> gnoll_prefs.gnoll_ooc_notes
 	S["gnoll_ooc_notes_display"]		>> gnoll_prefs.gnoll_ooc_notes_display
+	S["gnoll_headshot_link"]			>> gnoll_prefs.gnoll_headshot_link
+	if(!valid_headshot_link(null, gnoll_prefs.gnoll_headshot_link, TRUE))
+		gnoll_prefs.gnoll_headshot_link = null
+	S["gnoll_nsfw_headshot_link"]		>> gnoll_prefs.gnoll_nsfw_headshot_link
+	if(!valid_nsfw_headshot_link(null, gnoll_prefs.gnoll_nsfw_headshot_link, TRUE))
+		gnoll_prefs.gnoll_nsfw_headshot_link = null
+	S["gnoll_nsfwflavortext"]			>> gnoll_prefs.gnoll_nsfwflavortext
+	S["gnoll_nsfwflavortext_display"]	>> gnoll_prefs.gnoll_nsfwflavortext_display
+	S["gnoll_erpprefs"]					>> gnoll_prefs.gnoll_erpprefs
+	S["gnoll_erpprefs_display"]			>> gnoll_prefs.gnoll_erpprefs_display
+	S["gnoll_ooc_extra"]				>> gnoll_prefs.gnoll_ooc_extra
+	S["gnoll_ooc_extra_link"]			>> gnoll_prefs.gnoll_ooc_extra_link
+	S["gnoll_nsfw_ooc_extra"]			>> gnoll_prefs.gnoll_nsfw_ooc_extra
+	S["gnoll_nsfw_ooc_extra_link"]		>> gnoll_prefs.gnoll_nsfw_ooc_extra_link
+	S["gnoll_song_title"]				>> gnoll_prefs.gnoll_song_title
+	S["gnoll_song_artist"]				>> gnoll_prefs.gnoll_song_artist
+	S["gnoll_song_url"]					>> gnoll_prefs.gnoll_song_url
+	S["gnoll_img_gallery"]				>> gnoll_prefs.gnoll_img_gallery
+	gnoll_prefs.gnoll_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_img_gallery)
+	S["gnoll_nsfw_img_gallery"]			>> gnoll_prefs.gnoll_nsfw_img_gallery
+	gnoll_prefs.gnoll_nsfw_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_nsfw_img_gallery)
+	// _display fields are derived from the raw text; regenerate them on load so
+	// stale renders saved by older builds (which html_encoded AFTER parsing the
+	// markup, leaving visible tag soup) self-heal.
+	if(gnoll_prefs.gnoll_flavortext)
+		gnoll_prefs.gnoll_flavortext_display = render_examine_display(gnoll_prefs.gnoll_flavortext)
+	if(gnoll_prefs.gnoll_ooc_notes)
+		gnoll_prefs.gnoll_ooc_notes_display = render_examine_display(gnoll_prefs.gnoll_ooc_notes)
+	if(gnoll_prefs.gnoll_nsfwflavortext)
+		gnoll_prefs.gnoll_nsfwflavortext_display = render_examine_display(gnoll_prefs.gnoll_nsfwflavortext)
+	if(gnoll_prefs.gnoll_erpprefs)
+		gnoll_prefs.gnoll_erpprefs_display = render_examine_display(gnoll_prefs.gnoll_erpprefs)
 
 /datum/preferences/proc/load_character(slot)
 	if(!path)
@@ -900,6 +939,21 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gnoll_flavortext_display"] , gnoll_prefs?.gnoll_flavortext_display)
 	WRITE_FILE(S["gnoll_ooc_notes"] , gnoll_prefs?.gnoll_ooc_notes)
 	WRITE_FILE(S["gnoll_ooc_notes_display"] , gnoll_prefs?.gnoll_ooc_notes_display)
+	WRITE_FILE(S["gnoll_headshot_link"] , gnoll_prefs?.gnoll_headshot_link)
+	WRITE_FILE(S["gnoll_nsfw_headshot_link"] , gnoll_prefs?.gnoll_nsfw_headshot_link)
+	WRITE_FILE(S["gnoll_nsfwflavortext"] , gnoll_prefs?.gnoll_nsfwflavortext)
+	WRITE_FILE(S["gnoll_nsfwflavortext_display"] , gnoll_prefs?.gnoll_nsfwflavortext_display)
+	WRITE_FILE(S["gnoll_erpprefs"] , gnoll_prefs?.gnoll_erpprefs)
+	WRITE_FILE(S["gnoll_erpprefs_display"] , gnoll_prefs?.gnoll_erpprefs_display)
+	WRITE_FILE(S["gnoll_ooc_extra"] , gnoll_prefs?.gnoll_ooc_extra)
+	WRITE_FILE(S["gnoll_ooc_extra_link"] , gnoll_prefs?.gnoll_ooc_extra_link)
+	WRITE_FILE(S["gnoll_nsfw_ooc_extra"] , gnoll_prefs?.gnoll_nsfw_ooc_extra)
+	WRITE_FILE(S["gnoll_nsfw_ooc_extra_link"] , gnoll_prefs?.gnoll_nsfw_ooc_extra_link)
+	WRITE_FILE(S["gnoll_song_title"] , gnoll_prefs?.gnoll_song_title)
+	WRITE_FILE(S["gnoll_song_artist"] , gnoll_prefs?.gnoll_song_artist)
+	WRITE_FILE(S["gnoll_song_url"] , gnoll_prefs?.gnoll_song_url)
+	WRITE_FILE(S["gnoll_img_gallery"] , gnoll_prefs?.gnoll_img_gallery)
+	WRITE_FILE(S["gnoll_nsfw_img_gallery"] , gnoll_prefs?.gnoll_nsfw_img_gallery)
 
 	return TRUE
 

@@ -127,7 +127,7 @@
 
 		if("familiar_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = tgui_input_text(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext, multiline = TRUE)
+			var/new_flavortext = tgui_input_text(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext, multiline = TRUE, encode = FALSE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
@@ -137,14 +137,12 @@
 					fam_show_ui()
 				return
 			familiar_flavortext = new_flavortext
-			var/ft = html_encode(parsemarkdown_basic(familiar_flavortext))
-			ft = replacetext(ft, "\n", "<BR>")
-			familiar_flavortext_display = ft
+			familiar_flavortext_display = render_examine_display(familiar_flavortext)
 			to_chat(user, "<span class='notice'>Successfully updated familiar flavortext</span>")
 			log_game("[user] has set their familiar flavortext.")
 
 		if("familiar_ooc_notes")
-			var/new_ooc_notes = tgui_input_text(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes, multiline = TRUE)
+			var/new_ooc_notes = tgui_input_text(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes, multiline = TRUE, encode = FALSE)
 			if(new_ooc_notes == null)
 				return
 			if(new_ooc_notes == "")
@@ -154,9 +152,7 @@
 					fam_show_ui()
 				return
 			familiar_ooc_notes = new_ooc_notes
-			var/ooc = html_encode(parsemarkdown_basic(familiar_ooc_notes))
-			ooc = replacetext(ooc, "\n", "<BR>")
-			familiar_ooc_notes_display = ooc
+			familiar_ooc_notes_display = render_examine_display(familiar_ooc_notes)
 			to_chat(user, "<span class='notice'>Successfully updated Familiar OOC notes.</span>")
 			log_game("[user] has set their Familiar OOC notes.")
 

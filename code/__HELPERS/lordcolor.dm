@@ -22,13 +22,13 @@ GLOBAL_VAR(lordsecondary)
 		return
 	var/prim
 	var/sec
-	var/choice = input(src, "Choose a Primary Color", "EMERALD SUMMIT") as anything in colorlist
+	var/choice = input(src, "Choose a Primary Color", "EMERALD SUMMIT") as anything in GLOB.colorlist
 	if(choice)
-		prim = colorlist[choice]
-		colorlist -= choice
-	choice = input(src, "Choose a Secondary Color", "EMERALD SUMMIT") as anything in colorlist
+		prim = GLOB.colorlist[choice]
+		GLOB.colorlist -= choice
+	choice = input(src, "Choose a Secondary Color", "EMERALD SUMMIT") as anything in GLOB.colorlist
 	if(choice)
-		sec = colorlist[choice]
+		sec = GLOB.colorlist[choice]
 	if(!prim || !sec)
 		GLOB.lordcolor = list()
 		return

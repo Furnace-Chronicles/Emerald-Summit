@@ -49,3 +49,4 @@
 	icon_state = "shaman"
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST) // leather-tier; all gnoll hides resist twist crits

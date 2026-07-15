@@ -164,6 +164,7 @@
 		if("Law & Order (Sabre & Buckler)") // felt the need to specify
 			beltr = /obj/item/rogueweapon/sword/championsabre
 			backl = /obj/item/rogueweapon/shield/championbuckler
+			r_hand = /obj/item/rogueweapon/scabbard/sword/noble
 		if("Deliverer (Glaive)")
 			r_hand = /obj/item/rogueweapon/halberd/championglaive
 
@@ -317,14 +318,14 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword")
-			beltl = /obj/item/rogueweapon/scabbard/sword
+			beltl = /obj/item/rogueweapon/scabbard/sword/noble
 			l_hand = /obj/item/rogueweapon/sword/long
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail
 		if ("Warhammer")
 			beltr = /obj/item/rogueweapon/mace/warhammer/steel
 		if("Sabre")
-			beltl = /obj/item/rogueweapon/scabbard/sword
+			beltl = /obj/item/rogueweapon/scabbard/sword/noble
 			l_hand = /obj/item/rogueweapon/sword/sabre
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -423,7 +424,7 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Longsword + Crossbow")
-			beltl = /obj/item/rogueweapon/scabbard/sword
+			beltl = /obj/item/rogueweapon/scabbard/sword/noble
 			r_hand = /obj/item/rogueweapon/sword/long
 			beltr = /obj/item/quiver/bolts
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -436,7 +437,7 @@
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/rogueweapon/mace/goden/steel
 		if("Sabre + Recurve Bow")
-			l_hand = /obj/item/rogueweapon/scabbard/sword
+			l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 			r_hand = /obj/item/rogueweapon/sword/sabre
 			beltr = /obj/item/quiver/arrows
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
@@ -535,7 +536,7 @@
 	switch(weapon_choice)
 		if("Rapier + Longbow") 
 			r_hand = /obj/item/rogueweapon/sword/rapier
-			beltl = /obj/item/rogueweapon/scabbard/sword
+			beltl = /obj/item/rogueweapon/scabbard/sword/noble
 			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltr = /obj/item/quiver/arrows
 
@@ -545,7 +546,7 @@
 			beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		
 		if("Sabre + Buckler")
-			beltl = /obj/item/rogueweapon/scabbard/sword
+			beltl = /obj/item/rogueweapon/scabbard/sword/noble
 			r_hand = /obj/item/rogueweapon/sword/sabre
 			backl = /obj/item/rogueweapon/shield/buckler
 

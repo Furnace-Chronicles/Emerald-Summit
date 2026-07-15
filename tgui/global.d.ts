@@ -200,6 +200,6 @@ interface Window {
   domainStorage: Storage;
   serverStorage: Storage;
 
-    // TGUI stuff
+  // TGUI stuff
   __chatRenderer__: ChatRenderer;
 }

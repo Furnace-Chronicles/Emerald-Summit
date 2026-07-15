@@ -11,6 +11,9 @@
 		user.changeNext_move(clickcd)
 		if(releasedrain)
 			user.stamina_add(releasedrain)
+	// the cast has resolved (hit or fizzle) - always clear charge visuals here;
+	// intents without a chargedloop are missed by the curplaying-gated MouseUp cleanup
+	on_mouse_up()
 
 /datum/intent/spell/can_charge()
 	if(mastermob?.next_move > world.time)

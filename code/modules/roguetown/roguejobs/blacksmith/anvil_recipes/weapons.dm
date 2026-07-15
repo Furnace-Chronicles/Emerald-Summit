@@ -1266,3 +1266,29 @@
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
 	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/silver/scabbard
+	name = "Scabbard, Silver-Decorated (+1 Sword's Scabbard)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/scabbard/sword)
+	created_item = /obj/item/rogueweapon/scabbard/sword/noble
+
+/datum/anvil_recipe/weapons/silver/sheath
+	name = "Sheath, Silver-Decorated (+1 Dagger's Sheath)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/scabbard/sheath)
+	created_item = /obj/item/rogueweapon/scabbard/sheath/noble
+
+/datum/anvil_recipe/weapons/decorated/scabbard
+	name = "Scabbard, Gold-Decorated (+1 Sword's Scabbard)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/scabbard/sword)
+	created_item = /obj/item/rogueweapon/scabbard/sword/royal
+	craftdiff = 5
+
+/datum/anvil_recipe/weapons/decorated/sheath
+	name = "Sheath, Gold-Decorated (+1 Dagger's Sheath)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/scabbard/sheath)
+	created_item = /obj/item/rogueweapon/scabbard/sheath/royal
+	craftdiff = 5
