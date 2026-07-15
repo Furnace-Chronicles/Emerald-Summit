@@ -43,7 +43,6 @@ export const SearchBar = (props: {
   return <Input value={search} onChange={setSearch} fluid />;
 };
 
-
 export const ChimericTechWeb = (props) => {
   const [search, setSearch] = useState('');
   const { act, data } = useBackend<Data>();
@@ -52,7 +51,7 @@ export const ChimericTechWeb = (props) => {
 
   // We only filter by search text here. Eligibility is handled by DM/SS.
   const filteredChoices = (Array.isArray(choices) ? choices : [])
-  /*
+    /*
     .filter((node) => {
       if (search) {
         return node.name.toLowerCase().includes(search.toLowerCase());
@@ -67,13 +66,10 @@ export const ChimericTechWeb = (props) => {
         a.name.localeCompare(b.name),
     );
 
-  const researchedNodes = (Array.isArray(researched) ? researched : [])
-    .sort(
-      // Sort by tier, then name
-      (a, b) =>
-        a.required_tier - b.required_tier ||
-        a.name.localeCompare(b.name),
-    );
+  const researchedNodes = (Array.isArray(researched) ? researched : []).sort(
+    // Sort by tier, then name
+    (a, b) => a.required_tier - b.required_tier || a.name.localeCompare(b.name),
+  );
 
   return (
     <Window width={600} height={1000} title="Chimeric Tech Web">
@@ -83,10 +79,16 @@ export const ChimericTechWeb = (props) => {
             <Section title="Current Status">
               <Stack>
                 <Stack.Item grow>
-                    <Box bold color="label">Tech Points:</Box> {points}
+                  <Box bold color="label">
+                    Tech Points:
+                  </Box>{' '}
+                  {points}
                 </Stack.Item>
                 <Stack.Item grow>
-                    <Box bold color="label">Language Tier:</Box> {tier}
+                  <Box bold color="label">
+                    Language Tier:
+                  </Box>{' '}
+                  {tier}
                 </Stack.Item>
               </Stack>
             </Section>
@@ -101,8 +103,9 @@ export const ChimericTechWeb = (props) => {
             >
               {filteredChoices.length === 0 && (
                 <NoticeBox>
-                    No new research is currently available.
-                    You may need more Tech Points, a higher Language Tier, or you may be missing a prerequisite for all remaining nodes.
+                  No new research is currently available. You may need more Tech
+                  Points, a higher Language Tier, or you may be missing a
+                  prerequisite for all remaining nodes.
                 </NoticeBox>
               )}
 
@@ -111,7 +114,9 @@ export const ChimericTechWeb = (props) => {
                   <Stack align="center" justify="space-between">
                     <Stack.Item grow>
                       <Box bold>{node.name}</Box>
-                      <Box color="label">Tier {node.required_tier} | Cost {node.cost}</Box>
+                      <Box color="label">
+                        Tier {node.required_tier} | Cost {node.cost}
+                      </Box>
                       <Box className="text-desc">{node.desc}</Box>
                     </Stack.Item>
 
@@ -134,9 +139,7 @@ export const ChimericTechWeb = (props) => {
           <Stack.Item grow>
             <Section title="Researched" fill scrollable>
               {researchedNodes.length === 0 && (
-                <NoticeBox>
-                    Nothing has been researched yet.
-                </NoticeBox>
+                <NoticeBox>Nothing has been researched yet.</NoticeBox>
               )}
 
               {researchedNodes.map((node) => (

@@ -59,7 +59,8 @@ export class NanoMap extends Component<Props, State> {
   }
 
   getWxH = (zoom: number) => {
-    const { config } = useBackend();
+    // mapInfo is a byond-side config extension not present in tgui-core's config type
+    const { config } = useBackend() as { config: Record<string, any> };
     return [config.mapInfo.maxx * 2 * zoom, config.mapInfo.maxy * 2 * zoom];
   };
 
@@ -186,7 +187,8 @@ export class NanoMap extends Component<Props, State> {
   }
 
   render() {
-    const { config } = useBackend();
+    // mapZLevel is a byond-side config extension not present in tgui-core's config type
+    const { config } = useBackend() as { config: Record<string, any> };
     const { dragging, offsetX, offsetY, zoom = 1 } = this.state;
     const { children } = this.props;
 
@@ -280,7 +282,6 @@ const NanoMapZoomer = (props: NanoMapZoomerProps) => {
       <LabeledList>
         <LabeledList.Item label="Zoom">
           <Slider
-            tickWhileDragging
             minValue={1}
             maxValue={8}
             stepPixelSize={10}
@@ -295,7 +296,9 @@ const NanoMapZoomer = (props: NanoMapZoomerProps) => {
             .map((level) => (
               <Button
                 key={level}
-                selected={~~level === ~~config.mapZLevel}
+                selected={
+                  ~~level === ~~(config as Record<string, any>).mapZLevel
+                }
                 onClick={() => {
                   act('setZLevel', { mapZLevel: level });
                 }}

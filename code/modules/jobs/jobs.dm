@@ -92,6 +92,7 @@ GLOBAL_LIST_INIT(church_positions, list(
 	"Priest",
 	"Confessor",
 	"Acolyte",
+	"Mystic Theurge",
 	"Mortician",
 	"Templar",
 	"Druid",

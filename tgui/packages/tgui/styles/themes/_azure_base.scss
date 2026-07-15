@@ -77,8 +77,9 @@
     background-image: none;
     background-color: #{map.get($colors, 'base-dark')};
     border-bottom: 2px solid #{map.get($colors, 'accent')};
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5),
-                0 1px 0 #{map.get($colors, 'accent-bright')};
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 1px 0 #{map.get($colors, 'accent-bright')};
 
     &__title {
       font-size: 1.6rem;
@@ -154,7 +155,10 @@
       0 3px 6px rgba(0, 0, 0, 0.25);
 
     &:hover {
-      background-color: color.adjust(map.get($colors, 'border'), $lightness: 6%);
+      background-color: color.adjust(
+        map.get($colors, 'border'),
+        $lightness: 6%
+      );
       border-color: map.get($colors, 'accent-bright');
       outline-color: color.adjust(map.get($colors, 'border'), $lightness: -3%);
     }
@@ -172,7 +176,10 @@
       // Carved recess
       background-color: map.get($colors, 'btn-selected');
       border-color: map.get($colors, 'accent');
-      outline-color: color.adjust(map.get($colors, 'btn-selected'), $lightness: -4%);
+      outline-color: color.adjust(
+        map.get($colors, 'btn-selected'),
+        $lightness: -4%
+      );
       box-shadow:
         inset 2px 2px 4px rgba(0, 0, 0, 0.5),
         inset -1px -1px 0 rgba(255, 255, 255, 0.04);
@@ -239,7 +246,8 @@
 
   // ── Input Buttons ───────────────────────────────────────────────
   .input-button {
-    &__submit, &__cancel {
+    &__submit,
+    &__cancel {
       color: #ae3636;
       font-weight: 600;
     }

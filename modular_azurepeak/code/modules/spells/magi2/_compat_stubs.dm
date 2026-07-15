@@ -139,7 +139,7 @@
 // Used by spell_cooldown.dm spell_guard_check. Picked to match Azure-Peak values.
 #define RIPOSTE_SHARPNESS_FACTOR 0.05
 #define RIPOSTE_INTEG_DIVISOR 20
-#define INTEG_PARRY_DECAY_NOSHARP 2
+// INTEG_PARRY_DECAY_NOSHARP stub removed: core __DEFINES/combat.dm defines it (5); nothing in magi2 uses it anymore.
 
 // ---- /obj/item/rogueweapon stub var ----
 // Implement refund pool. Magi 2 weapons set this to fractional values (0.20 / 0.275 / 0.35).

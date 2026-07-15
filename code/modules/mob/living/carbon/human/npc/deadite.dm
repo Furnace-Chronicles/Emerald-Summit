@@ -6,6 +6,8 @@
 	tree_climber = FALSE // or climb trees
 	dodgetime = 8
 	flee_in_pain = FALSE
+	npc_recover_threshold = 0 // the dead don't get winded, and they certainly don't back off
+	npc_parry_chance = 0 // or fence
 	ambushable = FALSE
 	wander = TRUE
 	// Undead-aligned from tick one -- otherwise other undead NPCs see the fresh spawn as prey

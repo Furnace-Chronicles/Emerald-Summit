@@ -585,13 +585,15 @@ SUBSYSTEM_DEF(gamemode)
 		return TRUE
 
 	var/ttime = world.time - SSticker.round_start_time
-	if(ttime >= GLOB.round_timer)
-		if(roundvoteend)
-			if(ttime >= round_ends_at)
-				return TRUE
-		else
-			if(!SSvote.mode)
-				SSvote.initiate_vote("endround", pick("Zlod", "Sun King", "Gaia", "Moon Queen", "Aeon", "Gemini", "Aries"))
+	// If an end vote has already passed, end once we reach its scheduled time regardless of the
+	// configured round length -- this lets a manually-called end vote actually end the round early.
+	if(roundvoteend)
+		if(ttime >= round_ends_at)
+			return TRUE
+	else if(ttime >= GLOB.round_timer)
+		if(!SSvote.mode)
+			// Attribute the auto end-round vote to a random member of the pantheon: the Divine Ten and the Inhumen ascendants.
+			SSvote.initiate_vote("endround", pick("Astrata", "Noc", "Ravox", "Abyssor", "Xylix", "Necra", "Pestra", "Malum", "Eora", "Dendor", "Zizo", "Baotha", "Graggar", "Matthios"))
 
 	if(SSmapping.retainer.head_rebel_decree)
 		if(reb_end_time == 0)

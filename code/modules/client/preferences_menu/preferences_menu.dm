@@ -1610,7 +1610,7 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	var/static/list/cached_color_options
 	if(!cached_color_options)
 		cached_color_options = list("—")
-		for(var/k in colorlist)
+		for(var/k in GLOB.colorlist)
 			cached_color_options += k
 	data["color_options"] = cached_color_options
 	return data
@@ -1618,13 +1618,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 /datum/preferences_menu/proc/lookup_loadout_color_name(hex)
 	if(!hex)
 		return "—"
-	// Reverse lookup table built once and shared. Was iterating colorlist
+	// Reverse lookup table built once and shared. Was iterating GLOB.colorlist
 	// six times per poll (once per loadout slot) just to compare hex strings.
 	var/static/list/cached_hex_to_name
 	if(!cached_hex_to_name)
 		cached_hex_to_name = list()
-		for(var/k in colorlist)
-			cached_hex_to_name[colorlist[k]] = k
+		for(var/k in GLOB.colorlist)
+			cached_hex_to_name[GLOB.colorlist[k]] = k
 	return cached_hex_to_name[hex] || "Custom"
 
 /datum/preferences_menu/proc/zone_label(zone)
@@ -1903,6 +1903,12 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your virtue", "VIRTUE", virtues_available, prefs.virtue)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				// Re-validate after the blocking input: the list was built against the OTHER
+				// slot's value at open time, so picking there while this dialog sat open could
+				// otherwise land the same virtue in both slots.
+				if(v.name != "None" && v.name == prefs.virtuetwo?.name)
+					to_chat(user, span_warning("You already hold [v.name] as your second virtue."))
+					return TRUE
 				var/datum/virtue/old_virtue = prefs.virtue
 				prefs.virtue = v
 				sync_virtue_body_size(old_virtue, v, user)
@@ -1934,6 +1940,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			var/picked = tgui_input_list(user, "Choose your second virtue", "SECOND VIRTUE", virtues_available, prefs.virtuetwo)
 			if(picked)
 				var/datum/virtue/v = virtues_available[picked]
+				// Re-validate after the blocking input - see set_virtue.
+				if(v.name != "None" && v.name == prefs.virtue?.name)
+					to_chat(user, span_warning("You already hold [v.name] as your first virtue."))
+					return TRUE
 				var/datum/virtue/old_virtue = prefs.virtuetwo
 				prefs.virtuetwo = v
 				sync_virtue_body_size(old_virtue, v, user)
@@ -3736,10 +3746,10 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 			if(!(slot in list(1, 2, 3, 4, 5, 6)))
 				return TRUE
 			var/hex_var = "loadout_[slot]_hex"
-			var/picked = tgui_input_list(user, "Choose a color.", "Loadout Item Color", colorlist)
+			var/picked = tgui_input_list(user, "Choose a color.", "Loadout Item Color", GLOB.colorlist)
 			var/slot_label_words = list("first", "second", "third", "fourth", "fifth", "sixth")
-			if(picked && colorlist[picked])
-				prefs.vars[hex_var] = colorlist[picked]
+			if(picked && GLOB.colorlist[picked])
+				prefs.vars[hex_var] = GLOB.colorlist[picked]
 				to_chat(user, "The colour for your <b>[slot_label_words[slot]]</b> loadout item has been set to <b>[picked]</b>.")
 			else
 				prefs.vars[hex_var] = null
@@ -3757,8 +3767,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				prefs.vars[hex_var] = null
 				on_identity_change()
 				return TRUE
-			if(colorlist[picked])
-				prefs.vars[hex_var] = colorlist[picked]
+			if(GLOB.colorlist[picked])
+				prefs.vars[hex_var] = GLOB.colorlist[picked]
 			on_identity_change()
 			return TRUE
 

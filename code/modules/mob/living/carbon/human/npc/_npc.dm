@@ -46,6 +46,25 @@
 	/// When above this amount of stamina (Stamina is stamina damage), the NPC will not attempt to jump.
 	var/npc_max_jump_stamina = 50
 
+	// DEFENSE & RECOVERY
+	/// Chance to fight with parry (rather than dodge) as the defensive intent while holding a weapon that can parry.
+	var/npc_parry_chance = 50
+	/// Fraction of max stamina (as fatigue taken) at which we disengage to catch our breath. 0 = never back off.
+	var/npc_recover_threshold = 0.7
+	/// Fraction of max stamina below which a recovering NPC re-engages.
+	var/npc_recovered_threshold = 0.3
+	/// Anti-cheese cap: world time after which we stop recovering even if still winded.
+	var/npc_recover_until = 0
+	/// After a recovery window expires unspent, fight winded until this world time before
+	/// resting again - otherwise RETREAT re-arms itself every tick under pressure.
+	var/npc_recover_cooldown_until = 0
+	/// After recovering, sprint until this world time to close the gap again (double-time back in).
+	var/npc_sprint_until = 0
+	/// Next world time we re-evaluate whether someone closer/easier deserves our attention.
+	var/npc_retarget_next = 0
+	/// World time we first noticed our target is well off-screen; give up the chase if it lasts.
+	var/npc_target_lost_since = 0
+
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
 	///our current cell grid
@@ -100,6 +119,9 @@
 		if(!ai_when_client)
 			walk_to(src,0)
 			return TRUE //remove us from processing
+	if(throwing) // mid-leap (or being flung): NPC moves bypass client/Move's throw-cancel, so
+		walk(src, 0) // stepping now would compose with the flight and glide us sideways
+		return
 	cmode = 1
 	update_cone_show()
 	steps_moved_this_turn = 0
@@ -173,7 +195,7 @@
 	NPC_THINK("Idle...")
 	next_idle = world.time + rand(3 SECONDS, 5 SECONDS)
 
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
+	if((mobility_flags & MOBILITY_MOVE) && !throwing && isturf(loc) && wander)
 		if(prob(50))
 			var/turf/T = get_step(loc, pick(GLOB.cardinals))
 			if(T && T.can_traverse_safely(src)) // Don't wander into lava or open space unless we're immune to it/can't fall.
@@ -265,18 +287,27 @@
 				return FALSE
 	if(jump_dist > 1)
 		NPC_THINK("Trying to jump to [jump_destination]!")
-		if(mmb_intent?.type != INTENT_JUMP)
-			mmb_intent = new INTENT_JUMP(src) // switch to jump intent
-		used_intent = mmb_intent
-		. = jump_action(jump_destination) // return whether the jump succeeded or failed
-		used_intent = null
-		QDEL_NULL(mmb_intent) // unset our intent after
+		. = npc_execute_jump(jump_destination)
 		m_intent = old_m_intent
-		if(.)
+		if(. == JUMP_SUCCESS)
 			start_pathing_to(target) // regenerate path now that we've jumped
 		return
 	m_intent = old_m_intent
 	return FALSE
+
+/// Shared leap executor: arms the jump intent, performs the leap, cleans up. Returns
+/// jump_action()'s result (JUMP_SUCCESS / JUMP_STUMBLE / falsy) - a stumble is still
+/// airborne, so callers must not book it as a failed approach. A full leap locks us
+/// for `lock_time` (committed to the jump - no steps while sailing and landing).
+/mob/living/carbon/human/proc/npc_execute_jump(atom/jump_destination, lock_time = 1 SECONDS)
+	if(mmb_intent?.type != INTENT_JUMP)
+		mmb_intent = new INTENT_JUMP(src) // switch to jump intent
+	used_intent = mmb_intent
+	. = jump_action(jump_destination)
+	used_intent = null
+	QDEL_NULL(mmb_intent) // unset our intent after
+	if(. == JUMP_SUCCESS && lock_time)
+		Immobilize(lock_time)
 
 /// Force the NPC to jump to a specific destination. Handles 
 /mob/living/carbon/human/proc/npc_try_jump_to(atom/jump_destination)
@@ -292,12 +323,9 @@
 		m_intent = MOVE_INTENT_WALK
 	if(jump_dist > 0)
 		NPC_THINK("Trying to jump to [jump_destination]!")
-		if(mmb_intent?.type != INTENT_JUMP)
-			mmb_intent = new INTENT_JUMP(src) // switch to jump intent
-		used_intent = mmb_intent
-		. = jump_action(jump_destination) // return whether the jump succeeded or failed
-		used_intent = null
-		QDEL_NULL(mmb_intent) // unset our intent after
+		// TRAIT_ZJUMP mobs are traversal jumpers the jump mechanic deliberately exempts from
+		// landing recovery (see after_jump) - don't freeze them on every z-hop/gap jump
+		. = npc_execute_jump(jump_destination, HAS_TRAIT(src, TRAIT_ZJUMP) ? 0 : 1 SECONDS)
 		m_intent = old_m_intent
 		return
 	m_intent = old_m_intent
@@ -363,7 +391,9 @@
 			clear_path()
 			return
 		var/movespeed = cached_multiplicative_slowdown // this is recalculated on Moved() so we don't need to do it ourselves
-		if(!(mobility_flags & MOBILITY_MOVE) || IsDeadOrIncap() || IsStandingStill() || is_move_blocked_by_grab())
+		// `throwing`: we're mid-flight from our own leap (or someone flung us) - stepping now would
+		// fight the throw and glide us diagonally; wait for the landing instead
+		if(throwing || !(mobility_flags & MOBILITY_MOVE) || IsDeadOrIncap() || IsStandingStill() || is_move_blocked_by_grab())
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Waiting to move!")
 			sleep(1) // wait 1ds to see if we're finished/recovered
 			continue
@@ -374,6 +404,16 @@
 			return */
 		var/turf/next_path_turf = myPath[1]
 		var/move_dir = get_dir(src, myPath[1])
+		if(ISDIAGONALDIR(move_dir)) // diagonal drift (paths themselves are cardinal) - NPCs step NESW only, one axis at a time
+			var/turf/current_turf = get_turf(src)
+			var/list/viable_axes = list()
+			for(var/axis_dir in list(NSCOMPONENT(move_dir), EWCOMPONENT(move_dir)))
+				var/turf/axis_turf = get_step(src, axis_dir)
+				// same viability test A* uses - LinkBlockedWithAccess catches dense contents (fences, tables)
+				if(axis_turf && !axis_turf.density && axis_turf.can_traverse_safely(src) && !current_turf.LinkBlockedWithAccess(axis_turf, src, null))
+					viable_axes += axis_dir
+			// random pick between two open axes avoids deterministic bump-loops against blockers
+			move_dir = length(viable_axes) ? pick(viable_axes) : EWCOMPONENT(move_dir)
 		var/turf/next_step = get_step(src, move_dir)
 		if(next_path_turf.z != z) // if moving up or down z-levels, need specific checks
 			var/obj/structure/stairs/the_stairs = locate() in get_turf(src)
@@ -436,6 +476,39 @@
 			myPath -= myPath[1]
 			NPC_THINK("MOVEMENT TURN [movement_turn]: Movement on cooldown for [movespeed/10] seconds!")
 			sleep(movespeed) // wait until next move
+		else // decomposed half-step onto the intermediate tile: normal pacing and budget, keep the path node
+			.++
+			pathing_frustration = 0
+			NPC_THINK("MOVEMENT TURN [movement_turn]: Half-step, movement on cooldown for [movespeed/10] seconds!")
+			sleep(movespeed)
+
+/// Cardinal-only replacement for walk_away() - NPCs step NESW, never diagonally.
+/// Takes up to `steps` steps away from the threat, preferring the open axis, with
+/// perpendicular sidesteps as a fallback so we don't wedge into walls.
+/// Returns the number of steps taken - callers charge it against steps_moved_this_turn.
+/mob/living/carbon/human/proc/npc_step_away_cardinal(atom/threat, steps = 2)
+	if(!threat || steps <= 0)
+		return 0
+	. = 0
+	for(var/i in 1 to steps)
+		if(throwing || !(mobility_flags & MOBILITY_MOVE) || IsDeadOrIncap() || is_move_blocked_by_grab())
+			return
+		if(i > 1)
+			sleep(cached_multiplicative_slowdown) // pace between steps; no wasted sleep after the last one
+		var/away_dir = get_dir(threat, src)
+		if(!away_dir) // on top of each other somehow
+			away_dir = pick(GLOB.cardinals)
+		var/moved = FALSE
+		for(var/candidate_dir in get_cardinal_escape_dirs(away_dir, shuffled = TRUE))
+			var/turf/candidate_turf = get_step(src, candidate_dir)
+			if(!candidate_turf || candidate_turf.density || !candidate_turf.can_traverse_safely(src))
+				continue
+			if(step(src, candidate_dir, cached_multiplicative_slowdown))
+				moved = TRUE
+				.++
+				break
+		if(!moved)
+			return
 
 // blocks, but only while path is being calculated
 /mob/living/carbon/human/proc/start_pathing_to(new_target)
@@ -547,6 +620,40 @@
 
 	return FALSE
 
+/// Scan for the most appealing victim in view: closer targets and "easy" ones (standing
+/// their ground, on the floor, or walking right at us) score better than someone sprinting
+/// away. Slight stickiness to the current target so we don't ping-pong between equals.
+/mob/living/carbon/human/proc/npc_pick_best_target()
+	var/mob/living/best
+	var/best_score = INFINITY
+	for(var/mob/living/L in view(7, src))
+		if(!should_target(L))
+			continue
+		var/score = get_dist(src, L) * 10
+		if(L.dir & get_dir(L, src))
+			score -= 20 // facing us: squared up or walking into our arms - easy prey
+		else if(L.m_intent == MOVE_INTENT_RUN)
+			score += 15 // sprinting, probably away - annoying to chase
+		if(!(L.mobility_flags & MOBILITY_STAND))
+			score -= 10 // already on the ground
+		if(L.client)
+			score -= 5 // prefer players over critters, as the seek pass does
+		if(L == target)
+			score -= 30 // stickiness: must be beaten by ~3 tiles of advantage, so player-controlled
+			// facing games (+/-20) can't flip the target every re-evaluation
+		if(score < best_score)
+			best_score = score
+			best = L
+	return best
+
+/// Face an adjacent victim, pick our defensive stance, and swing. Shared by HUNT and
+/// RETREAT so the attack turn can't drift between them. Costs one movement step.
+/mob/living/carbon/human/proc/npc_attack_adjacent(mob/living/victim)
+	face_atom(victim)
+	npc_select_defense_intent() // mix parry/dodge based on what we're holding
+	monkey_attack(victim) // has its own next_move gate
+	steps_moved_this_turn++ // an attack costs, currently, 1 movement step
+
 /mob/living/carbon/human/proc/handle_combat()
 	switch(mode)
 		if(NPC_AI_IDLE)		// idle
@@ -586,6 +693,28 @@
 
 		if(NPC_AI_HUNT)		// hunting for attacker
 			// basic behavior chain: targeting > fleeing > picking up a weapon > attacking
+			// RE-EVALUATE: don't tunnel on our first aggro - prefer closer/easier prey,
+			// and give up on a mark that stays well off-screen.
+			if(target && world.time >= npc_retarget_next)
+				npc_retarget_next = world.time + 3 SECONDS
+				var/mob/living/better = npc_pick_best_target()
+				if(better && better != target)
+					NPC_THINK("[better] looks like easier prey than [target]!")
+					retaliate(better)
+				var/turf/lost_check_turf = get_turf(target)
+				var/turf/lost_my_turf = get_turf(src)
+				// z-aware distance: get_dist() returns 127 across z-levels, which would make us
+				// abandon a target one branch above us that the climb/taunt logic is pursuing
+				if(target && lost_check_turf && lost_my_turf.Distance_cardinal_3d(lost_check_turf, src) > 9) // well off-screen
+					if(!npc_target_lost_since)
+						npc_target_lost_since = world.time
+					else if(world.time >= npc_target_lost_since + 8 SECONDS)
+						NPC_THINK("Lost [target], giving up the chase!")
+						npc_target_lost_since = 0
+						back_to_idle()
+						return TRUE
+				else
+					npc_target_lost_since = 0
 			// VALIDATE TARGET
 			if(target)
 				if(!should_target(target))
@@ -595,7 +724,8 @@
 					else
 						back_to_idle()
 						return TRUE
-				m_intent = MOVE_INTENT_WALK
+				// double-time for a few steps after recovering, otherwise approach at a walk
+				m_intent = (world.time < npc_sprint_until) ? MOVE_INTENT_RUN : MOVE_INTENT_WALK
 				validate_path()
 				var/turf/my_turf = get_turf(src)
 				var/turf/target_turf = get_turf(target)
@@ -607,12 +737,26 @@
 			// Flee before trying to pick up a weapon.
 			if(flee_in_pain && target && (target.stat == CONSCIOUS))
 				var/paine = get_complex_pain()
-				if(paine >= ((STAEND * 10)*0.9)) 
+				if(paine >= ((STAEND * 10)*0.9))
 					NPC_THINK("Ouch! Entering flee mode!")
 					set_ai_mode(NPC_AI_FLEE)
 					m_intent = MOVE_INTENT_RUN
 					clear_path()
 					return TRUE
+
+			// Winded? Back off and catch our breath instead of swinging into the exhaustion punish.
+			// Don't disengage from a downed target - finish the job. After a recovery window
+			// expires unspent we fight winded for a while (cooldown) instead of re-arming forever.
+			if(npc_recover_threshold && max_stamina && (stamina >= max_stamina * npc_recover_threshold) \
+				&& world.time >= npc_recover_cooldown_until \
+				&& target && (target.stat == CONSCIOUS) && (target.mobility_flags & MOBILITY_STAND))
+				NPC_THINK("Winded! Retreating to recover!")
+				set_ai_mode(NPC_AI_RETREAT)
+				if(world.time >= npc_recover_until) // knocked back into HUNT mid-recovery? keep the old deadline
+					npc_recover_until = world.time + 20 SECONDS
+				m_intent = MOVE_INTENT_WALK // walking (not sprinting) lets stamina regenerate
+				clear_path()
+				return TRUE
 
 			if(!get_active_held_item() && !HAS_TRAIT(src, TRAIT_CHUNKYFINGERS) && (mobility_flags & MOBILITY_PICKUP))
 				// pickup any nearby weapon
@@ -630,13 +774,9 @@
 				back_to_idle()
 				return TRUE
 
-			// if we COULD attack, check rection time
-			var/should_frustrate = TRUE
 			if(Adjacent(target) && isturf(target.loc))	// if right next to perp
 				frustration = 0
-				face_atom(target)
-				monkey_attack(target)
-				steps_moved_this_turn++ // an attack costs, currently, 1 movement step
+				npc_attack_adjacent(target)
 				// JUKE: backstep after attacking if you're fast and have movement left
 				NPC_THINK("Used [steps_moved_this_turn] moves out of [maxStepsTick]!")
 				if(target && (steps_moved_this_turn < maxStepsTick))
@@ -659,7 +799,7 @@
 					else
 						NPC_THINK("Failed juke roll ([base_juke_chance + juke_spd_bonus]%)!")
 				return TRUE
-			else if(should_frustrate) // not next to perp, and we didn't fail due to reaction time
+			else // not next to perp
 				frustration++
 
 		if(NPC_AI_FLEE)
@@ -671,7 +811,7 @@
 						var/mob/living/carbon/human/human_bystander = bystander
 						if(human_bystander.IsDeadOrIncap())
 							continue
-					else if(stat != CONSCIOUS)
+					else if(bystander.stat != CONSCIOUS)
 						continue
 					// found an enemy who might be able to hurt us!
 					// if our current candidate is closer, ignore this one
@@ -685,11 +825,47 @@
 				back_to_idle()
 			else if(!is_move_blocked_by_grab()) // try to run offscreen if we aren't being grabbed by someone else
 				NPC_THINK("Fleeing from [target]!")
-				// todo: use A* to find the shortest path to the farthest tile away from the flee target?
-				walk_away(src, target, NPC_FLEE_DISTANCE, cached_multiplicative_slowdown)
+				steps_moved_this_turn += npc_step_away_cardinal(target, maxStepsTick - steps_moved_this_turn)
 			else // can't flee and can't move, stop walking!
 				NPC_THINK("I can't flee from [target]!")
 				walk(src, 0)
+			return TRUE
+
+		if(NPC_AI_RETREAT) // backing off to catch our breath; unlike FLEE we intend to come back
+			var/const/NPC_RECOVER_DISTANCE = 5
+			if(!target || !should_target(target))
+				// one courtesy detect attempt on sneaks, like HUNT gives
+				if(target && target.alpha == 0 && target.rogue_sneaking && npc_detect_sneak(target))
+					NPC_THINK("Spotted [target] skulking about - still watching them!")
+				else
+					NPC_THINK("Nothing left to recover from!")
+					back_to_idle()
+					return TRUE
+			else if(target.stat != CONSCIOUS || !(target.mobility_flags & MOBILITY_STAND))
+				// they dropped - stop resting and finish the job (mirrors the entry rule)
+				NPC_THINK("They dropped! Finishing this!")
+				walk(src, 0)
+				set_ai_mode(NPC_AI_HUNT)
+				return TRUE
+			if((stamina <= max_stamina * npc_recovered_threshold) || world.time >= npc_recover_until)
+				NPC_THINK("Caught my breath, back to the hunt!")
+				walk(src, 0)
+				if(world.time >= npc_recover_until) // window spent without recovering: fight winded a while before resting again
+					npc_recover_cooldown_until = world.time + 15 SECONDS
+				npc_sprint_until = world.time + 4 SECONDS // double-time back in to make up the ground we gave
+				m_intent = MOVE_INTENT_RUN
+				set_ai_mode(NPC_AI_HUNT)
+				return TRUE
+			// Pressed while catching our breath? Swing back, then keep giving ground.
+			if(Adjacent(target) && isturf(target.loc))
+				NPC_THINK("They're on me! Fighting while I recover!")
+				npc_attack_adjacent(target)
+			if(get_dist(src, target) < NPC_RECOVER_DISTANCE && !is_move_blocked_by_grab())
+				NPC_THINK("Recovering... backing away from [target]!")
+				steps_moved_this_turn += npc_step_away_cardinal(target, 2)
+			else // far enough - stand, face the threat, and breathe
+				walk(src, 0)
+				face_atom(target)
 			return TRUE
 
 	return IsStandingStill()
@@ -706,6 +882,7 @@
 	target = null
 	a_intent = INTENT_HELP
 	frustration = 0
+	npc_target_lost_since = 0
 	walk_to(src,0)
 
 // attack using a held weapon otherwise bite the enemy, then if we are angry there is a chance we might calm down a little
@@ -844,6 +1021,21 @@
 	else
 		npc_choose_attack_zone(victim)
 
+/// Pick our defensive intent for this turn. Parry needs a weapon that can parry and drains
+/// stamina per parry, so unarmed or winded NPCs fall back to dodging. Types that set
+/// d_intent = INTENT_PARRY at the type level (constructs, dwarf skeletons, bog deserters)
+/// keep their deliberate fixed style.
+/mob/living/carbon/human/proc/npc_select_defense_intent()
+	if(initial(d_intent) == INTENT_PARRY)
+		return
+	var/obj/item/mainhand = get_active_held_item()
+	var/obj/item/offhand = get_inactive_held_item()
+	var/has_parry_weapon = (mainhand && mainhand.can_parry && mainhand.force > 0) || (offhand && offhand.can_parry && offhand.force > 0)
+	if(has_parry_weapon && (stamina < max_stamina * 0.5) && prob(npc_parry_chance))
+		d_intent = INTENT_PARRY
+	else
+		d_intent = INTENT_DODGE
+
 /mob/living/carbon/human/proc/npc_choose_attack_zone(mob/living/victim)
 	// My life for a better way to handle deadite AI.
 	if(mind?.has_antag_datum(/datum/antagonist/zombie))
@@ -877,11 +1069,16 @@
 			// we just got hit by something hidden so try and find them
 			if (prob(5))
 				visible_message(span_notice("[src] begins searching around frantically..."))
-			var/extra_chance = (health <= maxHealth * 50) ? 30 : 0 // if we're below half health, we're way more alert
+			var/extra_chance = (health <= maxHealth * 0.5) ? 30 : 0 // if we're below half health, we're way more alert
 			if (!npc_detect_sneak(L, extra_chance))
 				return
+		npc_target_lost_since = 0 // being attacked is fresh evidence of where they are
+		if(mode == NPC_AI_RETREAT && L == target)
+			enemies |= L // already aware of them; keep catching our breath instead of flip-flopping modes
+			return
 		NPC_THINK("Hunting [L]!")
 		set_ai_mode(NPC_AI_HUNT)
+		npc_select_defense_intent() // pick a stance now, not on our first swing
 		// Interrupt ongoing actions on-hit, except for standing up or resisting.
 		if(!resisting && (mobility_flags & MOBILITY_STAND))
 			doing = FALSE
