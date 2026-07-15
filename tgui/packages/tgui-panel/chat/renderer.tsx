@@ -248,7 +248,7 @@ class ChatRenderer {
       if (lines.length === 0) {
         return;
       }
-     let regexExpressions: any[] = [];
+      let regexExpressions: any[] = [];
       // Organize each highlight entry into regex expressions and words
       for (let line of lines) {
         // Regex expression syntax is /[exp]/
@@ -421,7 +421,7 @@ class ChatRenderer {
           const outputProps = {};
           for (let j = 0; j < childNode.attributes.length; j++) {
             const attribute = childNode.attributes[j];
-            if (!attribute.nodeName.startsWith("data-")) {
+            if (!attribute.nodeName.startsWith('data-')) {
               continue;
             }
             let working_value = attribute.nodeValue;
@@ -452,7 +452,9 @@ class ChatRenderer {
               canon_name = remapped;
             } else {
               // pretend - is an upper case
-              canon_name = canon_name.replaceAll(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+              canon_name = canon_name.replaceAll(/-([a-z])/g, (_, letter) =>
+                letter.toUpperCase(),
+              );
             }
             outputProps[canon_name] = working_value;
           }
@@ -470,83 +472,85 @@ class ChatRenderer {
               <span dangerouslySetInnerHTML={oldHtml} />
             );
             const rendering = (
-              <DataComponent {...outputProps}>
-                {interior}
-              </DataComponent>
+              <DataComponent {...outputProps}>{interior}</DataComponent>
             );
             reactRoot.render(rendering);
           } else {
-            reactRoot.render((
-              <div>-- invalid data component &apos;{targetName}&apos;; contact a coder.</div>
-            ));
-        }
-
-        // Highlight text
-        if (!message.avoidHighlighting && this.highlightParsers) {
-          this.highlightParsers.map((parser) => {
-            const highlighted = highlightNode(
-              node,
-              parser.highlightRegex,
-              parser.highlightWords,
-              (text) => createHighlightNode(text, parser.highlightColor),
+            reactRoot.render(
+              <div>
+                -- invalid data component &apos;{targetName}&apos;; contact a
+                coder.
+              </div>,
             );
-            if (highlighted && parser.highlightWholeMessage) {
-              node.className += ' ChatMessage--highlighted';
+          }
+
+          // Highlight text
+          if (!message.avoidHighlighting && this.highlightParsers) {
+            this.highlightParsers.map((parser) => {
+              const highlighted = highlightNode(
+                node,
+                parser.highlightRegex,
+                parser.highlightWords,
+                (text) => createHighlightNode(text, parser.highlightColor),
+              );
+              if (highlighted && parser.highlightWholeMessage) {
+                node.className += ' ChatMessage--highlighted';
+              }
+            });
+          }
+          // Linkify text
+          const linkifyNodes = node.querySelectorAll('.linkify');
+          for (let i = 0; i < linkifyNodes.length; ++i) {
+            linkifyNode(linkifyNodes[i]);
+          }
+          // Assign an image error handler
+          if (now < message.createdAt + IMAGE_RETRY_MESSAGE_AGE) {
+            const imgNodes = node.querySelectorAll('img');
+            for (let i = 0; i < imgNodes.length; i++) {
+              const imgNode = imgNodes[i];
+              imgNode.addEventListener('error', handleImageError);
             }
-          });
-        }
-        // Linkify text
-        const linkifyNodes = node.querySelectorAll('.linkify');
-        for (let i = 0; i < linkifyNodes.length; ++i) {
-          linkifyNode(linkifyNodes[i]);
-        }
-        // Assign an image error handler
-        if (now < message.createdAt + IMAGE_RETRY_MESSAGE_AGE) {
-          const imgNodes = node.querySelectorAll('img');
-          for (let i = 0; i < imgNodes.length; i++) {
-            const imgNode = imgNodes[i];
-            imgNode.addEventListener('error', handleImageError);
           }
         }
+        // Store the node in the message
+        message.node = node;
+        // Query all possible selectors to find out the message type
+        if (!message.type) {
+          const typeDef = MESSAGE_TYPES.find(
+            (typeDef) =>
+              typeDef.selector && node.querySelector(typeDef.selector),
+          );
+          message.type = typeDef?.type || MESSAGE_TYPE_UNKNOWN;
+        }
+        updateMessageBadge(message);
+        if (!countByType[message.type]) {
+          countByType[message.type] = 0;
+        }
+        countByType[message.type] += 1;
+        // TODO: Detect duplicates
+        this.messages.push(message);
+        if (canPageAcceptType(this.page, message.type)) {
+          fragment.appendChild(node);
+          this.visibleMessages.push(message);
+        }
       }
-      // Store the node in the message
-      message.node = node;
-      // Query all possible selectors to find out the message type
-      if (!message.type) {
-        const typeDef = MESSAGE_TYPES.find(
-          (typeDef) => typeDef.selector && node.querySelector(typeDef.selector),
-        );
-        message.type = typeDef?.type || MESSAGE_TYPE_UNKNOWN;
+      if (insertedAnyNode) {
+        const firstChild = this.rootNode.childNodes[0];
+        if (prepend && firstChild) {
+          this.rootNode.insertBefore(fragment, firstChild);
+        } else {
+          this.rootNode.appendChild(fragment);
+        }
+        if (this.scrollTracking) {
+          setTimeout(() => this.scrollToBottom());
+        }
       }
-      updateMessageBadge(message);
-      if (!countByType[message.type]) {
-        countByType[message.type] = 0;
+      // Notify listeners that we have processed the batch
+      if (notifyListeners) {
+        this.events.emit('batchProcessed', countByType);
       }
-      countByType[message.type] += 1;
-      // TODO: Detect duplicates
-      this.messages.push(message);
-      if (canPageAcceptType(this.page, message.type)) {
-        fragment.appendChild(node);
-        this.visibleMessages.push(message);
-      }
-    }
-    if (insertedAnyNode) {
-      const firstChild = this.rootNode.childNodes[0];
-      if (prepend && firstChild) {
-        this.rootNode.insertBefore(fragment, firstChild);
-      } else {
-        this.rootNode.appendChild(fragment);
-      }
-      if (this.scrollTracking) {
-        setTimeout(() => this.scrollToBottom());
-      }
-    }
-    // Notify listeners that we have processed the batch
-    if (notifyListeners) {
-      this.events.emit('batchProcessed', countByType);
     }
   }
-}
 
   pruneMessages() {
     if (!this.isReady()) {

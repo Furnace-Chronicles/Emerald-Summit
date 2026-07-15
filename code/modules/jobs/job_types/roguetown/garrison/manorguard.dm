@@ -106,7 +106,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget
 
 	H.adjust_blindness(-3)
-	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear")
+	var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd","Spear", "Pike")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -127,6 +127,9 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
+		if("Pike")
+			r_hand = /obj/item/rogueweapon/halberd/glaive/steelpike
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,

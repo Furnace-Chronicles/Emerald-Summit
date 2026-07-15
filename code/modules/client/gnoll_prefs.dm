@@ -21,6 +21,25 @@
 	var/gnoll_ooc_notes
 	var/gnoll_ooc_notes_display
 
+	/// Gnoll-specific examine/OOC metadata — parity with the main flavor-text tab so a gnoll carries
+	/// its own headshot, music, OOC extras, etc. instead of inheriting the base slot's. Applied to the
+	/// mob in apply_gnoll_preferences when set. IC rumour/gossip are intentionally excluded (gnolls blank those).
+	var/gnoll_headshot_link
+	var/gnoll_nsfw_headshot_link
+	var/gnoll_nsfwflavortext
+	var/gnoll_nsfwflavortext_display
+	var/gnoll_erpprefs
+	var/gnoll_erpprefs_display
+	var/gnoll_ooc_extra
+	var/gnoll_ooc_extra_link
+	var/gnoll_nsfw_ooc_extra
+	var/gnoll_nsfw_ooc_extra_link
+	var/gnoll_song_title
+	var/gnoll_song_artist
+	var/gnoll_song_url
+	var/list/gnoll_img_gallery = list()
+	var/list/gnoll_nsfw_img_gallery = list()
+
 /datum/gnoll_prefs/New()
 	. = ..()
 	ensure_gnoll_name()
@@ -274,7 +293,7 @@
 		dat += " <a href='?_src_=gnoll_prefs;action=clear_flavortext'>Clear</a>"
 		dat += "<br><div style='border:1px solid #555; padding:4px; max-height:80px; overflow-y:auto;'>[gnoll_flavortext_display]</div>"
 	else
-		dat += " <i>(none set — your normal flavor text will be used)</i>"
+		dat += " <i>(none set — nothing is shown, protecting your base character's identity)</i>"
 	dat += "<br><br>"
 
 	// OOC notes section — same idea.
@@ -284,8 +303,45 @@
 		dat += " <a href='?_src_=gnoll_prefs;action=clear_ooc_notes'>Clear</a>"
 		dat += "<br><div style='border:1px solid #555; padding:4px; max-height:80px; overflow-y:auto;'>[gnoll_ooc_notes_display]</div>"
 	else
-		dat += " <i>(none set — your normal OOC notes will be used)</i>"
+		dat += " <i>(none set — nothing is shown, protecting your base character's identity)</i>"
 	dat += "<br><br>"
+
+	// Examine / OOC extras — parity with the main flavor-text tab (rumour/gossip excluded, those are IC).
+	dat += "<hr><b><center>Gnoll Examine Extras</center></b><br>"
+
+	dat += "<b>Gnoll NSFW Flavortext:</b> <a href='?_src_=gnoll_prefs;action=set_nsfwflavortext'>Change</a>"
+	if(gnoll_nsfwflavortext)
+		dat += " <a href='?_src_=gnoll_prefs;action=clear_nsfwflavortext'>Clear</a>"
+	dat += "<br><br>"
+
+	dat += "<b>Gnoll ERP Preferences:</b> <a href='?_src_=gnoll_prefs;action=set_erpprefs'>Change</a>"
+	if(gnoll_erpprefs)
+		dat += " <a href='?_src_=gnoll_prefs;action=clear_erpprefs'>Clear</a>"
+	dat += "<br><br>"
+
+	dat += "<b>Gnoll Song:</b> <a href='?_src_=gnoll_prefs;action=set_song_url'>Change URL</a> <a href='?_src_=gnoll_prefs;action=set_song_title'>Change Title</a> <a href='?_src_=gnoll_prefs;action=set_song_artist'>Change Artist</a>"
+	if(gnoll_song_title || gnoll_song_url)
+		dat += " — <i>[gnoll_song_title || "Untitled"][gnoll_song_artist ? " by [gnoll_song_artist]" : ""]</i>"
+	dat += "<br><br>"
+
+	var/agevetted = user.check_agevet()
+	if(agevetted)
+		dat += "<b>Gnoll Headshot:</b> <a href='?_src_=gnoll_prefs;action=set_headshot'>Change</a>"
+		if(gnoll_headshot_link)
+			dat += "<br><img src='[gnoll_headshot_link]' width='150px' height='150px'>"
+		dat += "<br><br>"
+
+		dat += "<b>Gnoll NSFW Bodyshot:</b> <a href='?_src_=gnoll_prefs;action=set_nsfw_headshot'>Change</a>"
+		if(gnoll_nsfw_headshot_link)
+			dat += "<br><img src='[gnoll_nsfw_headshot_link]' width='125px' height='175px'>"
+		dat += "<br><br>"
+
+		dat += "<b>Gnoll OOC Extra Image/Video/Gif:</b> <a href='?_src_=gnoll_prefs;action=set_ooc_extra'>Change</a><br><br>"
+		dat += "<b>Gnoll NSFW OOC Extra Image/Video/Gif:</b> <a href='?_src_=gnoll_prefs;action=set_nsfw_ooc_extra'>Change</a><br><br>"
+		dat += "<b>Gnoll Image Gallery:</b> ([length(gnoll_img_gallery)]/6) <a href='?_src_=gnoll_prefs;action=img_gallery_add'>Add</a> <a href='?_src_=gnoll_prefs;action=img_gallery_clear'>Clear</a><br><br>"
+		dat += "<b>Gnoll NSFW Image Gallery:</b> ([length(gnoll_nsfw_img_gallery)]/6) <a href='?_src_=gnoll_prefs;action=nsfw_img_gallery_add'>Add</a> <a href='?_src_=gnoll_prefs;action=nsfw_img_gallery_clear'>Clear</a><br><br>"
+	else
+		dat += "<i>Age vetting is required to set headshots, OOC extras and galleries.</i><br><br>"
 
 	dat += "<center><a href='?_src_=gnoll_prefs;action=close'>Close</a></center>"
 	dat += "</body></html>"
@@ -520,6 +576,224 @@
 		if("clear_ooc_notes")
 			gnoll_ooc_notes = null
 			gnoll_ooc_notes_display = null
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		// --- Examine / OOC extras (mirror the main flavor-text tab handlers, gnoll-scoped) ---
+		if("set_nsfwflavortext")
+			var/new_val = tgui_input_text(user, "Input your gnoll NSFW description:", "Gnoll NSFW Flavortext", gnoll_nsfwflavortext, multiline = TRUE, encode = FALSE)
+			if(new_val == null)
+				return
+			if(new_val == "")
+				gnoll_nsfwflavortext = null
+				gnoll_nsfwflavortext_display = null
+			else
+				gnoll_nsfwflavortext = new_val
+				gnoll_nsfwflavortext_display = replacetext(parsemarkdown_basic(html_encode(new_val)), "\n", "<BR>")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("clear_nsfwflavortext")
+			gnoll_nsfwflavortext = null
+			gnoll_nsfwflavortext_display = null
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_erpprefs")
+			var/new_val = tgui_input_text(user, "Input your gnoll ERP preferences:", "Gnoll ERP Preferences", gnoll_erpprefs, multiline = TRUE, encode = FALSE)
+			if(new_val == null)
+				return
+			if(new_val == "")
+				gnoll_erpprefs = null
+				gnoll_erpprefs_display = null
+			else
+				gnoll_erpprefs = new_val
+				gnoll_erpprefs_display = replacetext(parsemarkdown_basic(html_encode(new_val)), "\n", "<BR>")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("clear_erpprefs")
+			gnoll_erpprefs = null
+			gnoll_erpprefs_display = null
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_song_title")
+			var/new_title = tgui_input_text(user, "Input your gnoll song's title:", "Gnoll Song Title", gnoll_song_title, encode = FALSE)
+			if(new_title == null)
+				return
+			gnoll_song_title = (new_title == "") ? null : new_title
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_song_artist")
+			var/new_artist = tgui_input_text(user, "Input your gnoll song's artist:", "Gnoll Song Artist", gnoll_song_artist, encode = FALSE)
+			if(new_artist == null)
+				return
+			gnoll_song_artist = (new_artist == "") ? null : new_artist
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_song_url")
+			if(!user.check_agevet())
+				return
+			var/new_song = tgui_input_text(user, "Input your gnoll song's direct URL (mp3/mp4 from catbox, etc):", "Gnoll Song URL", gnoll_song_url, encode = FALSE)
+			if(new_song == null)
+				return
+			gnoll_song_url = (new_song == "") ? null : new_song
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_headshot")
+			if(!user.check_agevet())
+				return
+			to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area. Direct image links only; it will be downsized to a square.</span>")
+			var/new_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Gnoll Headshot", gnoll_headshot_link, encode = FALSE)
+			if(new_link == null)
+				return
+			if(new_link == "")
+				gnoll_headshot_link = null
+			else if(!valid_headshot_link(user, new_link))
+				gnoll_headshot_link = null
+			else
+				gnoll_headshot_link = new_link
+				to_chat(user, "<span class='notice'>Successfully updated gnoll headshot picture.</span>")
+				log_game("[user] has set their gnoll Headshot image to '[gnoll_headshot_link]'.")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_nsfw_headshot")
+			if(!user.check_agevet())
+				return
+			var/new_link = input(user, "Input the nsfw bodyshot link (https, hosts: gyazo, lensdump, imgbox, catbox):", "Gnoll NSFW Bodyshot", gnoll_nsfw_headshot_link) as text|null
+			if(new_link == null)
+				return
+			if(new_link == "")
+				gnoll_nsfw_headshot_link = null
+			else if(!valid_nsfw_headshot_link(user, new_link))
+				gnoll_nsfw_headshot_link = null
+			else
+				gnoll_nsfw_headshot_link = new_link
+				to_chat(user, "<span class='notice'>Successfully updated gnoll NSFW Bodyshot picture.</span>")
+				log_game("[user] has set their gnoll NSFW Bodyshot image to '[gnoll_nsfw_headshot_link]'.")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_ooc_extra")
+			if(!user.check_agevet())
+				return
+			to_chat(user, "<span class='notice'>Add a direct link (catbox, etc) to an mp3, mp4, jpg, png or gif to embed it under your gnoll OOC notes. Leave blank or a single space to clear.</span>")
+			var/new_extra_link = tgui_input_text(user, "Input the accessory link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Gnoll OOC Extra", gnoll_ooc_extra_link, encode = FALSE)
+			if(new_extra_link == null)
+				return
+			if(new_extra_link == "" || new_extra_link == " ")
+				gnoll_ooc_extra = null
+				gnoll_ooc_extra_link = null
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			var/static/list/ooc_extra_ext = list("jpg", "png", "jpeg", "gif", "mp4", "mp3")
+			if(!valid_headshot_link(user, new_extra_link, FALSE, ooc_extra_ext))
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			var/list/extra_split = splittext(new_extra_link, ".")
+			var/extra_ext = extra_split[length(extra_split)]
+			gnoll_ooc_extra_link = new_extra_link
+			gnoll_ooc_extra = "<div align ='center'><center>"
+			if(extra_ext == "jpg" || extra_ext == "png" || extra_ext == "jpeg" || extra_ext == "gif")
+				gnoll_ooc_extra += "<br><img src='[gnoll_ooc_extra_link]'/>"
+			else if(extra_ext == "mp4")
+				gnoll_ooc_extra += "<br><video width=["288"] height=["288"] controls=["true"]><source src='[gnoll_ooc_extra_link]' type=["video/mp4"]></video>"
+			else if(extra_ext == "mp3")
+				gnoll_ooc_extra += "<br><audio controls><source src='[gnoll_ooc_extra_link]' type=["audio/mp3"]>Your browser does not support the audio element.</audio>"
+			gnoll_ooc_extra += "</center></div>"
+			to_chat(user, "<span class='notice'>Successfully updated gnoll OOC Extra.</span>")
+			log_game("[user] has set their gnoll OOC Extra to '[gnoll_ooc_extra_link]'.")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("set_nsfw_ooc_extra")
+			if(!user.check_agevet())
+				return
+			to_chat(user, "<span class='notice'>Add a direct link (catbox, etc) to an mp3, mp4, jpg, png or gif to embed it in your gnoll NSFW flavor text. Leave blank or a single space to clear.</span>")
+			var/new_extra_link = tgui_input_text(user, "Input the NSFW accessory link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Gnoll NSFW OOC Extra", gnoll_nsfw_ooc_extra_link, encode = FALSE)
+			if(new_extra_link == null)
+				return
+			if(new_extra_link == "" || new_extra_link == " ")
+				gnoll_nsfw_ooc_extra = null
+				gnoll_nsfw_ooc_extra_link = null
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			var/static/list/nsfwooc_ext_list = list("jpg", "png", "jpeg", "gif", "mp4", "mp3")
+			if(!valid_headshot_link(user, new_extra_link, FALSE, nsfwooc_ext_list))
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			var/list/nsfwooc_split = splittext(new_extra_link, ".")
+			var/nsfwooc_ext = nsfwooc_split[length(nsfwooc_split)]
+			gnoll_nsfw_ooc_extra_link = new_extra_link
+			gnoll_nsfw_ooc_extra = "<div align ='center'><center>"
+			if(nsfwooc_ext == "jpg" || nsfwooc_ext == "png" || nsfwooc_ext == "jpeg" || nsfwooc_ext == "gif")
+				gnoll_nsfw_ooc_extra += "<br><img src='[gnoll_nsfw_ooc_extra_link]'/>"
+			else if(nsfwooc_ext == "mp4")
+				gnoll_nsfw_ooc_extra += "<br><video width=["288"] height=["288"] controls=["true"]><source src='[gnoll_nsfw_ooc_extra_link]' type=["video/mp4"]></video>"
+			else if(nsfwooc_ext == "mp3")
+				gnoll_nsfw_ooc_extra += "<br><audio controls><source src='[gnoll_nsfw_ooc_extra_link]' type=["audio/mp3"]>Your browser does not support the audio element.</audio>"
+			gnoll_nsfw_ooc_extra += "</center></div>"
+			to_chat(user, "<span class='notice'>Successfully updated gnoll NSFW OOC Extra.</span>")
+			log_game("[user] has set their gnoll NSFW OOC Extra to '[gnoll_nsfw_ooc_extra_link]'.")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("img_gallery_add")
+			if(!user.check_agevet())
+				return
+			if(length(gnoll_img_gallery) >= 6)
+				to_chat(user, "<span class='warning'>Your gnoll image gallery is full (6 max). Clear it first.</span>")
+				return
+			var/static/list/sfwgal_ext = list("jpg", "png", "jpeg", "gif")
+			var/sfwgal_link = tgui_input_text(user, "Input an image link to add to your gnoll gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Gnoll Image Gallery", encode = FALSE)
+			if(!sfwgal_link)
+				return
+			if(!valid_headshot_link(user, sfwgal_link, FALSE, sfwgal_ext))
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			gnoll_img_gallery += sfwgal_link
+			to_chat(user, "<span class='notice'>Added image to gnoll gallery.</span>")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("img_gallery_clear")
+			gnoll_img_gallery = list()
+			to_chat(user, "<span class='notice'>Cleared gnoll image gallery.</span>")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("nsfw_img_gallery_add")
+			if(!user.check_agevet())
+				return
+			if(length(gnoll_nsfw_img_gallery) >= 6)
+				to_chat(user, "<span class='warning'>Your gnoll NSFW image gallery is full (6 max). Clear it first.</span>")
+				return
+			var/static/list/nsfwgal_ext = list("jpg", "png", "jpeg", "gif")
+			var/nsfwgal_link = tgui_input_text(user, "Input an image link to add to your gnoll NSFW gallery (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Gnoll NSFW Image Gallery", encode = FALSE)
+			if(!nsfwgal_link)
+				return
+			if(!valid_headshot_link(user, nsfwgal_link, FALSE, nsfwgal_ext))
+				if(!from_tgui)
+					gnoll_show_ui(user)
+				return
+			gnoll_nsfw_img_gallery += nsfwgal_link
+			to_chat(user, "<span class='notice'>Added image to gnoll NSFW gallery.</span>")
+			if(!from_tgui)
+				gnoll_show_ui(user)
+
+		if("nsfw_img_gallery_clear")
+			gnoll_nsfw_img_gallery = list()
+			to_chat(user, "<span class='notice'>Cleared gnoll NSFW image gallery.</span>")
 			if(!from_tgui)
 				gnoll_show_ui(user)
 

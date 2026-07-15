@@ -139,9 +139,12 @@
 #define ARMOR_REGENERATING_BROKEN list("blunt" = 10, "slash" = 10, "stab" = 10, "piercing" = 10, "fire" = 0, "acid" = 0)
 #define ARMOR_VAMP list("blunt" = 100, "slash" = 100, "stab" = 90, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_WWOLF list("blunt" = 100, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
-#define ARMOR_GNOLL_WEAK list("blunt" = 90, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
-#define ARMOR_GNOLL_STANDARD list("blunt" = 70, "slash" = 95, "stab" = 90, "piercing" = 80, "fire" = 40, "acid" = 0)
-#define ARMOR_GNOLL_STRONG list("blunt" = 50, "slash" = 120, "stab" = 120, "piercing" = 90, "fire" = 40, "acid" = 0)
+// Gnoll hide tiers scale monotonically: STRONG > STANDARD > WEAK for every damage type (+20/tier).
+// Hide keeps its character (slightly tougher vs slash/stab than blunt) but the tank hide is no longer
+// blunt-weakest. piercing is largely moot — gnolls are TRAIT_PIERCEIMMUNE.
+#define ARMOR_GNOLL_WEAK list("blunt" = 60, "slash" = 70, "stab" = 65, "piercing" = 60, "fire" = 40, "acid" = 0)
+#define ARMOR_GNOLL_STANDARD list("blunt" = 80, "slash" = 90, "stab" = 85, "piercing" = 80, "fire" = 40, "acid" = 0)
+#define ARMOR_GNOLL_STRONG list("blunt" = 100, "slash" = 110, "stab" = 105, "piercing" = 100, "fire" = 40, "acid" = 0)
 #define ARMOR_DRAGONSCALE list("blunt" = 100, "slash" = 100, "stab" = 100, "fire" = 50, "acid" = 0)
 #define ARMOR_ASCENDANT list("blunt" = 50, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_SPELLSINGER list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 30, "fire" = 0, "acid" = 0)

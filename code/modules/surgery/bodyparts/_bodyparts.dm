@@ -57,6 +57,9 @@
 	var/px_x = 0
 	var/px_y = 0
 
+	/// Dropped-limb overlays (face features + hair) that should carry the head's species face offset. Head-only in practice.
+	var/list/dropped_face_overlays
+
 	var/species_flags_list = list()
 
 	/// Cached key for limb appearance - invalidated when limb state changes
@@ -774,6 +777,9 @@
 			var/overlays = feature.get_bodypart_overlay(src)
 			if(overlays)
 				. += overlays
+				// On a dropped head, hair/beard features need the same species face offset as the eyes/lips.
+				if(dropped && body_zone == BODY_ZONE_HEAD && !isnull(dropped_face_overlays))
+					dropped_face_overlays += overlays
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
 	drop_organs()

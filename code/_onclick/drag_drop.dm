@@ -200,6 +200,7 @@
 	var/datum/intent/curplaying
 
 /client/MouseUp(object, location, control, params)
+	var/was_charging = charging
 	if(charging && isliving(mob))
 		update_to_mob(mob, 0)
 
@@ -210,6 +211,10 @@
 
 	if(mob.curplaying)
 		mob.curplaying.on_mouse_up()
+	else if(was_charging && mob.used_intent)
+		// intents with no chargedloop never set curplaying, but still need
+		// their charge cleanup (mob_charge_effect overlay, mob_light) on release
+		mob.used_intent.on_mouse_up()
 
 	// Magi 2 hold-to-charge: resolve a charging spell on release (cast if held the full
 	// charge_time, else cancel). Null tcompare so the normal middle-click cast below doesn't

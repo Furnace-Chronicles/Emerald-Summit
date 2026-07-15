@@ -161,7 +161,10 @@ SUBSYSTEM_DEF(vote)
 					log_game("LOG VOTE: ROUNDVOTEEND [REALTIMEOFDAY]")
 					to_chat(world, "\n<font color='purple'>[ROUND_END_TIME_VERBAL]</font>")
 					SSgamemode.roundvoteend = TRUE
-					SSgamemode.round_ends_at = GLOB.round_timer + ROUND_END_TIME
+					// Anchor the end to the current round time, not the absolute configured round length,
+					// so a manually-called end vote ends the round ROUND_END_TIME from now rather than
+					// scheduling it (round_timer + ROUND_END_TIME) into the future.
+					SSgamemode.round_ends_at = (world.time - SSticker.round_start_time) + ROUND_END_TIME
 			if("storyteller")
 				SSgamemode.storyteller_vote_result(.)
 

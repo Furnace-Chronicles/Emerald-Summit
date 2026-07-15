@@ -232,6 +232,10 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //they hunt monsters. they should be able to get their trophies (heads) reasonably easy
 		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
 	)
+	extra_context = "The listed stats are your base; your armor choice at spawn adds to them:<br>\
+		<b>Studded Leathers</b>: Speed: <b><font color='#91cf68'>I</font></b> — Dodge Expert (no head or leg armor).<br>\
+		<b>Ornate Cuirass</b>: Intelligence: <b><font color='#91cf68'>I</font></b> — Medium Armor and immunity to deadite (rotbite) infection.<br>\
+		Then pick a steel weapon (vs men) and a silver weapon (vs monsters), each granting Journeyman skill. Older characters gain Intelligence: <b><font color='#91cf68'>I</font></b> and bonus weapon skills."
 
 /datum/outfit/job/adventurer/monster_hunter/pre_equip(mob/living/carbon/human/H)
 	H.cmode_music = 'sound/music/inquisitorcombat.ogg'
@@ -384,6 +388,14 @@
 	traits_applied = list(TRAIT_STEELHEARTED)
 	subclass_stats = list()
 	subclass_social_rank = SOCIAL_RANK_DIRT
+	// Amazon stats/skills are applied dynamically in pre_equip() based on the armor style chosen at spawn,
+	// so they can't live in subclass_stats. Spell them out here so they show on the class-select screen.
+	extra_context = "Your chosen armor style sets your stat spread and starting weapon:<br>\
+		<b>Leather / Hide Kini</b> (light): Speed: <b><font color='#91cf68'>III</font></b>, Endurance: <b><font color='#91cf68'>I</font></b>, Strength: <b><font color='#91cf68'>I</font></b> — Dodge Expert.<br>\
+		<b>Studded Leather Kini</b> (light): Speed: <b><font color='#91cf68'>II</font></b>, Strength: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>I</font></b> — Dodge Expert.<br>\
+		<b>Half Plate Kini</b> (medium): Strength: <b><font color='#91cf68'>II</font></b>, Endurance: <b><font color='#91cf68'>II</font></b>, Constitution: <b><font color='#91cf68'>I</font></b> — Medium Armor, No Pain.<br>\
+		<b>Plate Kini</b> (heavy): Strength: <b><font color='#91cf68'>III</font></b>, Constitution: <b><font color='#91cf68'>III</font></b>, Speed: <b><font color='#cf2a2a'>-I</font></b> — Heavy Armor.<br>\
+		Each style then lets you pick a weapon, granting matching combat skills."
 
 /datum/outfit/job/adventurer/amazon/pre_equip(mob/living/carbon/human/H, visualsOnly)
 

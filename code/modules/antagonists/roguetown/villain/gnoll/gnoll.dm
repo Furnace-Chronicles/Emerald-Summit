@@ -8,6 +8,9 @@
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
 	armor = ARMOR_GNOLL_STANDARD
+	// Chainmail-tier crit protection while the hide holds (checkcritarmor counts skin_armor);
+	// lost when the hide is smashed to nothing, back once it regenerates.
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE

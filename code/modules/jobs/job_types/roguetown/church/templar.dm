@@ -252,7 +252,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,	//May tone down to 2; seems OK.
 	)
-	extra_context = "This subclass gains Expert skill in their weapon of choice."
+	extra_context = "This subclass gains Expert skill in their weapon of choice. Most weapons only affect skill, but Eora templars who pick a <b>Harp Bow (long or short)</b> become archers instead: Speed: <b><font color='#91cf68'>I</font></b>, Perception: <b><font color='#91cf68'>II</font></b>, Strength: <b><font color='#cf2a2a'>-I</font></b>, Endurance: <b><font color='#cf2a2a'>-I</font></b>, Constitution: <b><font color='#cf2a2a'>-I</font></b> (with a cuirass in place of heavy plate)."
 
 /datum/outfit/job/templar/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -319,7 +319,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/keyring/churchie
-	beltl = /obj/item/rogueweapon/scabbard/sword
+	// scabbard is granted in choose_loadout once the weapon is picked, so archer loadouts can use SLOT_BELT_L for a quiver instead
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	armor = /obj/item/clothing/suit/roguetown/armor/plate	///Half-Plate not fullplate
 	backpack_contents = list(
@@ -408,6 +408,30 @@
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Harp Bow (long)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
+		if("Harp Bow (short)")
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
+			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_PER, 2)
+			H.change_stat(STATKEY_STR, -1)
+			H.change_stat(STATKEY_END, -1)
+			H.change_stat(STATKEY_CON, -1)
 		if("Tidecleaver")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
@@ -420,6 +444,9 @@
 		if("Dendorite Warstaff")
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+	// Archers took the hip slot for a quiver; everyone else gets the sword scabbard here.
+	if(weapon_choice != "Harp Bow (long)" && weapon_choice != "Harp Bow (short)")
+		H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)

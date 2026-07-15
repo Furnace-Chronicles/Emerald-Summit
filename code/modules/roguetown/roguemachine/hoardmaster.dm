@@ -76,6 +76,7 @@
 					newitem.smeltresult = /obj/item/ash
 				if(newitem.salvage_result)
 					newitem.salvage_result = /obj/item/ash
+				newitem.fiber_salvage = FALSE // ash only - no free fibers from favor purchases either
 	if(href_list["changecat"])
 		current_cat = href_list["changecat"]
 	return attack_hand(usr)

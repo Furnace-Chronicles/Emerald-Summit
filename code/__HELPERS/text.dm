@@ -612,6 +612,14 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 	t = parsemarkdown_basic_step2(t)
 	return t
 
+// Renders player-entered flavor/OOC text for display. Order matters: encode the
+// raw text FIRST, then parse the markup - parsing first turns the markup into
+// tags that html_encode then breaks into visible &lt;center&gt; soup.
+/proc/render_examine_display(raw_text)
+	if(!raw_text)
+		return null
+	return replacetext(parsemarkdown_basic(html_encode(raw_text)), "\n", "<BR>")
+
 /proc/parsemarkdown(t, mob/user=null, limited=FALSE)
 	if(length(t) <= 0)
 		return

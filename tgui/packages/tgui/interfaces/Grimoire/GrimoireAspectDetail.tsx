@@ -2,7 +2,6 @@ import { GrimoireChoiceSection } from './GrimoireChoiceSection';
 import { GrimoirePointBuySection } from './GrimoirePointBuySection';
 import { GrimoireSpellEntry } from './GrimoireSpellEntry';
 import { GrimoireVariantSection } from './GrimoireVariantSection';
-import { stripHtml } from './helpers';
 import { type Aspect, type Tab } from './types';
 
 export const GrimoireAspectDetail = ({
@@ -51,7 +50,9 @@ export const GrimoireAspectDetail = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <div className="AspectPicker__heading">
           <span
-            style={aspect.school_color ? { color: aspect.school_color } : undefined}
+            style={
+              aspect.school_color ? { color: aspect.school_color } : undefined
+            }
           >
             {aspect.name}
           </span>
@@ -86,6 +87,7 @@ export const GrimoireAspectDetail = ({
         {aspect.desc && aspect.desc !== 'TODO' && (
           <div
             className="AspectPicker__desc"
+            // eslint-disable-next-line react/no-danger -- spell text is server-authored HTML from the DM backend
             dangerouslySetInnerHTML={{ __html: aspect.desc }}
           />
         )}
@@ -138,61 +140,63 @@ export const GrimoireAspectDetail = ({
         )}
       </div>
 
-      {!readOnly && <div style={{ marginTop: '8px', flexShrink: 0 }}>
-        {isPendingUnbind ? (
-          <div
-            className="AspectPicker__action-btn AspectPicker__action-btn--caution"
-            onClick={() => act('undo_unbind', { path: aspect.path })}
-          >
-            Cancel Unbind
-          </div>
-        ) : isAttuned ? (
-          isLocked ? (
+      {!readOnly && (
+        <div style={{ marginTop: '8px', flexShrink: 0 }}>
+          {isPendingUnbind ? (
+            <div
+              className="AspectPicker__action-btn AspectPicker__action-btn--caution"
+              onClick={() => act('undo_unbind', { path: aspect.path })}
+            >
+              Cancel Unbind
+            </div>
+          ) : isAttuned ? (
+            isLocked ? (
+              <div
+                className="AspectPicker__attunement"
+                style={{ textAlign: 'center', padding: '8px' }}
+              >
+                Innately bound.
+              </div>
+            ) : initialSetup || isStaged ? (
+              // Initial setup, or a freshly-staged pick not yet sealed — un-staging is always free.
+              <div
+                className="AspectPicker__action-btn AspectPicker__action-btn--remove"
+                onClick={() => act('remove', { path: aspect.path })}
+              >
+                Unbind {aspect.name}
+              </div>
+            ) : canUnbind ? (
+              <div
+                className="AspectPicker__action-btn AspectPicker__action-btn--remove"
+                onClick={() => act('remove', { path: aspect.path })}
+              >
+                Unbind {aspect.name} (cost: {unbindCost})
+              </div>
+            ) : (
+              <div
+                className="AspectPicker__attunement"
+                style={{ textAlign: 'center', padding: '8px' }}
+              >
+                Not enough reshaping budget.
+              </div>
+            )
+          ) : slotsFull ? (
             <div
               className="AspectPicker__attunement"
               style={{ textAlign: 'center', padding: '8px' }}
             >
-              Innately bound.
-            </div>
-          ) : initialSetup || isStaged ? (
-            // Initial setup, or a freshly-staged pick not yet sealed — un-staging is always free.
-            <div
-              className="AspectPicker__action-btn AspectPicker__action-btn--remove"
-              onClick={() => act('remove', { path: aspect.path })}
-            >
-              Unbind {aspect.name}
-            </div>
-          ) : canUnbind ? (
-            <div
-              className="AspectPicker__action-btn AspectPicker__action-btn--remove"
-              onClick={() => act('remove', { path: aspect.path })}
-            >
-              Unbind {aspect.name} (cost: {unbindCost})
+              No {tab} aspect slots remaining.
             </div>
           ) : (
             <div
-              className="AspectPicker__attunement"
-              style={{ textAlign: 'center', padding: '8px' }}
+              className="AspectPicker__action-btn AspectPicker__action-btn--confirm"
+              onClick={() => act('attune', { path: aspect.path })}
             >
-              Not enough reshaping budget.
+              Bind {aspect.name}
             </div>
-          )
-        ) : slotsFull ? (
-          <div
-            className="AspectPicker__attunement"
-            style={{ textAlign: 'center', padding: '8px' }}
-          >
-            No {tab} aspect slots remaining.
-          </div>
-        ) : (
-          <div
-            className="AspectPicker__action-btn AspectPicker__action-btn--confirm"
-            onClick={() => act('attune', { path: aspect.path })}
-          >
-            Bind {aspect.name}
-          </div>
-        )}
-      </div>}
+          )}
+        </div>
+      )}
     </>
   );
 };
