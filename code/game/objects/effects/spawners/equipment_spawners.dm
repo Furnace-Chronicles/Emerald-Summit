@@ -39,7 +39,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/scale = 1,
 		/obj/item/clothing/suit/roguetown/armor/brigandine/light = 2,
 		/obj/item/clothing/under/roguetown/chainlegs = 3,
-		/obj/item/clothing/under/roguetown/splintlegs = 2,
+		/obj/item/clothing/under/roguetown/brigandinelegs = 2,
 		/obj/item/clothing/under/roguetown/chainlegs/iron = 6,
 		/obj/item/clothing/under/roguetown/chainlegs/kilt = 3,
 		/obj/item/clothing/under/roguetown/chainlegs/iron/kilt = 6,
@@ -121,7 +121,7 @@
 		/obj/item/clothing/wrists/roguetown/bracers/leather = 8,
 		/obj/item/clothing/wrists/roguetown/bracers/leather/heavy = 6,
 		/obj/item/clothing/wrists/roguetown/bracers/copper = 10,
-		/obj/item/clothing/wrists/roguetown/splintarms = 1,
+		/obj/item/clothing/wrists/roguetown/bracers/brigandine = 1,
 	)
 
 /obj/effect/spawner/lootdrop/horny_armor_spawner

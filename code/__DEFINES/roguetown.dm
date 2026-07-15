@@ -25,6 +25,7 @@
 #define ARMOR_INT_CHEST_PLATE_BLACKSTEEL 600
 #define ARMOR_INT_CHEST_PLATE_STEEL 500
 #define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Light AC brigandine parts get -50, Heavy AC brigandine parts get +50.
 #define ARMOR_INT_CHEST_PLATE_PSYDON 400 // You get free training, less int
 #define ARMOR_INT_CHEST_PLATE_IRON 375
 #define ARMOR_INT_CHEST_PLATE_DECREPIT 250
@@ -92,6 +93,7 @@
 // Medium AC | Chest
 #define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "acid" = 0)
 #define ARMOR_MAILLE list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
+#define ARMOR_BRIGANDINE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 0, "acid" = 0)
 
 // Heavy AC | Chest
 #define ARMOR_PLATE list("blunt" = 10, "slash" = 100, "stab" = 80, "piercing" = 75, "fire" = 0, "acid" = 0)

@@ -358,30 +358,33 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle)
 
-/obj/item/clothing/under/roguetown/splintlegs
+/obj/item/clothing/under/roguetown/brigandinelegs
 	name = "brigandine chausses"
 	desc = "Splint mail and brigandine chausses, designed to protect the legs while still providing almost complete free range of movement."
 	icon_state = "splintlegs"
 	item_state = "splintlegs"
-	max_integrity = 250
-	armor = ARMOR_PANTS_BRIGANDINE
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT)
+	max_integrity = ARMOR_INT_LEG_BRIGANDINE
+	armor = ARMOR_BRIGANDINE
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	blocksound = SOFTHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
+	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
-	armor_class = ARMOR_CLASS_MEDIUM
-	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
+	armor_class = ARMOR_CLASS_LIGHT
+	w_class = WEIGHT_CLASS_NORMAL
+	//resistance_flags = FIRE_PROOF // these ones should be burning since is cloth + metal
 	sewrepair = FALSE
-	grid_height = 64
-	grid_width = 64
+	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/under/roguetown/splintlegs/Initialize(mapload)
+/obj/item/clothing/under/roguetown/brigandinelegs/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP)
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /obj/item/clothing/under/roguetown/brayette
 	name = "brayette"

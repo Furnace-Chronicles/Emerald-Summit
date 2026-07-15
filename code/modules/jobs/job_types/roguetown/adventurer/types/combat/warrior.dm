@@ -271,7 +271,7 @@
 			ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
 			H.change_stat(STATKEY_INT, 1)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half/fluted/ornate, SLOT_ARMOR, TRUE)
-			pants = /obj/item/clothing/under/roguetown/splintlegs
+			pants = /obj/item/clothing/under/roguetown/brigandinelegs
 			beltl = pick(
 					/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
 					/obj/item/reagent_containers/glass/bottle/alchemical/conpot,

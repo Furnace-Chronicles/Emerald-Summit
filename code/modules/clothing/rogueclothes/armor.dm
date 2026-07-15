@@ -1580,15 +1580,15 @@
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "lightweight brigandine"
-	desc = "A light riveted coat with plates concealed inside an exterior fabric. Susceptible to daggers being shoved into your ribs."
+	desc = "A lightweight coat-of-plates, concealed underneath layers of dyeable leather. While more expensive than a traditional steel cuirass, it doesn't require a well-conditioned phyisque to comfortably don."
 	icon_state = "light_brigandine"
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_SHIRT
-	armor = ARMOR_CUIRASS
-	max_integrity = 250
+	body_parts_covered = COVERAGE_TORSO
+	armor = ARMOR_BRIGANDINE
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	smeltresult = /obj/item/ingot/iron
 	equip_delay_self = 40
-	armor_class = ARMOR_CLASS_MEDIUM
+	armor_class = ARMOR_CLASS_LIGHT//steel version of the studded leather armor now
 	w_class = WEIGHT_CLASS_BULKY
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/light/attack_right(mob/user)
@@ -1615,6 +1615,12 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat
 	slot_flags = ITEM_SLOT_ARMOR
