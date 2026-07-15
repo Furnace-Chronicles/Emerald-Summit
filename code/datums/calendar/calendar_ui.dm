@@ -7,7 +7,7 @@
 // ES deviation: AP opens the calendar from a clickable IC DATE line in its statbrowser panel.
 // Emerald Summit still uses the legacy stat panel (no clickable rows), so expose a verb instead.
 /client/verb/view_ic_calendar()
-	set category = "Options"
+	set category = "IC"
 	set name = "View Calendar"
 	set desc = "View the Summit Calendar - the month, season, and upcoming feast daes."
 	open_calendar_ui()
