@@ -1428,10 +1428,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(C.armor)
 			var/defense = "<u><b>ABSORPTION: </b></u><br>"
 			var/datum/armor/def_armor = C.armor
+			// No tier name on blunt: it never resolves against weapon PEN (absorb path), so naming
+			// its tier in the PEN vocabulary would imply a comparison that never happens.
 			defense += "[colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE)] | "
-			defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE)] | "
-			defense += "[colorgrade_rating("STAB", def_armor.stab, elaborate = TRUE)] | "
-			defense += "[colorgrade_rating("PIERCING", def_armor.piercing, elaborate = TRUE)] "
+			defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE, d_type = "slash")] | "
+			defense += "[colorgrade_rating("STAB", def_armor.stab, elaborate = TRUE, d_type = "stab")] | "
+			defense += "[colorgrade_rating("PIERCING", def_armor.piercing, elaborate = TRUE, d_type = "piercing")] "
 			str += "[defense]<br>"
 		else
 			str += "NO DEFENSE"

@@ -113,8 +113,13 @@
 		inspec += "\n<b>Effective Range:</b> [suffix] [effective_range] paces"
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
-	if(penfactor)
-		inspec += "\n<b>Armor Penetration:</b> [penfactor < 0 ? "NONE" : penfactor]"
+	// Named tier rather than the raw number - it's compared directly against the armor's DBLOCK
+	// tier, so both readouts should speak the same language. State it outright for anything that
+	// resolves against armor tiers, so "None" reads as a real answer instead of a blank. Blunt
+	// intents are absorbed and never check PEN, so they stay silent unless they carry a value.
+	// Negative penfactors (BLUNT_DEFAULT_PENFACTOR) name themselves None.
+	if((item_d_type in ARMOR_DBLOCK_TYPES) || penfactor)
+		inspec += "\n<b>Armor Penetration:</b> [pen_tier_name(penfactor)]"
 	if(get_chargetime())
 		inspec += "\n<b>Charge Time</b>"
 	if(movement_interrupt)

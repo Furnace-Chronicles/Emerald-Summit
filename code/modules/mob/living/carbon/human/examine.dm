@@ -350,7 +350,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
-		if(HAS_TRAIT(H, TRAIT_INTELLECTUAL) || H.get_skill_level(H, /datum/skill/craft/blacksmithing) >= SKILL_EXP_EXPERT)
+		if(HAS_TRAIT(H, TRAIT_INTELLECTUAL) || H.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_EXPERT)
 			is_smart = TRUE	//Most of this is determining integrity of objects + seeing multiple layers. 
 		if(((H?.STAINT - 10) + round((H?.STAPER - 10) / 2) + H.get_skill_level(/datum/skill/misc/reading)) < 0 && !is_smart)
 			is_stupid = TRUE
@@ -408,9 +408,12 @@
 	//suit/armor
 	if(wear_armor && !(SLOT_ARMOR in obscured))
 		var/str = "[m3] [wear_armor.generate_tooltip(wear_armor.get_examine_string(user), showcrits = (is_normal || is_smart))]. "
-		if(is_smart || is_normal)
+		// Anyone not outright stupid reads the damage state, same as every other slot.
+		// Gating this on is_normal left average examiners (who are neither stupid nor normal)
+		// with no readout at all.
+		if(!is_stupid)
 			str += wear_armor.integrity_check(is_smart)
-		else if (is_stupid)
+		else
 			if(istype(wear_armor, /obj/item/clothing/suit/roguetown/armor))
 				var/obj/item/clothing/suit/roguetown/armor/examined_armor = wear_armor
 				switch(examined_armor.armor_class)

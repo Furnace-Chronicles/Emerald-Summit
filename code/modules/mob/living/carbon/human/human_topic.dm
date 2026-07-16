@@ -402,7 +402,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 							for(var/exposed in coverage_exposed)
 								str += "<b>[exposed]</b>: <font color = '#770404'><b>EXPOSED!</B></font><br>"
 					for(var/thing in coverage)
-						str += "<b>[thing]</b> LAYERS: <b>[coverage[thing]]</b> | [colorgrade_rating("", blunt_max[thing], TRUE)] | [colorgrade_rating("", slash_max[thing], TRUE)] | [colorgrade_rating("", stab_max[thing], TRUE)] | [colorgrade_rating("", piercing_max[thing], TRUE)] <br><font color = '#a35252'>[crit_weakness[thing]]</font><br>"
+						str += "<b>[thing]</b> LAYERS: <b>[coverage[thing]]</b> | [colorgrade_rating("", blunt_max[thing], TRUE)] | [colorgrade_rating("", slash_max[thing], TRUE, "slash")] | [colorgrade_rating("", stab_max[thing], TRUE, "stab")] | [colorgrade_rating("", piercing_max[thing], TRUE, "piercing")] <br><font color = '#a35252'>[crit_weakness[thing]]</font><br>"
 					dat += str
 				else
 					dat += "<b><center>I don't know! Just hit them!</center></b>"
@@ -466,36 +466,51 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	return ..() //end of this massive fucking chain. TODO: make the hud chain not spooky. - Yeah, great job doing that. - I made it worse sorry guys.
 
 //Sorry colorblind folks...
-/proc/colorgrade_rating(input, rating, elaborate = FALSE)
+// Pass d_type ("blunt", "slash", "stab", "piercing", "fire", "acid") to label with the armor's
+// actual tier name instead of a letter grade. Without it we can't tell DR from DBLOCK, so we
+// fall back to the letter.
+/proc/colorgrade_rating(input, rating, elaborate = FALSE, d_type)
 	var/str
 	if(isnull(rating))
 		rating = 0
 	// Armor is tier-based now (0-5): DBLOCK 0-4 for slash/stab/piercing, DR 0-5 for blunt.
 	// Layered readouts can sum above a single tier, so 6+ collapses to S+.
+	var/grade
 	switch(rating)
 		if(0)
-			var/color = "#f81a1a"
-			str = "<font color = '[color]'>[input] (F)</font>"
+			grade = "F"
 		if(1)
-			var/color = "#753e11"
-			str = "<font color = '[color]'>[input] (D)</font>"
+			grade = "D"
 		if(2)
-			var/color = "#c0a739"
-			str = "<font color = '[color]'>[input] (C)</font>"
+			grade = "C"
 		if(3)
-			var/color = "#425c33"
-			str = "<font color = '[color]'>[input] (B)</font>"
+			grade = "B"
 		if(4)
-			var/color = "#0fe021"
-			str = "<font color = '[color]'>[input] (A)</font>"
+			grade = "A"
 		if(5)
-			var/color = "#339dff"
-			str = "<font color = '[color]'>[input] (S)</font>"
+			grade = "S"
 		if(6 to INFINITY)
-			var/color = "#c757af"
-			str = "<font color = '[color]'>[input] (S+)</font>"
+			grade = "S+"
 		else
-			str = "[input] (Invalid tier! Contact coders.)"
+			return "[input] (Invalid tier! Contact coders.)"
+	var/label = d_type ? "[armor_tier_name(rating, d_type)] / [grade]" : grade
+	var/color
+	switch(rating)
+		if(0)
+			color = "#f81a1a"
+		if(1)
+			color = "#753e11"
+		if(2)
+			color = "#c0a739"
+		if(3)
+			color = "#425c33"
+		if(4)
+			color = "#0fe021"
+		if(5)
+			color = "#339dff"
+		else
+			color = "#c757af"
+	str = "<font color = '[color]'>[input] ([label])</font>"
 	return str
 
 /*/proc/defense_report(var/obj/item/clothing/C, var/stupid, var/normal, var/smart, var/stupid_string)
