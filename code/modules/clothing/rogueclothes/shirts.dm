@@ -721,7 +721,7 @@
 	desc = "It's styled into the shapes of clouds. You shudder as the ink moves and condenses into areas where the skin is struck."
 	resistance_flags = FIRE_PROOF
 	icon_state = "easttats"
-	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_MEDIUM, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	body_parts_covered = COVERAGE_FULL

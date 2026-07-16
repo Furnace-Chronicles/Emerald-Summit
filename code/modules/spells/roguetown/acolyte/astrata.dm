@@ -679,7 +679,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 		var/obj/item/rogueweapon/weapon = source
 		estimated_damage = weapon.force
 	
-	W.upgrade(estimated_damage, 0)  // 0 armor for full pain effect
+	W.upgrade(estimated_damage)
 	
 	// Add stress event
 	living_target.add_stress(/datum/stressevent/scorch)
@@ -705,7 +705,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	// Apply the wound (pain only)
 	var/datum/wound/scorch/W = new()
 	affecting.add_wound(W)
-	W.upgrade(10, 0)  // Unarmed strike - less damage, less pain
+	W.upgrade(10)  // Unarmed strike - less damage
 	
 	// Add stress event
 	H.add_stress(/datum/stressevent/scorch)

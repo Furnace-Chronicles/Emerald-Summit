@@ -254,7 +254,7 @@
 	dropshrink = 0.8
 	slot_flags = null
 	resistance_flags = NONE
-	armor = list("blunt" = 25, "slash" = 20, "stab" = 15, "piercing" = 0, "fire" = 75, "acid" = 50) //Weak melee protection, because you can wear it on your head
+	armor = list("blunt" = 25, "slash" = 20, "stab" = 15, "piercing" = 0, "fire" = 75, "acid" = 50) //INTEGRITY_ARMOR - object integrity (System B), stays 0-100. Not worn protection: get_best_worn_armor() only reads /obj/item/clothing.
 	slot_equipment_priority = list( \
 		SLOT_BACK, SLOT_RING,\
 		SLOT_PANTS, SLOT_ARMOR,\
