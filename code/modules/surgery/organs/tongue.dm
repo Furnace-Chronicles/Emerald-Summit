@@ -26,6 +26,7 @@
 		/datum/language/gronnic,
 		/datum/language/aavnic,
 		/datum/language/abyssal,
+		/datum/language/enochian,
 	))
 
 /obj/item/organ/tongue/Initialize(mapload)
