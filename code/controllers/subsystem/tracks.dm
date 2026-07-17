@@ -98,6 +98,15 @@ PROCESSING_SUBSYSTEM_DEF(tracks)
 		qdel(T)
 		return
 
+	// Must leave processing before pooling. soft_reset() zeroes expiry_time, so a pooled track that
+	// is still in processing trivially satisfies fire()'s `world.time >= T.expiry_time` and gets
+	// recycled a SECOND time -- putting one object in the pool twice. get_track() then hands that
+	// single object to two creators: it forceMoves off the first mob's turf (the track silently
+	// vanishes), and because get_track() does not soft_reset(), the first creator's
+	// COMSIG_PARENT_QDELETING registration is never dropped -- which is the "parent_qdeleting
+	// overridden" spam. fire() removed it from processing itself, but the create_track() caller
+	// never did, so the removal belongs here where every caller gets it.
+	remove_track(T)
 	T.soft_reset()
 	T.moveToNullspace()
 	pool += T
