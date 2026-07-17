@@ -1006,7 +1006,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 ///Add a spell to the mobs spell list
 /mob/proc/AddSpell(obj/effect/proc_holder/spell/S)
 	mob_spell_list += S
-	S.action.Grant(src)
+	// action is only ever built in Initialize(), and /atom/New skips InitAtom entirely while
+	// SSatoms.initialized == INITIALIZATION_INSSATOMS -- so a spell created before SSatoms comes up
+	// has none. The lobby character preview reaches here during the init window (refresh_preview ->
+	// copy_to(dummy) -> set_species() -> AddSpell), and a mannequin that will never press the button
+	// is not worth a runtime.
+	S.action?.Grant(src)
 
 ///Remove a spell from the mobs spell list
 /mob/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)
