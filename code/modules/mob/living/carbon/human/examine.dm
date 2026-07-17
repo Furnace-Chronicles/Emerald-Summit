@@ -1171,13 +1171,18 @@
 	var/is_druid = FALSE
 	var/output = ""
 	if(job)
+		// if(job) only proves the string is non-empty. GetJob() is a bare name_occupations lookup
+		// with no fallback, so it returns null for any title never registered as a /datum/job --
+		// NPC flavor titles ("Highwayman", "Thief") and in-round reassignments ("Towner",
+		// "Grand Duke") both qualify, and examining one of those was enough to runtime.
 		var/datum/job/J = SSjob.GetJob(job)
-		if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
-			is_clergy = TRUE
-		if(J.title == "Jester")
-			is_jester = TRUE
-		if(J.title == "Druid")
-			is_druid = TRUE
+		if(J)
+			if(J.department_flag == CHURCHMEN) //There may be a better way to check who is clergy, but this will do for now
+				is_clergy = TRUE
+			if(J.title == "Jester")
+				is_jester = TRUE
+			if(J.title == "Druid")
+				is_druid = TRUE
 	if(social_rank && !HAS_TRAIT(user, TRAIT_OUTLANDER))
 		var/examiner_rank = user.social_rank
 		var/rank_name
