@@ -32,6 +32,15 @@
 	return copy
 
 /datum/language_holder/proc/grant_language(datum/language/dt, shadow = FALSE)
+	// These lists are typecaches keyed by typepath -- is_type_in_typecache() indexes them as
+	// L[ispath(A) ? A : A:type]. prefs.extra_language is a STRING ("None" when the player picked
+	// nothing), and callers hand it straight to us, so "None" ended up cached as a language. Every
+	// later has_language("None") then evaluated "None":type and runtimed, and because the say path
+	// checks a language per message it fired constantly. Reject anything that isn't a language path
+	// here rather than at each call site: copy_known_languages_from() re-grants another holder's
+	// keys, so one poisoned holder would otherwise seed every holder copied from it.
+	if(!ispath(dt, /datum/language))
+		return
 	if(shadow)
 		shadow_languages[dt] = TRUE
 	else
