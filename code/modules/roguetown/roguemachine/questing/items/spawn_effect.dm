@@ -15,7 +15,10 @@
 
 /obj/effect/quest_spawn/Destroy(force)
 	QDEL_NULL(contained_atom)
-	proximity_monitor = null
+	// Must QDEL, not null: only the monitor's own Destroy() runs QDEL_LIST(checkers), and this
+	// spawner has 225 of them (range 7). Assigning null instead orphans every checker on the map
+	// with a dangling monitor, and each one runtimes on Crossed() for the rest of the round.
+	QDEL_NULL(proximity_monitor)
 	. = ..()
 
 /obj/effect/quest_spawn/HasProximity(mob/nearby)
