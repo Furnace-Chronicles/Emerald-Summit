@@ -90,6 +90,18 @@
 			new_flags |= thing.flags_inv
 	obscured_flags = new_flags
 
+/mob/living/carbon/human/rebuild_obscured_flags()
+	// Carry/storage slots (back, belt, hip pouches) hold arbitrary items; their flags_inv must NOT
+	// obscure the body just because something is stashed there. Only genuinely worn slots count.
+	// Without this, e.g. a pumpkin lamptern (HIDEHAIR) on your belt keeps you bald with nothing on your head.
+	var/new_flags = NONE
+	for(var/obj/item/thing as anything in get_equipped_items(FALSE))
+		if(thing == back || thing == belt || thing == beltr || thing == beltl || thing == backr || thing == backl)
+			continue
+		if(thing.flags_inv)
+			new_flags |= thing.flags_inv
+	obscured_flags = new_flags
+
 /// Tries to get the mob's displayed class title, and return it as a string.
 /// This should always return a string, even an empty one. CHECK ITS length()!
 /mob/living/proc/get_class_title(unknown_class_if_empty = FALSE)
