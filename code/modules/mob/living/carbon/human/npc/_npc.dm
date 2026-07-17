@@ -76,8 +76,13 @@
 	set_new_cells()
 
 /mob/living/carbon/human/Destroy()
+	// Order matters, and nulling first is what made this runtime. ..() eventually moves us to
+	// nullspace, and doMove() flushes any deferred Moved() (RESOLVE_ACTIVE_MOVEMENT) at its top --
+	// while loc is still a real turf. That reaches update_grid() -> set_new_cells(), whose null-turf
+	// guard therefore passes, and it dereferences our_cells. /mob/living/simple_animal/Destroy()
+	// already orders it this way.
+	. = ..()
 	our_cells = null
-	return ..()
 
 /mob/living/carbon/human/proc/IsStandingStill()
 	return doing || resisting || pickpocketing
