@@ -178,7 +178,7 @@
 
 //Antag / Special / Unique armor defines
 #define ARMOR_REGENERATING_BROKEN list("blunt" = DR_LIGHT, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
-#define ARMOR_VAMP list("blunt" = DR_ULTRA, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_HEAVY, "fire" = DR_NONE, "acid" = DR_NONE)
+#define ARMOR_VAMP list("blunt" = DR_ULTRA, "slash" = DBLOCK_BSTEEL, "stab" = DBLOCK_BSTEEL, "piercing" = DBLOCK_BSTEEL, "fire" = DR_NONE, "acid" = DR_NONE) // Blacksteel antag plate — top of the DBLOCK scale.
 #define ARMOR_WWOLF list("blunt" = DR_ULTRA, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM, "acid" = DR_NONE)
 // Gnoll hide tiers scale monotonically: STRONG > STANDARD > WEAK for every damage type.
 // Hide keeps its character (slightly tougher vs slash/stab than blunt) but the tank hide is no longer
