@@ -11,6 +11,9 @@
 	var/item_type
 	/// When TRUE, fulfillment accepts any subtype of item_type (used for goods with many cosmetic variants)
 	var/accept_subtypes = FALSE
+	/// Optional list of additional EXACT item types fulfillment accepts, for goods with no single
+	/// base type (e.g. a prosthetic limb good matching all four limb variants of one material).
+	var/list/alt_item_types
 	var/global_price_mod = 1.0
 	var/derive_price = FALSE
 	var/mint_eligible = FALSE

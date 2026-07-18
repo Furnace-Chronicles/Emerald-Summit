@@ -47,6 +47,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"templates" = list(
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_jewelry,
+			/datum/standing_order/demand_curio_collection,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_great_feast_proteins,
 		),
@@ -143,11 +144,12 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		last_petition_day = GLOB.dayspassed
 	petitions_today++
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	// Weighted like the daily roller, so a template's roll_weight matters for petitions too.
 	var/list/eligible = list()
 	for(var/template_path in cat["templates"])
 		if(template_path in region.possible_standing_order_types)
-			eligible += template_path
-	var/template = pick(eligible)
+			eligible[template_path] = region.possible_standing_order_types[template_path]
+	var/template = pickweight(eligible)
 	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * STANDING_ORDER_POP_SCALE_PER_PLAYER))
 	var/datum/standing_order/probe = template
 	var/datum/standing_order/O

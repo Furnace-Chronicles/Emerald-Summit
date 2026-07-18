@@ -62,12 +62,12 @@
 
 /datum/trade_good/equipment/crafted/steel_halfplate
 	id = TRADE_GOOD_STEEL_HALFPLATE
-	name = "steel halfplate"
+	name = "steel half-plate"
 	item_type = /obj/item/clothing/suit/roguetown/armor/plate
 
 /datum/trade_good/equipment/crafted/steel_halfplate_fluted
 	id = TRADE_GOOD_STEEL_COATPLATES
-	name = "fluted halfplate"
+	name = "fluted half-plate"
 	item_type = /obj/item/clothing/suit/roguetown/armor/plate/fluted
 
 /datum/trade_good/equipment/crafted/steel_fullplate
@@ -81,7 +81,7 @@
 
 /datum/trade_good/equipment/crafted/helm_knight
 	id = TRADE_GOOD_STEEL_HELM_KNIGHT
-	name = "knight's armet"
+	name = "knight's helmet"
 	item_type = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 
 /datum/trade_good/equipment/crafted/helm_bascinet

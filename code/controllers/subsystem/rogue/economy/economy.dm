@@ -71,6 +71,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_jewelry,
+			/datum/standing_order/demand_curio_collection,
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_arcane_commission,
@@ -80,6 +81,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_exotic,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_fine_joinery,
+			/datum/standing_order/demand_curio_collection,
 		),
 		TRADE_REGION_ROCKHILL = list(
 			/datum/standing_order/demand_orchard,
@@ -89,6 +91,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_jewelry,
+			/datum/standing_order/demand_curio_collection,
 			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_trophy_heads,
 			/datum/standing_order/demand_arcane_commission,
@@ -163,6 +166,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_jewelry,
+			/datum/standing_order/demand_curio_collection,
 			/datum/standing_order/demand_prosthetic_run,
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_arms,
@@ -693,13 +697,19 @@ SUBSYSTEM_DEF(economy)
 				continue
 			for(var/good_id in goods)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				if(!tg || !tg.item_type || !istype(I, tg.item_type))
+				if(!tg)
 					continue
 				// Exact-type match by default — avoids counting donator/unique subtypes
 				// against Crown manifest orders. Goods with accept_subtypes set opt out
 				// (e.g. enchantment scrolls — every spell is a distinct subtype, but the
-				// Crown treats each tier as one fungible commodity).
-				if(!tg.accept_subtypes && I.type != tg.item_type)
+				// Crown treats each tier as one fungible commodity). alt_item_types adds
+				// extra exact types for goods with no single base type (prosthetic limbs).
+				var/matched = FALSE
+				if(tg.item_type && istype(I, tg.item_type) && (tg.accept_subtypes || I.type == tg.item_type))
+					matched = TRUE
+				else if(length(tg.alt_item_types) && (I.type in tg.alt_item_types))
+					matched = TRUE
+				if(!matched)
 					continue
 				if(found_by_good[good_id] >= order.required_items[good_id])
 					continue

@@ -310,15 +310,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_STEEL_MESSER,
 		TRADE_GOOD_STEEL_SABRE,
 		TRADE_GOOD_STEEL_MACE,
-		TRADE_GOOD_STEEL_FLANGED_MACE,
 		TRADE_GOOD_STEEL_FLAIL,
 	)
 	var/list/two_ingot_pool = list(
 		TRADE_GOOD_STEEL_LONGSWORD,
-		TRADE_GOOD_STEEL_BROADSWORD,
 		TRADE_GOOD_STEEL_WARHAMMER,
 		TRADE_GOOD_STEEL_BATTLEAXE,
-		TRADE_GOOD_HURLBAT,
 	)
 
 /datum/standing_order/demand_equipment_armaments/generate_item_mix()
@@ -360,7 +357,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_BRIGANDINE_HEAVY,
 	)
 	var/list/plate_pool = list(
-		TRADE_GOOD_STEEL_CUIRASS,
 		TRADE_GOOD_STEEL_COATPLATES,
 		TRADE_GOOD_STEEL_HALFPLATE,
 		TRADE_GOOD_STEEL_FULLPLATE,
@@ -652,7 +648,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // demand_birthday_gift - a named noble's name-day gift basket
 // ============================================================================
 /datum/standing_order/demand_birthday_gift
-	roll_weight = 2
+	roll_weight = 1 // was 2 - it's in 7 of 9 regions, so its always-silk+jacksberries mix dominated the pool
 	var/list/celebrants_by_region = list(
 		TRADE_REGION_KINGSFIELD = list(
 			"Lady Marisol of Cherrybrook",
@@ -676,8 +672,13 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/jewelry_pool = list(
 		TRADE_GOOD_AMBER_RING,
 		TRADE_GOOD_GOLD_RING,
+		TRADE_GOOD_JADE_RING,
+		TRADE_GOOD_OPAL_RING,
 		TRADE_GOOD_AMBER_AMULET,
 		TRADE_GOOD_JADE_AMULET,
+		TRADE_GOOD_TURQ_AMULET,
+		TRADE_GOOD_ROSE_BRACELETS,
+		TRADE_GOOD_SHELL_BRACELETS,
 	)
 	var/list/garment_pool = list(
 		TRADE_GOOD_NOBLECOAT,
@@ -819,6 +820,26 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_SILK_TUNIC,
 		TRADE_GOOD_SEASONAL_GOWN,
 		TRADE_GOOD_MAID_DRESS,
+		TRADE_GOOD_NOBLE_DRESS,
+		TRADE_GOOD_VELVET_DRESS,
+		TRADE_GOOD_ORNATE_SILK_DRESS,
+		TRADE_GOOD_SILKY_DRESS,
+		TRADE_GOOD_SPRING_GOWN,
+		TRADE_GOOD_FALL_GOWN,
+		TRADE_GOOD_WINTER_GOWN,
+	)
+	var/list/accessory_pool = list(
+		TRADE_GOOD_LORDLY_CLOAK,
+		TRADE_GOOD_LADY_SHORTCLOAK,
+		TRADE_GOOD_FUR_OVERCOAT,
+		TRADE_GOOD_FANCY_HAT,
+		TRADE_GOOD_NOBLE_CHAPERON,
+	)
+	// Rare capstone piece - royal wardrobe tier.
+	var/list/royal_pool = list(
+		TRADE_GOOD_ROYAL_DRESS,
+		TRADE_GOOD_PRISTINE_DRESS,
+		TRADE_GOOD_GILDED_DRESS_SHIRT,
 	)
 
 /datum/standing_order/demand_court_finery/generate_item_mix()
@@ -827,8 +848,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(prob(50))
 		var/second = pick(finery_pool)
 		mix[second] = rand(1, 3)
+	if(prob(45))
+		mix[pick(accessory_pool)] = rand(1, 2)
 	if(prob(20))
-		mix[TRADE_GOOD_ROYAL_DRESS] = 1
+		mix[pick(royal_pool)] = 1
 	return mix
 
 /datum/standing_order/demand_court_finery/generate_name(datum/economic_region/region)
@@ -909,26 +932,64 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // demand_jewelry - jeweler's stocking order
 // ============================================================================
 /datum/standing_order/demand_jewelry
-	roll_weight = 2
+	roll_weight = 3 // was 2 - players report jewelry commissions almost never appear
 	var/list/project_by_region = list(
 		TRADE_REGION_KINGSFIELD = list("a court jeweler", "a master goldsmith", "a noble household's wardrobe"),
 		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a temple reliquary's commission", "a wedding-bound house"),
 		TRADE_REGION_ROCKHILL = list("a country estate's jeweler", "a name-day finery commission", "a sun-shy aristocrat's heirloom resetting"),
 	)
-	var/list/jewelry_pool = list(
-		TRADE_GOOD_AMBER_RING,
+	var/list/ring_pool = list(
 		TRADE_GOOD_GOLD_RING,
 		TRADE_GOOD_EMERALD_RING,
+		TRADE_GOOD_AMBER_RING,
+		TRADE_GOOD_JADE_RING,
+		TRADE_GOOD_SHELL_RING,
+		TRADE_GOOD_ROSE_RING,
+		TRADE_GOOD_ONYXA_RING,
+		TRADE_GOOD_TURQ_RING,
+		TRADE_GOOD_CORAL_RING,
+		TRADE_GOOD_OPAL_RING,
+	)
+	var/list/amulet_pool = list(
 		TRADE_GOOD_AMBER_AMULET,
 		TRADE_GOOD_JADE_AMULET,
+		TRADE_GOOD_SHELL_AMULET,
+		TRADE_GOOD_ROSE_AMULET,
+		TRADE_GOOD_ONYXA_AMULET,
+		TRADE_GOOD_TURQ_AMULET,
+		TRADE_GOOD_CORAL_AMULET,
+		TRADE_GOOD_OPAL_AMULET,
+	)
+	var/list/bracelet_pool = list(
+		TRADE_GOOD_AMBER_BRACELETS,
+		TRADE_GOOD_JADE_BRACELETS,
+		TRADE_GOOD_SHELL_BRACELETS,
+		TRADE_GOOD_ROSE_BRACELETS,
+		TRADE_GOOD_ONYXA_BRACELETS,
+		TRADE_GOOD_TURQ_BRACELETS,
+		TRADE_GOOD_CORAL_BRACELETS,
+		TRADE_GOOD_OPAL_BRACELETS,
+	)
+	var/list/circlet_pool = list(
+		TRADE_GOOD_AMBER_CIRCLET,
+		TRADE_GOOD_JADE_CIRCLET,
+		TRADE_GOOD_SHELL_CIRCLET,
+		TRADE_GOOD_ROSE_CIRCLET,
+		TRADE_GOOD_ONYXA_CIRCLET,
+		TRADE_GOOD_TURQ_CIRCLET,
+		TRADE_GOOD_CORAL_CIRCLET,
+		TRADE_GOOD_OPAL_CIRCLET,
 	)
 
 /datum/standing_order/demand_jewelry/generate_item_mix()
 	var/list/mix = list()
-	mix[pick(jewelry_pool)] = rand(2, 4)
+	mix[pick(ring_pool)] = rand(2, 4)
 	if(prob(60))
-		var/second = pick(jewelry_pool)
-		mix[second] = rand(1, 3)
+		mix[pick(amulet_pool)] = rand(1, 3)
+	if(prob(45))
+		mix[pick(bracelet_pool)] = rand(1, 3)
+	if(prob(30))
+		mix[pick(circlet_pool)] = 1 // showpiece
 	if(prob(15))
 		mix[TRADE_GOOD_DIAMOND_RING] = 1
 	return mix
@@ -939,8 +1000,49 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_jewelry/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished rings and amulets for their stock."
-	return "A jeweler at [region.name] is buying finished rings and amulets."
+		return "[capitalize(pick(projects))] at [region.name] requires finished jewelry - rings, amulets, bracelets, and circlets - for their stock."
+	return "A jeweler at [region.name] is buying finished jewelry - rings, amulets, bracelets, and circlets."
+
+
+// ============================================================================
+// demand_curio_collection - a collector buys the gemcarver's decorative work
+// ============================================================================
+/datum/standing_order/demand_curio_collection
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("a court curio collector", "a guildhall's display commission", "a merchant prince's parlor"),
+		TRADE_REGION_ROCKHILL = list("a viscount's trophy room", "a country estate's parlor", "an oddly pale-skinned aristocrat's gallery"),
+		TRADE_REGION_HEARTFELT = list("the count's manor hall", "a temple reliquary's commission", "a wedding-bound house"),
+		TRADE_REGION_ROSAWOOD = list("a woodland shrine's offering", "a reclusive collector's agent"),
+	)
+	var/list/small_curio_pool = list(
+		TRADE_GOOD_CARVED_CAMEO,
+		TRADE_GOOD_CARVED_FIGURINE,
+		TRADE_GOOD_CARVED_VASE,
+	)
+	var/list/showpiece_pool = list(
+		TRADE_GOOD_CARVED_FANCY_VASE,
+		TRADE_GOOD_CARVED_BUST,
+		TRADE_GOOD_CARVED_STATUE,
+	)
+
+/datum/standing_order/demand_curio_collection/generate_item_mix()
+	var/list/mix = list()
+	mix[pick(small_curio_pool)] = rand(2, 4)
+	if(prob(50))
+		mix[pick(small_curio_pool)] = rand(1, 3)
+	if(prob(40))
+		mix[pick(showpiece_pool)] = 1
+	return mix
+
+/datum/standing_order/demand_curio_collection/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - COLLECTOR'S COMMISSION"
+
+/datum/standing_order/demand_curio_collection/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] commissions carved gemstone curios - any stone will serve."
+	return "A collector at [region.name] commissions carved gemstone curios - any stone will serve."
 
 
 // ============================================================================
@@ -958,8 +1060,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/mix = list()
 	var/primary_prosthetic = pick(TRADE_GOOD_BRONZE_PROSTHETIC, TRADE_GOOD_IRON_PROSTHETIC)
 	mix[primary_prosthetic] = rand(2, 3)
-	if(prob(35))
-		mix[TRADE_GOOD_STEEL_PROSTHETIC] = 1
 	mix[TRADE_GOOD_HEALTH_POTION] = rand(4, 7)
 	if(prob(60))
 		mix[TRADE_GOOD_CURED_LEATHER] = rand(4, 8)
@@ -988,7 +1088,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_artificed_panoply/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_ARTIFICED_HALFPLATE] = 1
+	mix[TRADE_GOOD_STEEL_FULLPLATE] = 1
 	if(prob(55))
 		mix[TRADE_GOOD_VOLTIC_GAUNTLETS] = 1
 	mix[TRADE_GOOD_STEEL_INGOT] = rand(8, 14)
@@ -1132,10 +1232,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_trophy_heads/generate_item_mix()
 	var/list/mix = list()
 	var/roll = rand(1, 100)
-	if(roll <= 30)
-		rolled_variant = "white_stag"
-		mix[TRADE_GOOD_TROPHY_WHITE_STAG] = 1
-	else if(roll <= 65)
+	if(roll <= 50) // white stag heads don't exist in ES - its old 30% share folds into the others
 		rolled_variant = "minotaur"
 		mix[TRADE_GOOD_TROPHY_MINOTAUR] = rand(3, 6)
 		if(prob(60))
@@ -1147,8 +1244,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_trophy_heads/generate_name(datum/economic_region/region)
 	switch(rolled_variant)
-		if("white_stag")
-			return "[uppertext(region.name)] - WHITE STAG TROPHY"
 		if("troll")
 			return "[uppertext(region.name)] - TROLL HEADS"
 		else
@@ -1158,8 +1253,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/projects = project_by_region[region.region_id]
 	var/patron = length(projects) ? capitalize(pick(projects)) : "A noble house"
 	switch(rolled_variant)
-		if("white_stag")
-			return "[patron] at [region.name] would mount the White Stag's head above their hearth. None other will do."
 		if("troll")
 			return "[patron] at [region.name] would line their hall with troll heads - a warning to any who would test the marches."
 		else
