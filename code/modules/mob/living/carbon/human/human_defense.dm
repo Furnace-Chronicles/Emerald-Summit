@@ -87,7 +87,9 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				// obj_broken check: clothing breaks at 10% integrity, well above 1 —
+				// without it, broken armor (gnoll hide etc.) kept blocking crits.
+				if(C.obj_integrity > 1 && !C.obj_broken)
 					if(d_type in C.prevent_crits)
 						return TRUE
 
@@ -107,7 +109,7 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
-				if(C.obj_integrity > 1)
+				if(C.obj_integrity > 1 && !C.obj_broken)
 					if(bclass in C.prevent_crits)
 						if(!best_armor)
 							best_armor = C
