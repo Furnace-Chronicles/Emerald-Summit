@@ -32,15 +32,11 @@
 /proc/get_gnoll_tracking_combat_roles()
 	var/static/list/combat_roles = list(
 		"Orthodoxist" = TRUE,
-		"Absolver" = TRUE,
 		"Templar" = TRUE,
 		"Sergeant" = TRUE,
 		"Man at Arms" = TRUE,
 		"Knight" = TRUE,
-		"Squire" = TRUE,
-		"Mercenary" = TRUE,
 		"Warden" = TRUE,
-		"Acolyte" = TRUE,
 		"Vanguard" = TRUE,
 		"City Guard" = TRUE,
 		"Bandit" = TRUE,
