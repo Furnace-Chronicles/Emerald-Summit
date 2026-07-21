@@ -86,6 +86,7 @@
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	has_item_quality = TRUE
 	name = "crude selfbow"
 	desc = "This roughly hewn selfbow is crude and weak, and none too accurate -- but what it lacks in \
 	poundage it makes up for with a decently swift draw."

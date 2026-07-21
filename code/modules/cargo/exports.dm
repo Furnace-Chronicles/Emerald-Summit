@@ -28,6 +28,8 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 /atom/movable
 	var/sellprice = 0 //sanitize this somewhere so it cant be decimals
 	var/static_price = FALSE
+	var/looted = FALSE
+	var/no_loot_taint = FALSE
 
 /atom/movable/proc/randomize_price()
 	if(sellprice)
@@ -39,6 +41,8 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 /atom/movable/proc/get_real_price()
 	if(sellprice == initial(sellprice))
 		randomize_price()
+	if(looted)
+		return max(1, round(sellprice * LOOTED_SELL_MULT))
 	return sellprice
 
 /atom/movable/proc/pre_sell()

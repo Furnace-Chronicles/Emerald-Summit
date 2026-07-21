@@ -28,6 +28,7 @@
 	var/lockid = "nightman"
 	var/list/categories = list(
 		"Alcohols",
+		"Discreet Zads", // Zadcote port (Step 12): bathhouse zad restock + spare cages, mirroring AP's bathmaster.dm
 		"Drugs",
 		"Exotic Apparel",
 		"Instruments",

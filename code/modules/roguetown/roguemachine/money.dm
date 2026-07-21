@@ -120,9 +120,11 @@ GLOBAL_VAR(moneymaster)
 							budget -= 1
 		update_icon()
 
-/obj/structure/roguemachine/proc/budget2change(budget, mob/user, specify)
+/obj/structure/roguemachine/proc/budget2change(budget, mob/user, specify, turf/custom_turf)
 	var/turf/T
-	if(!user || (!ismob(user)))
+	if(custom_turf)
+		T = custom_turf
+	else if(!user || (!ismob(user)))
 		T = get_turf(src)
 	else
 		T = get_turf(user)
@@ -200,6 +202,13 @@ GLOBAL_VAR(moneymaster)
 
 /obj/structure/roguemachine
 	var/budget
+
+// ES deviation: base /datum/ui_status grants any observer in view range UI_UPDATE, so ghosts
+// could open every roguemachine tgui read-only via /obj/attack_ghost -> ui_interact. Block them.
+/obj/structure/roguemachine/ui_status(mob/user, datum/ui_state/state)
+	if(isobserver(user))
+		return UI_CLOSE
+	return ..()
 
 /obj/structure/roguemachine/proc/withdrawbudget(mob/user)
 	var/amt = budget

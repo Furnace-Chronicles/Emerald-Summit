@@ -11,19 +11,24 @@
 /mob/living/COOLDOWN_DECLARE(hireme_cooldown)
 #define HIREME_COOLDOWN_DELAY (20 SECONDS)
 
+/// Economy 3 port note: this used to add_post() straight into the noticeboard's Sellswords
+/// category (GLOB.sellsword_noticeboardposts, now gone). That whole DM/roster system now
+/// lives on the dedicated mercenary statue (talkstatue_mercenary.dm) - register the new
+/// mercenary there directly instead, same as the statue's own Topic("register") handler,
+/// just without requiring the player to click a "touch the statue" link first (ES has
+/// always auto-prompted for a sellsword listing at spawn).
 /proc/merc_edit_posting(mob/living/carbon/human/H)
+	var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+	if(!statue && length(SSroguemachine.mercenary_statues))
+		statue = SSroguemachine.mercenary_statues[1]
+	if(!statue)
+		return
 	var/inputmessage = stripped_multiline_input(H, "What shall I write my mercenary posting?", "MERCENARY", no_trim=TRUE)
-	message_admins("[ADMIN_LOOKUPFLW(H)] has made a notice board post. The message was: [inputmessage]")
-	add_post(
-		message = inputmessage,
-		chosentitle = "[H.real_name], [H.advjob]",
-		chosenname = MERC_STATUS_AVAILABLE,
-		chosenrole = "<a href='?src=[REF(H)];task=view_headshot;'>Further Details</a>",
-		truename = H.real_name,
-		category = NOTICEBOARD_CAT_SELLSWORDS,
-		author = H
-	)
-	SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_ADDED, null)
+	if(!inputmessage)
+		inputmessage = ""
+	message_admins("[ADMIN_LOOKUPFLW(H)] has made a mercenary statue posting. The message was: [inputmessage]")
+	statue.mercenary_status[H.real_name] = list("status" = "Available", "mob" = H, "message" = inputmessage)
+	to_chat(H, span_boldnotice("I have registered with the Mercenary Guild! I am now listed as <b>Available</b>."))
 
 /mob/living/carbon/human/proc/hireme()
 	set name = "~Mercenary. Hire Me!"

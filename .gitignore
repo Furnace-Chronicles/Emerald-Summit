@@ -234,3 +234,6 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 
 
 
+
+# Local working notes (map-placement guide etc.) - not game content
+notes/

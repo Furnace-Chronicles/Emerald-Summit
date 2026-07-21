@@ -21,6 +21,7 @@ LICH SKELETONS
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+	H.taints_loot = TRUE
 
 // Melee goon w/ javelins. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire

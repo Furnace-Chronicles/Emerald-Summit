@@ -189,6 +189,7 @@
 				var/newmaxinteg = IT.max_integrity
 				var/newinteg = IT.obj_integrity
 				var/newprice = IT.sellprice
+				var/newquality = IT.item_quality
 				var/obj/item/lockpick/L = IT
 				var/newpicklvl = L.picklvl
 				var/obj/item/rogueweapon/W = IT
@@ -210,6 +211,7 @@
 					editme.max_integrity = newmaxinteg
 					editme.obj_integrity = newinteg
 					editme.sellprice = newprice
+					editme.item_quality = newquality
 					if(istype(editme, /obj/item/lockpick))
 						editme.picklvl = newpicklvl
 					if(istype(editme, /obj/item/rogueweapon))

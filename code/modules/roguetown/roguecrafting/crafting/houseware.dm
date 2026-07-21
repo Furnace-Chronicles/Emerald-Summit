@@ -1,4 +1,5 @@
 /datum/crafting_recipe/roguetown/survival/spoon
+	display_category = ITEM_CAT_DECORATION
 	name = "spoon (x3)"
 	category = "Houseware"
 	result = list(
@@ -9,6 +10,7 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/fork
+	display_category = ITEM_CAT_DECORATION
 	name = "fork (x3)"
 	category = "Houseware"
 	result = list(
@@ -19,6 +21,7 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/platter
+	display_category = ITEM_CAT_DECORATION
 	name = "platter (x2)"
 	category = "Houseware"
 	result = list(
@@ -28,12 +31,14 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/rollingpin
+	display_category = ITEM_CAT_DECORATION
 	name = "rollingpin"
 	category = "Houseware"
 	result = /obj/item/kitchen/rollingpin
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/woodbucket
+	display_category = ITEM_CAT_DECORATION
 	name = "wooden bucket"
 	category = "Houseware"
 	result = /obj/item/reagent_containers/glass/bucket
@@ -42,6 +47,7 @@
 	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/survival/woodcup
+	display_category = ITEM_CAT_DECORATION
 	name = "wooden cups (x3)"
 	category = "Houseware"
 	result = list(
@@ -55,6 +61,7 @@
 	sellprice = 3
 
 /datum/crafting_recipe/roguetown/survival/woodtray
+	display_category = ITEM_CAT_DECORATION
 	name = "wooden trays (x2)"
 	category = "Houseware"
 	result = list(
@@ -64,6 +71,7 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/woodbowl
+	display_category = ITEM_CAT_DECORATION
 	name = "wooden bowls (x3)"
 	category = "Houseware"
 	result = list(
@@ -74,12 +82,14 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /datum/crafting_recipe/roguetown/survival/pot
+	display_category = ITEM_CAT_DECORATION
 	name = "stone pot"
 	category = "Houseware"
 	result = /obj/item/reagent_containers/glass/bucket/pot/stone
 	reqs = list(/obj/item/natural/stone = 2)
 
 /datum/crafting_recipe/roguetown/survival/soap
+	display_category = ITEM_CAT_DECORATION
 	name = "soap (3x)"
 	category = "Houseware"
 	result = list(
@@ -90,6 +100,7 @@
 	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1)
 
 /datum/crafting_recipe/roguetown/survival/candle
+	display_category = ITEM_CAT_DECORATION
 	name = "candle (x3)"
 	category = "Houseware"
 	result = list(
@@ -100,6 +111,7 @@
 	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1)
 
 /datum/crafting_recipe/roguetown/survival/candle/eora
+	display_category = ITEM_CAT_DECORATION
 	name = "eora's candle (x3)"
 	category = "Houseware"
 	result = list(

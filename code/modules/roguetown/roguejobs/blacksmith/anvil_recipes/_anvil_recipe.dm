@@ -20,13 +20,22 @@
 	var/bar_health = 100 // Current material bar health, reduced by failures. At 0 HP it is deleted.
 	var/numberofhits = 0 // Increased every time you hit the bar, the more you have to hit the bar the less quality of the product.
 	var/numberofbreakthroughs = 0 // How many good hits we got on the metal, advances recipes 50% faster, reduces number of hits total, and restores bar_health
+	var/smith_skill_level = 0 // Highest skill level of any smith who landed a hit on this bar. Used to clamp final tier.
 	/// Minimum rotational network RPM the autosmither needs to work on this recipe
 	var/rotations_required = 1
+	var/skip_quality = FALSE
+	var/min_input_quality = null
 	var/datum/parent
 
 /datum/anvil_recipe/New(datum/P, ...)
 	parent = P
 	. = ..()
+
+/datum/anvil_recipe/proc/track_input_quality(obj/item/I)
+	if(!istype(I) || !I.has_item_quality)
+		return
+	if(min_input_quality == null || I.item_quality < min_input_quality)
+		min_input_quality = I.item_quality
 
 /datum/anvil_recipe/proc/advance(mob/user, breakthrough = FALSE, advance_multiplier = 1)
 	if(!isliving(user))
@@ -35,6 +44,8 @@
 	var/moveup = 1
 	var/proab = 0 // Probability to not spoil the bar
 	var/skill_level	= user.get_skill_level(appro_skill)
+	if(skill_level > smith_skill_level)
+		smith_skill_level = skill_level
 	if(progress >= max_progress)
 		to_chat(user, span_info("It's ready."))
 		user.visible_message(span_warning("[user] strikes the bar!"))
@@ -120,42 +131,71 @@
 	skill_quality = floor((skill_quality/num_of_materials)/1500)+material_quality
 	// Finally, the more hits the thing required, the less quality it will be, to prevent low level smiths from dishing good stuff
 	skill_quality -= floor(numberofhits * 0.25)
-	var/modifier // Multiplier which will determine quality of final product depending on final skill_quality calculation
+	// Floor/cap the tier based on the highest smith skill that hit the bar.
+	// Mirrors the generic apply_quality bands: Journeyman = Standard only,
+	// Expert+ guarantees Fine or above, low skill cannot luck into bonuses.
+	var/skill_floor
+	var/skill_ceiling
+	switch(smith_skill_level)
+		if(SKILL_LEVEL_NONE)
+			skill_floor = BLACKSMITH_LEVEL_MIN
+			skill_ceiling = BLACKSMITH_LEVEL_CRUDE
+		if(SKILL_LEVEL_NOVICE)
+			skill_floor = BLACKSMITH_LEVEL_MIN
+			skill_ceiling = BLACKSMITH_LEVEL_ROUGH
+		if(SKILL_LEVEL_APPRENTICE)
+			skill_floor = BLACKSMITH_LEVEL_CRUDE
+			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
+		if(SKILL_LEVEL_JOURNEYMAN)
+			skill_floor = BLACKSMITH_LEVEL_COMPETENT
+			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
+		if(SKILL_LEVEL_EXPERT)
+			skill_floor = BLACKSMITH_LEVEL_FINE
+			skill_ceiling = BLACKSMITH_LEVEL_FLAWLESS
+		if(SKILL_LEVEL_MASTER)
+			skill_floor = BLACKSMITH_LEVEL_FLAWLESS
+			skill_ceiling = BLACKSMITH_LEVEL_LEGENDARY
+		else
+			skill_floor = BLACKSMITH_LEVEL_LEGENDARY
+			skill_ceiling = BLACKSMITH_LEVEL_MAX
+	skill_quality = clamp(skill_quality, skill_floor, skill_ceiling)
+	var/tier
 	switch(skill_quality)
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)
-			I.name = "ruined [I.name]"
-			modifier = 0.3
+			tier = ITEM_QUALITY_RUINED
 		if(BLACKSMITH_LEVEL_AWFUL)
-			I.name = "awful [I.name]"
-			modifier = 0.5
+			tier = ITEM_QUALITY_AWFUL
 		if(BLACKSMITH_LEVEL_CRUDE)
-			I.name = "crude [I.name]"
-			modifier = 0.8
+			tier = ITEM_QUALITY_CRUDE
 		if(BLACKSMITH_LEVEL_ROUGH)
-			I.name = "rough [I.name]"
-			modifier = 0.9
+			tier = ITEM_QUALITY_ROUGH
 		if(BLACKSMITH_LEVEL_COMPETENT)
-			modifier = 1
+			tier = ITEM_QUALITY_STANDARD
 		if(BLACKSMITH_LEVEL_FINE)
-			I.name = "fine [I.name]"
-			modifier = 1.1
+			tier = ITEM_QUALITY_FINE
 		if(BLACKSMITH_LEVEL_FLAWLESS)
-			I.name = "flawless [I.name]"
-			modifier = 1.2
+			tier = ITEM_QUALITY_FLAWLESS
 		if(BLACKSMITH_LEVEL_LEGENDARY to BLACKSMITH_LEVEL_MAX)
-			I.name = "masterwork [I.name]"
-			modifier = 1.3
-			I.polished = 4
-			I.AddComponent(/datum/component/metal_glint)
-			record_round_statistic(STATS_MASTERWORKS_FORGED)
-
-	if(!modifier) // Sanity.
+			tier = ITEM_QUALITY_MASTERWORK
+	if(tier == null)
 		return
 
-	I.sellprice *= modifier
+	if(skip_quality)
+		if(!initial(I.has_item_quality) || min_input_quality == null)
+			return
+		I.apply_quality(null, null, min_input_quality)
+		return
+
+	I.has_item_quality = TRUE
+	I.apply_quality(null, null, tier)
+	if(tier == ITEM_QUALITY_MASTERWORK)
+		// ES-specific masterwork flair: full polish + glint (AP handles polish via cleaning instead).
+		I.polished = 4
+		I.AddComponent(/datum/component/metal_glint)
+		record_round_statistic(STATS_MASTERWORKS_FORGED)
 	if(istype(I, /obj/item/lockpick))
 		var/obj/item/lockpick/L = I
-		L.picklvl = modifier
+		L.picklvl = ITEM_QUALITY_MULT(tier)
 
 /datum/anvil_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

@@ -260,6 +260,7 @@
 	wdefense = 5
 
 /obj/item/rogueweapon/sword/decorated
+	no_loot_taint = TRUE
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decsword1"
@@ -1325,6 +1326,7 @@
 	penfactor = 30
 
 /obj/item/rogueweapon/sword/rapier/dec
+	no_loot_taint = TRUE
 	name = "decorated rapier"
 	desc = "A strange, cheap ring devoid of purpose, yet carrying an uncanny sense of nostalgia of grand upsets, felled short.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
 	icon_state = "decrapier"
@@ -1778,6 +1780,7 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/sword/long/dec
+	no_loot_taint = TRUE
 	name = "decorated longsword"
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
 	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."

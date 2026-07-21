@@ -1056,6 +1056,7 @@
 	scom.setup(src, FALSE, FALSE, TRUE, FALSE, DEFAULT_GARRISON_COLOR, 'sound/misc/garrisonscom.ogg', 100, SCOM_TARGET_COMMONS, TRUE, TRUE, FALSE, FALSE)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown
+	no_loot_taint = TRUE
 	name = "Crown of Emerald Summit"
 	article = "the"
 	desc = "Heavy is the head that wears this."

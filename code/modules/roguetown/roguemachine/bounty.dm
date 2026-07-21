@@ -192,7 +192,8 @@
 
 	//Deduct royal tax from amount — pulls from the kingdom's current tax setting.
 	var/royal_tax = round(amount * SStreasury.tax_value)
-	SStreasury.treasury_value += royal_tax
+	// fund-API-backed (raw treasury_value writes desync from the Crown's Purse)
+	SStreasury.mint(SStreasury.discretionary_fund, royal_tax, "Bounty tax")
 	SStreasury.log_entries += "+[royal_tax] to treasury (bounty tax)"
 
 	amount -= royal_tax
@@ -338,7 +339,8 @@
 		return
 
 	budget -= cost
-	SStreasury.treasury_value += cost
+	// fund-API-backed (raw treasury_value writes desync from the Crown's Purse)
+	SStreasury.mint(SStreasury.discretionary_fund, cost, "Bounty scroll fee")
 	SStreasury.log_entries += "+[cost] to treasury (bounty scroll fee)"
 
 	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))

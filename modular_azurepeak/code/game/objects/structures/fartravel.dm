@@ -75,13 +75,11 @@
 	// If departure is a lord, remove them from found_lords to prevent false omen triggers
 	if(departing_mob.mind && departing_mob.ckey)
 		if(departing_mob.mind.assigned_role == "Mercenary")
-			for(var/datum/noticeboardpost/saved_post in GLOB.sellsword_noticeboardposts)
-				if(saved_post.posterweakref.resolve() != departing_mob)
-					continue
-
-				GLOB.sellsword_noticeboardposts -= saved_post
-				qdel(saved_post)
-				SEND_GLOBAL_SIGNAL(COMSIG_NOTICEBOARD_POST_REMOVED, src)
+			var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+			if(!statue && length(SSroguemachine.mercenary_statues))
+				statue = SSroguemachine.mercenary_statues[1]
+			if(statue)
+				statue.mercenary_status -= departing_mob.real_name
 
 		if(departing_mob.mind.assigned_role == "Grand Duke" || departing_mob.mind.assigned_role == "Grand Duchess")
 			if(found_lords[departing_mob.ckey])

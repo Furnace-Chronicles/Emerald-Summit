@@ -27,6 +27,8 @@
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
 	var/sellprice = 0
+	/// Assembly/disassembly recipes: skip the quality roll and inherit the lowest input quality instead.
+	var/skip_quality = FALSE
 	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
 	/// Whether this recipe will transmit a message in a 7x7 column around the source.
 	var/loud = FALSE

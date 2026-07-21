@@ -93,3 +93,6 @@ GLOBAL_LIST_EMPTY(all_abstract_markers)
 GLOBAL_LIST_EMPTY(fires_list)
 
 GLOBAL_LIST_EMPTY(streetlamp_list)
+
+// AP Quest 2 port: all mapped /obj/effect/landmark/quest_spawner anchors
+GLOBAL_LIST_EMPTY(quest_landmarks_list)
