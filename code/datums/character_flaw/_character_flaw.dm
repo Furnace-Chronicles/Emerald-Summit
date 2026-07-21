@@ -26,6 +26,10 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Smoker"=/datum/charflaw/addiction/smoker,
 	"Wood Arm (L)"=/datum/charflaw/limbloss/arm_l,
 	"Wood Arm (R)"=/datum/charflaw/limbloss/arm_r,
+	"Iron Arm (L)"=/datum/charflaw/limbloss/arm_l_irn,
+	"Iron Arm (R)"=/datum/charflaw/limbloss/arm_r_irn,
+	"Steel Arm (L) (-1 TRI)"=/datum/charflaw/limbloss/arm_l_stl,
+	"Steel Arm (R) (-1 TRI)"=/datum/charflaw/limbloss/arm_r_stl,
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw,
 	))

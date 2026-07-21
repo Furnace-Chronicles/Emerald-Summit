@@ -57,42 +57,42 @@
 /datum/supply_pack/rogue/blackmarket_tools/prarml
 	name = "Prosthetic Wood Arm (L)"
 	cost = 40
-	contains = list(/obj/item/bodypart/l_arm/prosthetic/woodleft)
+	contains = list(/obj/item/bodypart/l_arm/prosthetic/wood)
 
 /datum/supply_pack/rogue/blackmarket_tools/prarmr
 	name = "Prosthetic Wood Arm (R)"
 	cost = 40
-	contains = list(/obj/item/bodypart/r_arm/prosthetic/woodright)
+	contains = list(/obj/item/bodypart/r_arm/prosthetic/wood)
 
 /datum/supply_pack/rogue/blackmarket_tools/prlegl
 	name = "Prosthetic Wood Leg (L)"
 	cost = 15
-	contains = list(/obj/item/bodypart/l_leg/prosthetic/woodleft)
+	contains = list(/obj/item/bodypart/l_leg/prosthetic/wood)
 
 /datum/supply_pack/rogue/blackmarket_tools/prlegr
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
-	contains = list(/obj/item/bodypart/r_leg/prosthetic)
+	contains = list(/obj/item/bodypart/r_leg/prosthetic/wood)
 
 /datum/supply_pack/rogue/blackmarket_tools/prarmlbrz
 	name = "Prostethic Bronze Arm (L)"
 	cost = 200
-	contains = list(/obj/item/bodypart/l_arm/prosthetic/bronzeleft)
+	contains = list(/obj/item/bodypart/l_arm/prosthetic/bronze)
 
 /datum/supply_pack/rogue/blackmarket_tools/prarmrbrz
 	name = "Prostethic Bronze Arm (R)"
 	cost = 200
-	contains = list(/obj/item/bodypart/r_arm/prosthetic/bronzeright)
+	contains = list(/obj/item/bodypart/r_arm/prosthetic/bronze)
 
 /datum/supply_pack/rogue/blackmarket_tools/prleglbrz
 	name = "Prostethic Bronze Leg (L)"
 	cost = 150
-	contains = list(/obj/item/bodypart/l_leg/prosthetic/bronzeleft)
+	contains = list(/obj/item/bodypart/l_leg/prosthetic/bronze)
 
 /datum/supply_pack/rogue/blackmarket_tools/prlegrbrz
 	name = "Prostethic Bronze Leg (R)"
 	cost = 150
-	contains = list(/obj/item/bodypart/r_leg/prosthetic/bronzeright)
+	contains = list(/obj/item/bodypart/r_leg/prosthetic/bronze)
 
 /datum/supply_pack/rogue/blackmarket_tools/grapplinghook
 	name =	"Climbing Machine"
