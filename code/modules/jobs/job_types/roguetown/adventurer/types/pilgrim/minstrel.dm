@@ -42,3 +42,7 @@
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)

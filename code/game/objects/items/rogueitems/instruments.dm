@@ -410,3 +410,19 @@
 				return list("shrink" = 0.2,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -3,"wy" = -4,"ex" = 1,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 110,"sturn" = -110,"wturn" = -110,"eturn" = 110,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.1,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogue/instrument/psyaltery
+	name = "psyaltery"
+	desc = "A traditional form of boxed zither or box-harp that may be played plucked, with a plectrum or with hammers. They are particularly associated with divine beings, aasimars and liturgies."
+	icon_state = "psyaltery"
+	song_list = list(
+	"Disciples Tower" = 'sound/music/instruments/psyaltery (1).ogg',
+	"Green Sleeves" = 'sound/music/instruments/psyaltery (2).ogg',
+	"Midyear Melancholy" = 'sound/music/instruments/psyaltery (3).ogg',
+	"Santa Psydonia" = 'sound/music/instruments/psyaltery (4).ogg',
+	"Le Venardine" = 'sound/music/instruments/psyaltery (5).ogg',
+	"Azurea Fair" = 'sound/music/instruments/psyaltery (6).ogg',
+	"Amoroso" = 'sound/music/instruments/psyaltery (7).ogg',
+	"Lupian's Lullaby" = 'sound/music/instruments/psyaltery (8).ogg',
+	"White Wine Before Breakfast" = 'sound/music/instruments/psyaltery (9).ogg',
+	"Chevalier de Naledi" = 'sound/music/instruments/psyaltery (10).ogg')

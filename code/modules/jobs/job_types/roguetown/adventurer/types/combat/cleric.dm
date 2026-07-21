@@ -468,7 +468,9 @@
 		)
 
 	H.cmode_music = 'sound/music/combat_bard.ogg'
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T1)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
@@ -537,7 +539,7 @@
 
 /datum/outfit/job/adventurer/cleric/cantor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Trumpet","Viola","Vocal Talisman")
+	var/weapons = list("Accordion","Bagpipe","Drum","Guitar","Harp","Hurdy-Gurdy","Jaw Harp","Lute","Psyaltery","Trumpet","Viola","Vocal Talisman")
 	var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Harp")
@@ -562,6 +564,8 @@
 			H.put_in_hands(new /obj/item/rogue/instrument/jawharp(H), TRUE)
 		if("Drum")
 			H.put_in_hands(new /obj/item/rogue/instrument/drum(H), TRUE)
+		if("Psyaltery")
+			H.put_in_hands(new /obj/item/rogue/instrument/psyaltery(H), TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/inhumen/graggar)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
