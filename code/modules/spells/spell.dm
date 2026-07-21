@@ -434,6 +434,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			STOP_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = TRUE, mob/user = usr) //if recharge is started is important for the trigger spells
+	// the charge is over once the cast fires - drop the charge rune now, since cast()
+	// may sleep (input menus, do_after) and the mouse-up cleanup paths can miss it
+	if(mob_charge_effect && user)
+		user.vis_contents -= mob_charge_effect
 	if(!ignore_los)
 		if(length(targets))
 			var/radius

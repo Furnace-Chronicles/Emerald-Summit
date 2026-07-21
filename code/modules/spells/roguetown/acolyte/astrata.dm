@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(divine_destruction_mobs) // Tracks mobs undergoing divine dest
 	name = "Scorch"
 	desc = "Enhance your weapon with divine fiery wrath. Your next strike will inflict great pain and terror upon your foe."
 	overlay_state = "inflictpain"
-	recharge_time = 1 MINUTES
+	recharge_time = 45 SECONDS
 	movement_interrupt = FALSE
 	chargedrain = 0
 	chargetime = 1 SECONDS

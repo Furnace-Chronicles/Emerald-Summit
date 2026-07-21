@@ -426,3 +426,51 @@
 	wdefense = 3
 
 	max_integrity = 0
+
+
+/obj/item/rogueweapon/scabbard/sword/noble
+	name = "silver-decorated scabbard"
+	desc = "A sword's noble scabbard, enamored with elaborate silver decorations. It carries an aristocrat's sword upon a silver platter, and - just like an actual platter - can suffice at riposting an errant blow."
+	icon_state = "nscabbard"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	sewrepair = FALSE
+	wdefense = 4
+	max_integrity = 75
+	resistance_flags = null
+
+/obj/item/rogueweapon/scabbard/sword/royal
+	name = "gold-decorated scabbard"
+	desc = "A sword's royal scabbard, enamored with exquisite golden decorations. It pampers a champion's sword in a veil of gilded silk, reluctant to let go."
+	icon_state = "rscabbard"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	sewrepair = FALSE
+	wdefense = 6
+	max_integrity = 150
+	resistance_flags = null
+
+/obj/item/rogueweapon/scabbard/sheath/noble
+	name = "silver-decorated knife sheath"
+	desc = "A dagger's noble sheath, enamored with elaborate silver decorations. Oft-flaunted upon the faulds of a knight, it dangles and sways whenever its steely reserve is drawn."
+	icon_state = "nsheath"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	sewrepair = FALSE
+	wdefense = 2
+	max_integrity = 50
+	resistance_flags = null
+
+/obj/item/rogueweapon/scabbard/sheath/royal
+	name = "gold-decorated knife sheath"
+	desc = "A dagger's royal sheath, enamored with exquisite golden decorations. The hand that draws will spell the fate of many; be it for the kingdom or the world."
+	icon_state = "rsheath"
+	associated_skill = /datum/skill/combat/shields
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	can_parry = TRUE
+	sewrepair = FALSE
+	wdefense = 4
+	resistance_flags = null

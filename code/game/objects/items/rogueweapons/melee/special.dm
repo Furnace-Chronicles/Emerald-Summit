@@ -313,6 +313,13 @@
 	force = 25	
 	max_integrity = 120
 
+/obj/item/rogueweapon/katar/ravox
+	name = "arbiter"
+	desc = "A deadly claw fashioned for justicars. It's cuts strike deep into one's soul."
+	icon_state = "ravoxclaw"
+	force = 27
+	max_integrity = 80
+
 /datum/intent/dagger/thrust/pick/punchdagger
 	clickcd = 10
 	swingdelay = 6

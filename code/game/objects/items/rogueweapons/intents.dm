@@ -261,7 +261,7 @@
 	if(glow_color && glow_intensity)
 		mob_light = mastermob.mob_light(glow_color, glow_intensity)
 	if(mob_charge_effect)
-		mastermob.vis_contents += mob_charge_effect
+		mastermob.vis_contents |= mob_charge_effect // |= so a missed cleanup can't stack duplicates
 
 /datum/intent/proc/on_mouse_up()
 	if(chargedloop)

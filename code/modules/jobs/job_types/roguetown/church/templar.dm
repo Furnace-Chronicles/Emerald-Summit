@@ -99,33 +99,43 @@
 	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
+			mask = /obj/item/clothing/head/roguetown/roguehood/astrata
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			cloak = /obj/item/clothing/cloak/tabard/crusader/astrata
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 		if(/datum/patron/divine/abyssor)
+			mask = /obj/item/clothing/head/roguetown/roguehood/abyssor
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			cloak = /obj/item/clothing/cloak/abyssortabard
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/psicross/xylix // no more good luck charm,  you wanna cheat gambling? Xylix weeps
+			mask = /obj/item/clothing/head/roguetown/roguehood/black
+			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
 			cloak = /obj/item/clothing/cloak/templar/xylixian
 		if(/datum/patron/divine/dendor)
+			mask = /obj/item/clothing/head/roguetown/dendormask
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			cloak = /obj/item/clothing/cloak/templar/dendor
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 		if(/datum/patron/divine/necra)
+			mask = /obj/item/clothing/head/roguetown/necramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			cloak = /obj/item/clothing/cloak/templar/necran
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 		if(/datum/patron/divine/pestra)
+			mask = /obj/item/clothing/head/roguetown/roguehood/phys
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			cloak = /obj/item/clothing/cloak/templar/pestran
 		if(/datum/patron/divine/eora) //Eora content from stonekeep
+			mask = /obj/item/clothing/mask/rogue/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			cloak = /obj/item/clothing/cloak/templar/eoran
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 		if(/datum/patron/divine/noc)
+			mask = /obj/item/clothing/head/roguetown/nochood
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-			cloak = /obj/item/clothing/cloak/tabard/crusader/noc
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
 		if(/datum/patron/divine/ravox)
+			mask = /obj/item/clothing/head/roguetown/roguehood/ravox
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
 			cloak = /obj/item/clothing/cloak/templar/ravox
 		if(/datum/patron/divine/malum)
+			mask = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
@@ -155,6 +165,8 @@
 			weapons += "Barotrauma"
 		if(/datum/patron/divine/dendor)
 			weapons += list("Summer Scythe", "Dendorite Warstaff")
+		if(/datum/patron/divine/ravox)
+			weapons += "Arbiter"
 
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -181,6 +193,9 @@
 		if("Dendorite Warstaff")
 			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		if("Arbiter")
+			H.put_in_hands(new /obj/item/rogueweapon/katar/ravox(H))
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
@@ -337,13 +352,13 @@
 	var/weapons = list("Halberd","Longsword","Flail","Mace","Battle Axe")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
-			weapons += list("Solar Judgement", "Solar Spear", "Astratan Scimitar")
+			weapons += list("Solar Judgement", "Solar Spear", "Astratan Scimitar" , "Sunburst")
 		if(/datum/patron/divine/noc)
 			weapons += "Moonlight Khopesh"
 		if(/datum/patron/divine/necra)
 			weapons += "Swift Journey"
 		if(/datum/patron/divine/pestra)
-			weapons += "Plaguebringer Sickles"
+			weapons += list("Plaguebringer Sickles" , "Lance of Boils" , "Cleansing Edge")
 		if(/datum/patron/divine/malum)
 			weapons += "Forgefiend"
 		if(/datum/patron/divine/dendor)
@@ -351,7 +366,7 @@
 		if(/datum/patron/divine/xylix)
 			weapons += "Cackle Lash"
 		if(/datum/patron/divine/ravox)
-			weapons += list("Duel Settler", "Ravoxian Glaive", "Judgement Edge")
+			weapons += list("Duel Settler", "Ravoxian Glaive", "Judgement Edge" , "Censure")
 		if(/datum/patron/divine/eora)
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
@@ -376,6 +391,15 @@
 		if("Solar Judgement")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/astrata(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Astratan Scimitar")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/ranesh_stratan(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Solar Spear")
+			H.put_in_hands(new /obj/item/rogueweapon/spear/holysteel(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		if("Sunburst")
+			H.put_in_hands(new /obj/item/rogueweapon/mace/sunburst(H))
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 		if("Moonlight Khopesh")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
@@ -387,66 +411,43 @@
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H), TRUE)
 			ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE) // actually makes them usable for the templar. (fixed to no longer have legendary skill templars)
+		if("Lance of Boils")
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/pestran(H))
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		if("Cleansing Edge")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/pestran(H))
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Forgefiend")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/malumflamm(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Summer Scythe")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/bardiche/scythe(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE) // again, needs skill to actually use the weapon (fixed to no longer have legendary skill templars)
+		if("Dendorite Warstaff")
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Cackle Lash")
 			H.put_in_hands(new /obj/item/rogueweapon/whip/xylix(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 		if("Duel Settler")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel/ravox(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-		if("Judgement Edge")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/holysteel(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		if("Solar Spear")
-			H.put_in_hands(new /obj/item/rogueweapon/spear/holysteel(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-		if("The Heartstring")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		if("Harp Bow (long)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
-			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
-			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
-			H.change_stat(STATKEY_SPD, 1)
-			H.change_stat(STATKEY_PER, 2)
-			H.change_stat(STATKEY_STR, -1)
-			H.change_stat(STATKEY_END, -1)
-			H.change_stat(STATKEY_CON, -1)
-		if("Harp Bow (short)")
-			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE) //no scabbard for archers, so the hip is free for the quiver
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
-			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Expert bow, Journeyman otherwise
-			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
-			H.change_stat(STATKEY_SPD, 1)
-			H.change_stat(STATKEY_PER, 2)
-			H.change_stat(STATKEY_STR, -1)
-			H.change_stat(STATKEY_END, -1)
-			H.change_stat(STATKEY_CON, -1)
-		if("Tidecleaver")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-		if("Astratan Scimitar")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/ranesh_stratan(H), TRUE)
+		if("Censure")
+			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/ravox(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Ravoxian Glaive")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/glaive/ravox(H), TRUE)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-		if("Dendorite Warstaff")
-			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor(H), TRUE)
-			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-	// Archers took the hip slot for a quiver; everyone else gets the sword scabbard here.
-	if(weapon_choice != "Harp Bow (long)" && weapon_choice != "Harp Bow (short)")
-		H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+		if("Judgement Edge")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/holysteel(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("The Heartstring")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Tidecleaver")
+			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H), TRUE)
+			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
+
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/astrata)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)

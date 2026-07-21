@@ -127,6 +127,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/active_miracle_set						// Currently active god name
 	var/list/miracle_button_states				// Associative: spell_type = list("locked", "moved") - persists across all gods
 
+	var/holy_research_access = FALSE
+	var/holy_research_access_priest = FALSE //for research access but start with spells anyways. Only for priest really.
+
 	/// List of mercenary minds under this mind's employ.
 	VAR_PRIVATE/mercenaries
 	/// Weakref to our employer, if any

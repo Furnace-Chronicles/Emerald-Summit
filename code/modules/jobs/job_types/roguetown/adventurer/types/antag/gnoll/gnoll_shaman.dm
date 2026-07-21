@@ -36,9 +36,13 @@
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
 		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman(H)
-		var/obj/item/ritechalk/chalk = new /obj/item/ritechalk(H.loc)
-		H.put_in_r_hand(chalk)
-		neck = /obj/item/storage/belt/rogue/pouch/alchemy
+		neck = /obj/item/storage/belt/rogue/pouch
+		neck_contents = list(
+			/obj/item/reagent_containers/glass/bottle/alchemical/healthpot,
+			/obj/item/reagent_containers/glass/bottle/alchemical/healthpot,
+			/obj/item/needle,
+			/obj/item/ritechalk,
+		)
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
@@ -49,3 +53,4 @@
 	icon_state = "shaman"
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
+	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST) // leather-tier; all gnoll hides resist twist crits

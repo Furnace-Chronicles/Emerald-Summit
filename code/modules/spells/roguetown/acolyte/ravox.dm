@@ -5,7 +5,7 @@
 	name = "Divine Strike"
 	desc = "Enhance your held weapon to deal additional damage and slow the victim. Undead take additional damage."
 	overlay = "createlight"
-	recharge_time = 1 MINUTES
+	recharge_time = 30 SECONDS
 	movement_interrupt = FALSE
 	chargedrain = 0
 	chargetime = 1 SECONDS

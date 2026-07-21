@@ -1777,6 +1777,12 @@
 	alt_intents = null // Can't mordhau this
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/sword/long/kriegmesser/pestran
+	name = "Cleansing Edge"
+	desc = "A cut in time saves a life."
+	icon_state = "pestranmesser"
+	sheathe_icon = "pestranmesser"
+
 /obj/item/rogueweapon/sword/long/dec
 	name = "decorated longsword"
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \

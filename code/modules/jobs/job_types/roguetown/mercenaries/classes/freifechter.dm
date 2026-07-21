@@ -66,20 +66,21 @@
 			var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
 			armor = armors[armorchoice]
 	belt = /obj/item/storage/belt/rogue/leather/sash
-	beltl = /obj/item/flashlight/flare/torch/lantern
+	beltr = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
-	backr = /obj/item/storage/backpack/rogue/satchel/short
+	beltl = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 
-	backpack_contents = list(
-		/obj/item/roguekey/mercenary = 1,
+	short_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
-
+	belt_contents = list(
+		/obj/item/roguekey/mercenary = 1,
+	)
 /datum/advclass/mercenary/freelancer/lancer
 	name = "Freifechter Lancer"
 	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - part of a prestigious fighting guild localized in the independent City-state of Szöréndnížina. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. A Lancer and his pike are inseparable, and the first line of offense. You can choose to display the banners of the Reformist Order or your own State."

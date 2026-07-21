@@ -143,6 +143,17 @@
 	wdefense = 3
 	smelt_bar_num = 2
 
+/obj/item/rogueweapon/mace/sunburst
+	name = "sunburst"
+	desc = "A luminous steeled mace with a lengthened handle, adorned with vibrant golden trimmings along a faintly silvered polished metal edge, \
+			the spikes that protrude from its heavy edge radiate with Astrata's glow upon the points. Often issued as a heavy-reminder of divine \
+			judgement to crash against the ever-growing legions of monsters that would dare stand against the weight of Astrata's fury and judgement."
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
+	icon_state = "astratamace"
+	force_wielded = 35
+	max_integrity = 250
+	wdefense = 5
+
 /obj/item/rogueweapon/mace/steel/palloy
 	name = "ancient alloy mace"
 	desc = "A ancient mace. Aeon's grasp has been lifted from it."

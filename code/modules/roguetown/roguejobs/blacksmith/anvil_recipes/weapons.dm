@@ -665,7 +665,7 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/halberd/glaive/steelpike
-	craftdiff = 2
+	craftdiff = 4
 
 /// UPGRADED WEAPONS
 
@@ -752,6 +752,13 @@
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/silver
 	craftdiff = 3
+
+/datum/anvil_recipe/weapons/silver/pike
+	name = "Silver pike (+1 Small Log)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/glaive/silverpike
+	craftdiff = 4
 
 
 // ------ BRONZE ------
@@ -949,9 +956,9 @@
 	craftdiff = 5
 
 /datum/anvil_recipe/weapons/blackpyke
-	name = "Blacksteel Pyke (+1 Blacksteel, +1 Golden Ingot, +1 silver ingot)"
+	name = "Blacksteel Pyke (+1 Blacksteel, +1 Golden Ingot"
 	req_bar = /obj/item/ingot/blacksteel
-	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/ingot/gold, /obj/item/ingot/silver)
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/ingot/gold)
 	created_item = /obj/item/rogueweapon/halberd/glaive/blackpyke
 	craftdiff = 5
 
@@ -1266,3 +1273,29 @@
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
 	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/silver/scabbard
+	name = "Scabbard, Silver-Decorated (+1 Sword's Scabbard)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/scabbard/sword)
+	created_item = /obj/item/rogueweapon/scabbard/sword/noble
+
+/datum/anvil_recipe/weapons/silver/sheath
+	name = "Sheath, Silver-Decorated (+1 Dagger's Sheath)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/scabbard/sheath)
+	created_item = /obj/item/rogueweapon/scabbard/sheath/noble
+
+/datum/anvil_recipe/weapons/decorated/scabbard
+	name = "Scabbard, Gold-Decorated (+1 Sword's Scabbard)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/scabbard/sword)
+	created_item = /obj/item/rogueweapon/scabbard/sword/royal
+	craftdiff = 5
+
+/datum/anvil_recipe/weapons/decorated/sheath
+	name = "Sheath, Gold-Decorated (+1 Dagger's Sheath)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/scabbard/sheath)
+	created_item = /obj/item/rogueweapon/scabbard/sheath/royal
+	craftdiff = 5

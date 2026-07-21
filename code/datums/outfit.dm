@@ -105,6 +105,12 @@
 	  * Format of this list should be: list(path=count,otherpath=count)
 	  */
 	var/list/backpack_contents = null
+	// variations of backpack for specific storage slots
+	var/list/short_contents = null
+
+	var/list/neck_contents = null
+
+	var/list/belt_contents = null
 
 	/// Internals box. Will be inserted at the start of backpack_contents
 	var/box
@@ -268,6 +274,56 @@
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
+
+		if(short_contents)
+			for(var/path in short_contents)
+				var/number = short_contents[path]
+				if(!isnum(number))//Default to 1
+					number = 1
+				for(var/i in 1 to number)
+					var/obj/item/new_item = new path(H)
+					var/obj/item/item = H.get_item_by_slot(SLOT_BELT_L)
+					if(!item)
+						item = H.get_item_by_slot(SLOT_BELT_R)
+					if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+						item = H.get_item_by_slot(SLOT_BELT_R)
+						if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+							item = H.get_item_by_slot(SLOT_BELT)
+							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+
+		if(neck_contents)
+			for(var/path in neck_contents)
+				var/number = neck_contents[path]
+				if(!isnum(number))//Default to 1
+					number = 1
+				for(var/i in 1 to number)
+					var/obj/item/new_item = new path(H)
+					var/obj/item/item = H.get_item_by_slot(SLOT_NECK)
+					if(!item)
+						item = H.get_item_by_slot(SLOT_NECK)
+					if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+						item = H.get_item_by_slot(SLOT_NECK)
+						if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+							item = H.get_item_by_slot(SLOT_BELT)
+							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+		if(belt_contents)
+			for(var/path in belt_contents)
+				var/number = belt_contents[path]
+				if(!isnum(number))//Default to 1
+					number = 1
+				for(var/i in 1 to number)
+					var/obj/item/new_item = new path(H)
+					var/obj/item/item = H.get_item_by_slot(SLOT_BELT)
+					if(!item)
+						item = H.get_item_by_slot(SLOT_BELT)
+					if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+						item = H.get_item_by_slot(SLOT_BELT)
+						if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+							item = H.get_item_by_slot(SLOT_BELT)
+							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
 
