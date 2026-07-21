@@ -25,7 +25,7 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+		/datum/virtue/background/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
 

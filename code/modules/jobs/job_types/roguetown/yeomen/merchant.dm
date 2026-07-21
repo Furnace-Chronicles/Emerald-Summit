@@ -22,7 +22,7 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 
-	virtue_restrictions = list(/datum/virtue/utility/blacksmith)
+	virtue_restrictions = list(/datum/virtue/background/blacksmith)
 
 	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
 

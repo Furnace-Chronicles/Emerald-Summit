@@ -390,6 +390,8 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 	id["selected_title"] = prefs.selected_title || "None"
 	id["has_subspecies_options"] = count_other_subspecies(prefs.pref_species) > 0
 
+	id["background_name"] = prefs.virtue_background ? "[prefs.virtue_background]" : "None"
+
 	id["origin_name"] = prefs.virtue_origin ? "[prefs.virtue_origin]" : "None"
 	id["origin_gives_language"] = prefs.virtue_origin?.extra_language
 
@@ -451,6 +453,7 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 	id["age_options"] = prefs.pref_species ? prefs.pref_species.possible_ages?.Copy() : list()
 	id["species_options"] = build_species_options(user)
 	id["subspecies_options"] = build_subspecies_options()
+	id["background_options"] = build_background_options()
 	id["origin_options"] = build_origin_options()
 	id["race_title_options"] = build_race_title_options()
 	id["statpack_options"] = build_statpack_options()
@@ -582,6 +585,19 @@ GLOBAL_LIST_EMPTY(open_preference_menus)
 		if(V.restricted && (prefs.pref_species?.type in V.races))
 			continue
 		if(istype(V, /datum/virtue/origin/racial) && !(prefs.pref_species?.type in V.races))
+			continue
+		names += V.name
+	return names
+
+/datum/preferences_menu/proc/build_background_options(mob/user)
+	var/list/names = list()
+	for(var/path as anything in GLOB.virtues)
+		var/datum/virtue/V = GLOB.virtues[path]
+		if(!V?.name)
+			continue
+		if(prefs.virtue_background && V.name == prefs.virtue_background.name)
+			continue
+		if(!istype(V, /datum/virtue/background))
 			continue
 		names += V.name
 	return names
@@ -1895,6 +1911,41 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 				return TRUE
 			return TRUE
 
+		if("set_background")
+			var/list/virtue_choices = list()
+			for(var/path as anything in GLOB.virtues)
+				var/datum/virtue/V = GLOB.virtues[path]
+				if(!V?.name)
+					continue
+				if(prefs.virtue_background && V.name == prefs.virtue_background.name)
+					continue
+				if(!istype(V, /datum/virtue/background))
+					continue
+				virtue_choices[V.name] = V
+			var/picked = tgui_input_list(user, "What is your upbringing?", "BACKGROUNDS", virtue_choices)
+			if(picked)
+				var/datum/virtue/virtue_chosen = virtue_choices[picked]
+				prefs.virtue_background = virtue_chosen
+				to_chat(user, prefs.process_virtue_text(virtue_chosen))
+				on_identity_change(TRUE)
+			return TRUE
+
+		if("set_background_direct")
+			var/picked = params["name"]
+			if(!picked)
+				return TRUE
+			for(var/path as anything in GLOB.virtues)
+				var/datum/virtue/V = GLOB.virtues[path]
+				if(!V?.name || V.name != picked)
+					continue
+				if(!istype(V, /datum/virtue/background))
+					continue
+				prefs.virtue_background = V
+				// Auto-print is suppressed — the (i) tooltip button next to the
+				// Origin Dropdown invokes show_origin_help on demand instead.
+				return TRUE
+			return TRUE
+
 		if("set_virtue")
 			var/list/virtues_available = build_virtue_picker_list(user, FALSE, prefs.virtuetwo)
 			if(!length(virtues_available))
@@ -2174,6 +2225,13 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 					prefs.selected_patron = GLOB.patronlist[/datum/patron/divine/astrata]
 				on_identity_change(TRUE)
 				return TRUE
+			return TRUE
+
+		if("show_background_desc")
+			if(!prefs.virtue_background)
+				to_chat(user, span_info("No background selected."))
+				return TRUE
+			to_chat(user, prefs.process_virtue_text(prefs.virtue_background))
 			return TRUE
 
 		if("show_origin_help")
@@ -4350,6 +4408,8 @@ GLOBAL_VAR_INIT(cached_lobby_snapshot_at, 0)
 	for(var/path as anything in GLOB.virtues)
 		var/datum/virtue/v = GLOB.virtues[path]
 		if(!v?.name)
+			continue
+		if(istype(v, /datum/virtue/background))
 			continue
 		if(istype(v, /datum/virtue/origin))
 			continue

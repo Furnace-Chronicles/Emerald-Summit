@@ -16,7 +16,7 @@
 	social_rank = SOCIAL_RANK_YEOMAN
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/blacksmith, // we don't want you repairing your stuff in combat, sorry...
+		/datum/virtue/background/blacksmith, // we don't want you repairing your stuff in combat, sorry...
 	)
 	outfit = /datum/outfit/job/sergeant
 	advclass_cat_rolls = list(CTAG_SERGEANT = 20)

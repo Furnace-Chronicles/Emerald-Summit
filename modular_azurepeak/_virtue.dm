@@ -5,6 +5,8 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/name
 	/// A brief, in-character description of what the virtue does.
 	var/desc
+	/// In-character description of what backgrounds do.
+	var/background_desc
 	/// Description for origins, allowed to be a bit wordy.
 	var/origin_desc
 	/// A list containing any traits we need to add to the mob.
