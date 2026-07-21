@@ -38,7 +38,7 @@
 	var/datum/looping_sound/chargedloop = null
 	var/keep_looping = TRUE
 	var/damfactor = 1 //multiplied by weapon's force for damage
-	var/penfactor = 0 //see armor_penetration
+	var/penfactor = PEN_NONE //see armor_penetration
 	var/intent_intdamage_factor = 1 // Whether the intent itself has integrity damage modifier. Used for rend.
 	var/item_d_type = "blunt" // changes the item's attack type ("blunt" - area-pressure attack, "slash" - line-pressure attack, "stab" - point-pressure attack)
 	var/charging_slowdown = 0
@@ -56,8 +56,6 @@
 	var/obj/effect/mob_charge_effect = null // The effect to be added (on top) of the mob while it is charging
 	var/custom_swingdelay = null	//Custom icon for its swingdelay.
 	//The below is for chipping on intents. Damage applied through armour, as a mechanic.
-	var/blunt_chipping = FALSE//Is this even capable of it?
-	var/blunt_chip_strength = null//How strong?
 	/// Effective range for penfactor to apply fully.
 	var/effective_range = null
 	///	Effective range type. Can be Exact, Below or Above. Be sure to set this if you use effective_range!
@@ -115,8 +113,13 @@
 		inspec += "\n<b>Effective Range:</b> [suffix] [effective_range] paces"
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
-	if(penfactor)
-		inspec += "\n<b>Armor Penetration:</b> [penfactor < 0 ? "NONE" : penfactor]"
+	// Named tier rather than the raw number - it's compared directly against the armor's DBLOCK
+	// tier, so both readouts should speak the same language. State it outright for anything that
+	// resolves against armor tiers, so "None" reads as a real answer instead of a blank. Blunt
+	// intents are absorbed and never check PEN, so they stay silent unless they carry a value.
+	// Negative penfactors (BLUNT_DEFAULT_PENFACTOR) name themselves None.
+	if((item_d_type in ARMOR_DBLOCK_TYPES) || penfactor)
+		inspec += "\n<b>Armor Penetration:</b> [pen_tier_name(penfactor)]"
 	if(get_chargetime())
 		inspec += "\n<b>Charge Time</b>"
 	if(movement_interrupt)
@@ -155,18 +158,6 @@
 		inspec += "\nThis intent will cost some sharpness for every attack made."
 	if(unarmed)
 		inspec += "\n<b>Swift:</b> Harder to parry or dodge when faster than your opponent."
-	if(blunt_chipping)
-		var/chip_strength
-		switch(blunt_chip_strength)
-			if(BLUNT_CHIP_MINUSCULE)
-				chip_strength = "minuscule"
-			if(BLUNT_CHIP_WEAK)
-				chip_strength = "middling"
-			if(BLUNT_CHIP_STRONG)
-				chip_strength = "considerable"
-			if(BLUNT_CHIP_ABSURD)
-				chip_strength = "significant"
-		inspec += "\nA [chip_strength] sum of damage will bypass armour, if the target has no padded protection."
 	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
@@ -356,14 +347,14 @@
 /datum/intent/stab/militia
 	name = "militia stab"
 	damfactor = 1.1
-	penfactor = 50
+	penfactor = PEN_HEAVY
 
 /datum/intent/pick //now like icepick intent, we really went in a circle huh
 	name = "pick"
 	icon_state = "inpick"
 	attack_verb = list("picks","impales")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
-	penfactor = 80
+	penfactor = PEN_BSTEEL
 	animname = "strike"
 	item_d_type = "stab"
 	blade_class = BCLASS_PICK
@@ -375,7 +366,7 @@
 	icon_state = "inpick"
 	attack_verb = list("drills","augers")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
-	penfactor = 80
+	penfactor = PEN_BSTEEL
 	animname = "strike"
 	item_d_type = "stab"
 	blade_class = BCLASS_DRILL
@@ -389,7 +380,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 60
+	penfactor = PEN_BSTEEL
 	damfactor = 1.1
 	clickcd = CLICK_CD_CHARGED
 	releasedrain = 4
@@ -402,7 +393,7 @@
 	icon_state = "inpick"
 	attack_verb = list("picks","impales")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
-	penfactor = 80
+	penfactor = PEN_BSTEEL
 	animname = "strike"
 	item_d_type = "stab"
 	blade_class = BCLASS_PICK
@@ -514,7 +505,7 @@
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.
 	swingdelay = 0
-	penfactor = 10
+	penfactor = PEN_NONE
 	candodge = TRUE
 	canparry = TRUE
 	blade_class = BCLASS_CUT
@@ -604,7 +595,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE
@@ -618,7 +609,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -633,7 +624,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -648,7 +639,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -662,7 +653,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = list("genthrust", "genstab")
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -694,7 +685,7 @@
 	animname = "strike"
 	hitsound = list('sound/combat/hits/blunt/daze_hit.ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 6
 	damfactor = 1
 	item_d_type = "blunt"

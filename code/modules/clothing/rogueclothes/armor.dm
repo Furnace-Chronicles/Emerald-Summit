@@ -648,7 +648,7 @@
 	desc = "A heavy set of hardened robes, lined with fur. The leather is composed of several creatures that were notably difficult to fell by arrow. A proof or rangership among many."
 	icon_state = "hatanga"
 	item_state = "hatanga"
-	armor = list("blunt" = 90, "slash" = 30, "stab" = 40, "piercing" = 60, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_ULTRA, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_MEDIUM, "fire" = DR_NONE, "acid" = DR_NONE)
 	prevent_crits = list(BCLASS_STAB, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PICK, BCLASS_TWIST)
 	max_integrity = 300
 	sellprice = 100
@@ -1041,7 +1041,7 @@
 	desc = "Very simple and crude protection for the chest. Ancient fighters once used similar gear, with better quality..."
 	icon_state = "copperchest"
 	max_integrity = 150
-	armor = list("blunt" = 75, "slash" = 75, "stab" = 75, "piercing" = 40, "fire" = 0, "acid" = 0)	//idk what this armor is but I ain't making a define for it
+	armor = list("blunt" = DR_SUPER, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)	//idk what this armor is but I ain't making a define for it
 	smeltresult = /obj/item/ingot/copper
 	body_parts_covered = CHEST
 	armor_class = ARMOR_CLASS_LIGHT
@@ -1737,7 +1737,7 @@
 	name = "woad elven plate"
 	desc = "Woven by song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark, /datum/species/elf)
-	armor = list("blunt" = 100, "slash" = 20, "stab" = 130, "piercing" = 40, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_ULTRA, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_BSTEEL, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_TWIST, BCLASS_PICK, BCLASS_SMASH)
 	body_parts_covered = COVERAGE_FULL
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
@@ -1769,7 +1769,7 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	body_parts_covered = COVERAGE_FULL
-	armor = list("blunt" = 35, "slash" = 75, "stab" = 40, "piercing" = 20, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_MEDIUM, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_CHOP)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
@@ -1795,7 +1795,7 @@
 	desc = "A dobo robe with a red tassel. Leather inlays are sewn in."
 	icon_state = "eastsuit2"
 	item_state = "eastsuit2"
-	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	max_integrity = 200
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/outlaw
@@ -1825,7 +1825,7 @@
 	icon_state = "eastsuit1"
 	item_state = "eastsuit1"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
-	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	max_integrity = 200
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/light
@@ -1839,7 +1839,7 @@
 	desc = "Flower-styled robes, said to have been infused with magical protection. The Merchant Guild says that this is from the southern Kazengite region."
 	icon_state = "eastsuit4"
 	item_state = "eastsuit4"
-	armor = list("blunt" = 50, "slash" = 90, "stab" = 60, "piercing" = 30, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
 	max_integrity = 300
 	sellprice = 25
 
@@ -1898,7 +1898,7 @@
 	item_state = "carapace"
 	blocksound = PLATEHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	armor = list("blunt" = 70, "slash" = 85, "stab" = 60, "piercing" = 60, "fire" = 25, "acid" = 0) //Slightly above carapace cuirass
+	armor = list("blunt" = DR_SUPER, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_LIGHT, "acid" = DR_NONE) //Slightly above carapace cuirass
 	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 	max_integrity = 225
 	allowed_sex = list(MALE, FEMALE)
@@ -1920,7 +1920,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "carapace cuirass"
 	desc = "Vest styled watery shell chest armor sewn in layers."
-	armor = list("blunt" = 60, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 20, "acid" = 0) //Below Brigandine, Above Hardened Leather
+	armor = list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_LIGHT, "acid" = DR_NONE) //Below Brigandine, Above Hardened Leather
 	body_parts_covered = CHEST|GROIN|VITALS
 	icon_state = "carapacecuirass"
 	item_state = "carapacecuirass"

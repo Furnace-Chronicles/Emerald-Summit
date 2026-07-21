@@ -165,7 +165,7 @@
 	attack_verb = list("bites, chomps")
 	animname = "cut"
 	hitsound = "genslash"
-	penfactor = 5
+	penfactor = PEN_NONE
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air with its fangs!"

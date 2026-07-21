@@ -39,7 +39,7 @@
 	name = "bolt"
 	damage = 70
 	damage_type = BRUTE
-	armor_penetration = 50
+	armor_penetration = PEN_HEAVY
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "bolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
@@ -53,11 +53,11 @@
 
 /obj/projectile/bullet/reusable/bolt/aalloy
 	damage = 40
-	armor_penetration = 30
+	armor_penetration = PEN_MEDIUM
 
 /obj/projectile/bullet/reusable/bolt/paalloy
 	damage = 50
-	armor_penetration = 35
+	armor_penetration = PEN_HEAVY
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
@@ -132,7 +132,7 @@
 	damage = 20
 	damage_type = BRUTE
 	npc_damage_mult = 2
-	armor_penetration = 10
+	armor_penetration = PEN_NONE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -170,7 +170,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 
 	damage = 40
-	armor_penetration = 0
+	armor_penetration = PEN_LIGHT
 	embedchance = 30
 	npc_damage_mult = 2
 
@@ -178,7 +178,7 @@
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	damage = 20
-	armor_penetration = 0
+	armor_penetration = PEN_LIGHT
 
 /obj/projectile/bullet/reusable/arrow/steel
 	name = "bodkin arrow"
@@ -186,7 +186,7 @@
 
 	accuracy = 75
 	damage = 25
-	armor_penetration = 45
+	armor_penetration = PEN_HEAVY
 	embedchance = 80
 	speed = 0.6
 	npc_damage_mult = 3
@@ -195,7 +195,7 @@
 	name = "decrepit bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	damage = 15
-	armor_penetration = 25
+	armor_penetration = PEN_HEAVY
 
 // POISON AMMO
 
@@ -403,7 +403,7 @@
 /obj/projectile/bullet/reusable/arrow/orc
 	damage = 20
 	damage_type = BRUTE
-	armor_penetration = 25
+	armor_penetration = PEN_LIGHT
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
@@ -417,7 +417,7 @@
 /obj/projectile/bullet/reusable/arrow/ancient
 	damage = 10
 	damage_type = BRUTE
-	armor_penetration = 25
+	armor_penetration = PEN_LIGHT
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
@@ -432,7 +432,7 @@
 	name = "stone"
 	damage = 25
 	damage_type = BRUTE
-	armor_penetration = 30
+	armor_penetration = PEN_NONE
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stone1"
 	ammo_type = /obj/item/natural/stone
@@ -499,7 +499,7 @@
 	icon_state = "ijavelin"
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
-	armor_penetration = 40					//Redfined because.. it's not a weapon, it's an 'arrow' basically.
+	armor_penetration = PEN_MEDIUM					//Redfined because.. it's not a weapon, it's an 'arrow' basically.
 	max_integrity = 50						//Breaks semi-easy, stops constant re-use. 
 	wdefense = 3							//Worse than a spear
 	thrown_bclass = BCLASS_STAB				//Knives are slash, lets try out stab and see if it's too strong in terms of wounding.
@@ -522,7 +522,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/javelin/steel
 	force = 16
-	armor_penetration = 50
+	armor_penetration = PEN_HEAVY
 	name = "steel javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a steel head; perfect for piercing armor!"
 	icon_state = "javelin"
@@ -544,7 +544,7 @@
 	icon_state = "sjavelin"
 	is_silver = TRUE
 	throwforce = 25							//Less than steel because it's.. silver. Good at killing vampires/WW's still.
-	armor_penetration = 60
+	armor_penetration = PEN_HEAVY
 	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
 	smeltresult = /obj/item/ingot/silver
 
@@ -614,7 +614,7 @@
 	desc = "If you're reading this: duck."
 	damage = 25
 	damage_type = BRUTE
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 	npc_damage_mult = 2
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stone1"
@@ -646,7 +646,7 @@
 	desc = "If you're reading this: duck."
 	damage = 25
 	damage_type = BRUTE
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stone1"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet
@@ -676,7 +676,7 @@
 /obj/projectile/bullet/reusable/sling_bullet/stone
 	name = "stone sling bullet"
 	damage = 30 //proper stones are better
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
@@ -684,7 +684,7 @@
 /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	name = "decrepit sling bullet"
 	damage = 15 
-	armor_penetration = 0
+	armor_penetration = PEN_NONE
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
@@ -692,7 +692,7 @@
 /obj/projectile/bullet/reusable/sling_bullet/paalloy
 	name = "ancient sling bullet"
 	damage = 30
-	armor_penetration = 30
+	armor_penetration = PEN_NONE
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
@@ -700,7 +700,7 @@
 /obj/projectile/bullet/reusable/sling_bullet/iron
 	name = "iron sling bullet"
 	damage = 30
-	armor_penetration = 30
+	armor_penetration = PEN_NONE
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"

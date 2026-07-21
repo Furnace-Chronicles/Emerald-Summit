@@ -31,12 +31,9 @@
 	attack_verb = list("strikes", "hits")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	icon_state = "instrike"
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/flail/strike/matthiosflail
 	reach = 2
@@ -48,22 +45,17 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	chargetime = 0
 	recovery = 15
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	reach = 2
 	icon_state = "instrike"
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/flail/strike/smash
 	name = "smash"
-	//Flail smash mirrors RW's mace-inheriting smash: stronger chip than the strike.
-	blunt_chip_strength = BLUNT_CHIP_STRONG
 	chargetime = 5
 	chargedrain = 2
 	no_early_release = TRUE
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	recovery = 10
 	damfactor = 1.6
 	chargedloop = /datum/looping_sound/flailswing
@@ -90,7 +82,7 @@
 	no_early_release = TRUE
 	recovery = 30
 	damfactor = 1.5
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	reach = 2
 	chargedloop = /datum/looping_sound/flailswing
 	keep_looping = TRUE

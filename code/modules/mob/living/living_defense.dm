@@ -1,31 +1,137 @@
 
-/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration, penetrated_text, damage, blade_dulling, peeldivisor, intdamfactor, used_weapon = null)
-	var/armor = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+// Tier-based armor. Returns ABSOLUTE damage blocked (subtracted from damage by apply_damage), NOT a percentage.
+// armor_tier and armor_penetration are both tier values. Three resolution families:
+//   ARMOR_DR_ABSORB_TYPES (blunt): tier > 0 -> all HP damage absorbed; the hit lands on integrity (in checkarmor).
+//   ARMOR_DR_PIERCE_TYPES (fire, acid): DR reduces damage, but the reduced damage still reaches HP.
+//   DBLOCK (slash, stab, piercing): weapon PEN tier vs armor DBLOCK tier, scaled by pen_info "dots".
+// "Fully blocked" returns block_damage * 10 so damage - blocked clamps to 0 in apply_damage.
+/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration = PEN_NONE, penetrated_text, damage, blade_dulling, peeldivisor, intdamfactor, used_weapon = null, pen_info)
+	var/armor_tier = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon, pen_info)
 
-	//the if "armor" check is because this is used for everything on /living, including humans
-	if(armor > 0 && armor_penetration)
-		armor = max(0, armor - armor_penetration)
-		if(penetrated_text)
-			to_chat(src, span_danger("[penetrated_text]"))
-//		else
-//			to_chat(src, span_danger("My armor was penetrated!"))
-	else if(armor >= 100)
-		if(absorb_text)
-			to_chat(src, span_notice("[absorb_text]"))
-//		else
-//			to_chat(src, span_notice("My armor absorbs the blow!"))
-	else if(armor > 0)
-		if(soften_text)
-			to_chat(src, span_warning("[soften_text]"))
-//		else
-//			to_chat(src, span_warning("My armor softens the blow!"))
+	var/block_damage = damage || 999
+	var/blocked = 0
+	if(attack_flag in ARMOR_DR_ABSORB_TYPES)
+		// Blunt: armor absorbs all HP damage. Integrity damage is handled in checkarmor.
+		if(armor_tier > 0)
+			blocked = block_damage
+	else if(attack_flag in ARMOR_DR_PIERCE_TYPES)
+		// Fire/Acid: DR reduces damage, but the reduced damage still reaches HP.
+		if(armor_tier > 0)
+			var/dr_mult = 1 / (1 + 0.2 * armor_tier)
+			blocked = block_damage * (1 - dr_mult)
+	else
+		// Penetration: weapon PEN tier vs armor DBLOCK tier.
+		if(attack_flag != "piercing")
+			if(armor_tier > 0)
+				if(armor_penetration >= armor_tier)
+					if(pen_info)
+						blocked = block_damage * (1 - (pen_info * PEN_PASSTHROUGH_RATIO))
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else
+					// Fully blocked.
+					blocked = block_damage * 10
+					if(absorb_text)
+						to_chat(src, span_notice("[absorb_text]"))
+		else
+			// Piercing/projectiles: absent most pen_info data, so use fixed fractions.
+			if(armor_tier > 0)
+				if(armor_penetration == armor_tier)
+					blocked = block_damage * (1 - PEN_PASSTHROUGH_PROJ_EQUAL) // 20% through
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else if(armor_penetration > armor_tier)
+					blocked = block_damage * (1 - PEN_PASSTHROUGH_PROJ_MORE) // 80% through
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else
+					// Fully blocked.
+					blocked = block_damage * 10
+					if(absorb_text)
+						to_chat(src, span_notice("[absorb_text]"))
+
+	// A badly dulled sharp weapon can't pen anything.
+	if(used_weapon && isitem(used_weapon))
+		var/obj/item/I = used_weapon
+		if(I.sharpness && I.max_blade_int && !(attack_flag in ARMOR_DR_ABSORB_TYPES))
+			var/dullness_ratio = I.blade_int / I.max_blade_int
+			if(dullness_ratio <= SHARPNESS_TIER2_THRESHOLD)
+				blocked = block_damage * 10
+
 	if(mob_timers[MT_INVISIBILITY] > world.time)
 		mob_timers[MT_INVISIBILITY] = world.time
 		update_sneak_invis(reset = TRUE)
-	return armor
+	return blocked
 
+#define SHARPNESS_PENALTY_RATIO_ONE 0.7
+#define SHARPNESS_PENALTY_RATIO_TWO 0.6
+#define SHARPNESS_PENALTY_RATIO_THREE 0.5
+#define SHARPNESS_PENALTY_RATIO_FOUR 0.4
 
-/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon)
+// Computes pen "dots": (pen - armor) + relevant stat above 10 + sharpness bonus/penalty + damfactor bonus, clamped 1..CAP.
+/proc/get_pen_info(mob/living/carbon/human/target, mob/living/attacker, obj/item/clothing/used_armor, def_zone, d_type, armor_pen, obj/item/I)
+	if(!target || !def_zone || !d_type || !armor_pen || !ishuman(target))
+		return 1
+	var/pen_total = armor_pen
+	var/protection
+	if(!used_armor)
+		used_armor = target.get_best_worn_armor(def_zone, d_type)
+	if(used_armor)
+		protection = used_armor.armor.getRating(d_type)
+	pen_total -= protection
+	var/balance_bonus = 0
+	var/sharpness_bonus = 0
+	var/damfactor_bonus = 0
+	if(I)
+		var/use_bonus = TRUE
+		if(I.sharpness && I.max_blade_int) // IS_BLUNT is 0, so this is falsy for blunt weapons.
+			var/dullness_ratio = I.blade_int / I.max_blade_int
+			if(attacker.used_intent.damfactor != 1)
+				damfactor_bonus += floor(((attacker?.used_intent?.damfactor) - 1) * 10)
+			if(dullness_ratio > SHARPNESS_TIER1_THRESHOLD)
+				sharpness_bonus += 1
+				use_bonus = TRUE
+			else if(dullness_ratio < SHARPNESS_TIER2_THRESHOLD + 0.1)
+				use_bonus = FALSE
+				if(damfactor_bonus > 0)
+					damfactor_bonus = 0
+			else
+				if(dullness_ratio < SHARPNESS_PENALTY_RATIO_ONE)
+					if(damfactor_bonus > 0)
+						damfactor_bonus = max(damfactor_bonus - 1, 0)
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_TWO)
+					sharpness_bonus -= 1
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_THREE)
+					if(damfactor_bonus > 0)
+						damfactor_bonus = max(damfactor_bonus - 1, 0)
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_FOUR)
+					sharpness_bonus -= 1
+		if(use_bonus)
+			switch(I.wbalance)
+				if(WBALANCE_HEAVY)
+					balance_bonus = (attacker.STASTR - 10) + 2
+				if(WBALANCE_NORMAL)
+					balance_bonus = (attacker.STASTR - 10)
+				if(WBALANCE_SWIFT)
+					balance_bonus = (attacker.STASPD - 10)
+	else
+		balance_bonus = (attacker.STASTR - 10) // Unarmed, probably.
+	// Don't let a sharpness malus net us MORE pen than our stats alone would have.
+	if(abs(balance_bonus) <= abs(sharpness_bonus) && sharpness_bonus <= 0 && balance_bonus >= 0)
+		balance_bonus = 0
+		sharpness_bonus = 0
+	pen_total += balance_bonus
+	pen_total += sharpness_bonus
+	// Callers use this while already inside the penning branch, so floor it at 1.
+	pen_total = clamp(pen_total, 1, PEN_PASSTHROUGH_CAP)
+	return pen_total
+
+#undef SHARPNESS_PENALTY_RATIO_ONE
+#undef SHARPNESS_PENALTY_RATIO_TWO
+#undef SHARPNESS_PENALTY_RATIO_THREE
+#undef SHARPNESS_PENALTY_RATIO_FOUR
+
+/mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, peeldivisor, intdamfactor, used_weapon, pen_info)
 	return 0
 
 //this returns the mob's protection against eye damage (number between -1 and 2) from bright lights

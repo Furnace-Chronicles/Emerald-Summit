@@ -184,7 +184,7 @@
 	name = "strike"
 	blade_class = BCLASS_BLUNT
 	attack_verb = list("whips", "strikes", "smacks")
-	penfactor = 0 //40
+	penfactor = PEN_NONE //40
 	chargetime = 5
 	item_d_type = "slash"
 

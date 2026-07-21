@@ -179,7 +179,7 @@
 	icon_state = "shalal"
 	item_state = "shalal"
 	sewrepair = TRUE
-	armor = list("blunt" = 25, "slash" = 20, "stab" = 25, "piercing" = 0, "fire" = 0, "acid" = 0)
+	armor = list("blunt" = DR_LIGHT, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_NONE, "fire" = DR_NONE, "acid" = DR_NONE)
 
 /obj/item/clothing/shoes/roguetown/boots/leather
 	name = "leather boots"
@@ -238,7 +238,7 @@
 /obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
 	name = "woad elven boots"
 	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
-	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
+	armor = list("blunt" = DR_ULTRA, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE) //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -456,7 +456,7 @@
 /obj/item/clothing/shoes/roguetown/boots/leather/elven_boots
 	name = "woad elven boots"
 	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
-	armor = list("blunt" = 100, "slash" = 10, "stab" = 100, "piercing" = 20, "fire" = 0, "acid" = 0) //Resistant to blunt and stab, but very weak to slash.
+	armor = list("blunt" = DR_ULTRA, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE) //Resistant to blunt and stab, but very weak to slash.
 	prevent_crits = list(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PICK)
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -487,7 +487,7 @@
 	color = null
 	blocksound = PLATEHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	armor = list("blunt" = 30, "slash" = 50, "stab" = 60, "piercing" = 30, "fire" = 30, "acid" = 0) //Sidegrade to plated boots. (Worse for most situation, better against fire or pierce.)
+	armor = list("blunt" = DR_MEDIUM, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_LIGHT, "fire" = DR_MEDIUM, "acid" = DR_NONE) //Sidegrade to plated boots. (Worse for most situation, better against fire or pierce.)
 	max_integrity = 225
 	anvilrepair = null
 	smeltresult = /obj/item/ash

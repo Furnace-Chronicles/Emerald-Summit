@@ -205,7 +205,7 @@
     name = "rough skin"
     desc = ""
     icon_state = null
-    armor = list("blunt" = 30, "slash" = 30, "stab" = 30, "piercing" = 30, "fire" = 15, "acid" = 15)
+    armor = list("blunt" = DR_MEDIUM, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_LIGHT, "acid" = DR_LIGHT)
     prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
     blocksound = SOFTHIT
     blade_dulling = DULLING_BASHCHOP

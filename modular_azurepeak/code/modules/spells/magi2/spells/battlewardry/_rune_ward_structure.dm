@@ -125,7 +125,7 @@
 	var/mob/living/carbon/human/owner = owner_ref?.resolve()
 	if(ishuman(owner) && ishuman(L))
 		arcyne_strike(owner, L, null, rune_damage, BODY_ZONE_CHEST, \
-			BCLASS_STAB, armor_penetration = 30, spell_name = "Force Rune", \
+			BCLASS_STAB, armor_penetration = PEN_MEDIUM, spell_name = "Force Rune", \
 			damage_type = BRUTE, skip_animation = TRUE)
 	else
 		L.adjustBruteLoss(rune_damage)

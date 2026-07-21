@@ -70,3 +70,44 @@
 	tag = ARMORID // update tag in case armor values were edited
 
 #undef ARMORID
+
+/*------------------------\
+|     TIER READOUTS       |
+\------------------------*/
+// The two armor families use different scales, so a bare number can't be named without
+// knowing its damage type. slash/stab/piercing are DBLOCK (0-4); blunt/fire/acid are DR (0-5).
+
+/proc/armor_tier_name(tier, d_type)
+	if(isnull(tier))
+		tier = 0
+	if(d_type in ARMOR_DBLOCK_TYPES)
+		switch(tier)
+			if(-INFINITY to DBLOCK_NONE)
+				return "None"
+			if(DBLOCK_LIGHT)
+				return "Light"
+			if(DBLOCK_MEDIUM)
+				return "Medium"
+			if(DBLOCK_HEAVY)
+				return "Heavy"
+			if(DBLOCK_BSTEEL to INFINITY)
+				return "Bsteel"
+	switch(tier)
+		if(-INFINITY to DR_NONE)
+			return "None"
+		if(DR_LIGHT)
+			return "Light"
+		if(DR_MEDIUM)
+			return "Medium"
+		if(DR_HEAVY)
+			return "Heavy"
+		if(DR_SUPER)
+			return "Super"
+		if(DR_ULTRA to INFINITY)
+			return "Ultra"
+
+// Weapon penetration shares the DBLOCK scale (0-4) so the two can be compared directly.
+// Clamps rather than erroring: BLUNT_DEFAULT_PENFACTOR is -100, which reads as None (correctly -
+// it can never meet any tier).
+/proc/pen_tier_name(tier)
+	return armor_tier_name(tier, "stab")

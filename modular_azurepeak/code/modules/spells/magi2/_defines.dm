@@ -206,13 +206,13 @@
 #define TELEPORT_MAX_NONMAGES   2
 
 // ---- Armor types used by Magi 2 ward upgrades ----
-// AP defines these via its DR_/DBLOCK_ severity constants; we hand-pick values for the
-// pilot in the same style as Emerald Summit's existing ARMOR_LEATHER/ARMOR_PLATE defines.
+// Tier values (DR_* / DBLOCK_*), matching the core armor_defines.dm migration.
 // Dragonhide trades a bit of physical protection for meaningful fire resistance.
 // Brigandine is a tough mid-tier alternative — better than leather, worse than plate.
-#define ARMOR_DRAGONHIDE list("blunt" = 50, "slash" = 50, "stab" = 40, "piercing" = 20, "fire" = 70, "acid" = 0)
-#define ARMOR_BRIGANDINE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 50, "fire" = 0, "acid" = 0)
-#define ARMOR_BATHYHIDE list("blunt" = 70, "slash" = 80, "stab" = 60, "piercing" = 70, "fire" = 0, "acid" = 0)
+// Bathyhide is brigandine with higher piercing protection.
+#define ARMOR_DRAGONHIDE list("blunt" = DR_HEAVY, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_SUPER, "acid" = DR_NONE)
+#define ARMOR_BRIGANDINE list("blunt" = DR_SUPER, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_NONE, "acid" = DR_NONE)
+#define ARMOR_BATHYHIDE list("blunt" = DR_SUPER, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_NONE, "acid" = DR_NONE)
 
 // ---- Lightning adaptation (Fulgurmancy Bolt of Lightning) ----
 // Gates the immobilize/clickcd/lightningstruck CC stack so a target can't be perma-locked

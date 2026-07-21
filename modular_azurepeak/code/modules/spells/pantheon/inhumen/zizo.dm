@@ -73,7 +73,7 @@
 	// Bone is a physical projectile - route it through real armor instead of the
 	// magic flag (which no armor protects against), so plate actually stops it.
 	flag = "piercing"
-	armor_penetration = 30
+	armor_penetration = PEN_MEDIUM
 	nodamage = FALSE
 	var/embed_prob = 10
 	npc_damage_mult = 1.5

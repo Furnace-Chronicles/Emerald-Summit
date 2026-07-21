@@ -10,7 +10,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 0
+	penfactor = PEN_NONE
 	chargetime = 0
 	swingdelay = 0
 	clickcd = 10
@@ -23,7 +23,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 	chargetime = 0
 	clickcd = 8
 	item_d_type = "stab"
@@ -33,7 +33,7 @@
 	icon_state = "inpick"
 	attack_verb = list("stabs", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 75
+	penfactor = PEN_BSTEEL
 	clickcd = 14
 	swingdelay = 12
 	damfactor = 1.1
@@ -47,7 +47,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg', 'sound/combat/hits/kick/kick.ogg')
 	damfactor = 1
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = 14
 	recovery = 10
 	item_d_type = "blunt"
@@ -61,7 +61,7 @@
 	animname = "chop"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 10
+	penfactor = PEN_NONE
 	damfactor = 1.5
 	swingdelay = 5
 	clickcd = 10
@@ -69,7 +69,7 @@
 
 /datum/intent/dagger/chop/cleaver
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 //knife and dagger objs ฅ^•ﻌ•^ฅ
 
@@ -550,8 +550,8 @@
 	max_integrity = 50
 	// Tossblades only get armor-pierce on the thrown path; melee stabs go
 	// through the normal armor check so they can't double-dip with poisons.
-	armor_penetration = 0
-	thrown_armor_penetration = 30
+	armor_penetration = PEN_NONE
+	thrown_armor_penetration = PEN_MEDIUM
 	wdefense = 1
 	icon_state = "throw_knifei"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 25, "embedded_fall_chance" = 10)
@@ -578,7 +578,7 @@
 	icon_state = "easttossblade"
 	throwforce = 30
 	max_integrity = 100
-	thrown_armor_penetration = 40
+	thrown_armor_penetration = PEN_MEDIUM
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 60, "embedded_fall_chance" = 5)
 
 /obj/item/rogueweapon/huntingknife/throwingknife/aalloy
@@ -595,7 +595,7 @@
 	item_state = "bone_dagger"
 	throwforce = 28
 	max_integrity = 100
-	thrown_armor_penetration = 40
+	thrown_armor_penetration = PEN_MEDIUM
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
 	sellprice = 2
@@ -611,7 +611,7 @@
 	item_state = "bone_dagger"
 	force = 10
 	throwforce = 20
-	thrown_armor_penetration = 50
+	thrown_armor_penetration = PEN_HEAVY
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifep"

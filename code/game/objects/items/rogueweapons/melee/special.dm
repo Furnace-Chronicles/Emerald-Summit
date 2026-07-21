@@ -6,7 +6,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 0
+	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
 	damfactor = 1.2
@@ -20,7 +20,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 25
+	penfactor = PEN_MEDIUM
 	chargetime = 0
 	clickcd = CLICK_CD_FAST
 	item_d_type = "stab"
@@ -30,11 +30,8 @@
 	blade_class = BCLASS_BLUNT
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/lord_electrocute
 	name = "electrocute"
@@ -56,31 +53,25 @@
 	attack_verb = list("punches", "clocks")
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = CLICK_CD_FAST
 	damfactor = 1.1
 	swingdelay = 0
 	icon_state = "inpunch"
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_WEAK
 
 /datum/intent/knuckles/smash
 	name = "smash"
 	blade_class = BCLASS_SMASH
 	attack_verb = list("smashes")
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 1.35
 	clickcd = CLICK_CD_MELEE
 	swingdelay = 8
 	intent_intdamage_factor = 1.35
 	icon_state = "insmash"
 	item_d_type = "blunt"
-	//We want chipping, m'lord.
-	blunt_chipping = TRUE
-	blunt_chip_strength = BLUNT_CHIP_STRONG
 /// INTENT DATUMS	^
 
 /obj/item/rogueweapon/lordscepter
@@ -874,19 +865,19 @@
 	damfactor = 1.2
 	swingdelay = 8
 	clickcd = CLICK_CD_MELEE
-	penfactor = 35
+	penfactor = PEN_HEAVY
 
 /datum/intent/claw/lunge/steel
 	damfactor = 1.2
 	swingdelay = 12
 	clickcd = CLICK_CD_HEAVY
-	penfactor = 35
+	penfactor = PEN_HEAVY
 
 /datum/intent/claw/lunge/gronn
 	damfactor = 1.1
 	swingdelay = 5
 	clickcd = 10
-	penfactor = 45
+	penfactor = PEN_HEAVY
 
 /datum/intent/claw/cut
 	name = "cut"
@@ -898,19 +889,19 @@
 	item_d_type = "slash"
 
 /datum/intent/claw/cut/iron
-	penfactor = 20
+	penfactor = PEN_MEDIUM
 	swingdelay = 8
 	damfactor = 1.4
 	clickcd = CLICK_CD_HEAVY
 
 /datum/intent/claw/cut/steel
-	penfactor = 10
+	penfactor = PEN_MEDIUM
 	swingdelay = 4
 	damfactor = 1.3
 	clickcd = CLICK_CD_HEAVY
 
 /datum/intent/claw/cut/gronn
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 	swingdelay = 0
 	damfactor = 1.1
 	clickcd = CLICK_CD_MELEE
@@ -923,7 +914,7 @@
 	blade_class = BCLASS_CHOP
 	reach = 1
 	swingdelay = 15
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	damfactor = 2.5
 	clickcd = CLICK_CD_HEAVY
 	no_early_release = TRUE

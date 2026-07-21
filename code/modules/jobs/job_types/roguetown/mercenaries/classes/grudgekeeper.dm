@@ -170,10 +170,10 @@
 	layer_repair = 2
 
 	layer_max = list(
-		"blunt" = 60, // Bit more blunt
-		"slash" = 200,
-		"stab" = 200,
-		"piercing" = 100,
+		"blunt" = DR_HEAVY, // Bit more blunt
+		"slash" = DBLOCK_BSTEEL,
+		"stab" = DBLOCK_BSTEEL,
+		"piercing" = DBLOCK_HEAVY,
 	)
 
 	hits_to_shred = list(
@@ -187,21 +187,14 @@
 		"blunt" = 1,
 		"slash" = 1,
 		"stab" = 1,
-		"piercing" = 3, // Half as Succeptible to ranged attacks. 
+		"piercing" = 3, // Half as Succeptible to ranged attacks.
 	)
 
 	hits_per_layer = list(
-		"200"	= 5, // Two more at max.
-		"100" 	= 4,
-		"90" 	= 4,
-		"80" 	= 6,
-		"70" 	= 6, // One more up to 70% 
-		"60" 	= 5,
-		"50"	= 10,
-		"40"	= 10,
-		"30"	= 20,
-		"20"	= 30,
-		"10"	= 50,
+		"4"	= 5, // Top layer holds longest.
+		"3" = 10,
+		"2" = 15,
+		"1" = 25,
 	)
 
 	repair_items = list(/obj/machinery/anvil)
@@ -226,25 +219,17 @@
 	)
 
 	layer_max = list(
-		"blunt" = 60, //Bit more Blunt
-		"slash" = 200,
-		"stab" = 200,
-		"piercing" = 100, //Bit more Pierce
+		"blunt" = DR_HEAVY, //Bit more Blunt
+		"slash" = DBLOCK_BSTEEL,
+		"stab" = DBLOCK_BSTEEL,
+		"piercing" = DBLOCK_HEAVY, //Bit more Pierce
 	)
 
 	hits_per_layer = list(
-		"200"	= 3, 
-		"100" 	= 3,
-		"90" 	= 3, 
-		"80" 	= 3, // One more hit for LIMBS.
-		"70" 	= 3,
-		"60" 	= 3,
-		"50"	= 3,
-		"40"	= 3,
-		"30"	= 4,
-		"20"	= 20,
-		"10"	= 30,
+		"4"	= 3, // Limbs shred faster than the chest.
+		"3" = 6,
+		"2" = 8,
+		"1" = 15,
 	)
 
-	shred_amt = 20	//Limbs lose 2 grades per layer shred, but also repair 4.
-	layer_repair = 2
+	layer_repair = 2	//Limbs repair 2 tiers per fix.

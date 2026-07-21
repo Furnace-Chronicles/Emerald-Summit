@@ -542,11 +542,12 @@ BLIND     // can't see anything
 		return examine_text
 
 	var/str
+	// Blunt gets no tier name - it's absorbed, never checked against weapon PEN.
 	str += "[colorgrade_rating("🔨 BLUNT ", armor.blunt, elaborate = TRUE)] | "
-	str += "[colorgrade_rating("🪓 SLASH ", armor.slash, elaborate = TRUE)]"
+	str += "[colorgrade_rating("🪓 SLASH ", armor.slash, elaborate = TRUE, d_type = "slash")]"
 	str += "<br>"
-	str += "[colorgrade_rating("🗡️ STAB ", armor.stab, elaborate = TRUE)] | "
-	str += "[colorgrade_rating("🏹 PIERCE ", armor.piercing, elaborate = TRUE)] "
+	str += "[colorgrade_rating("🗡️ STAB ", armor.stab, elaborate = TRUE, d_type = "stab")] | "
+	str += "[colorgrade_rating("🏹 PIERCE ", armor.piercing, elaborate = TRUE, d_type = "piercing")] "
 
 	if(showcrits && prevent_crits)
 		str += "<br>———————————————<br>"

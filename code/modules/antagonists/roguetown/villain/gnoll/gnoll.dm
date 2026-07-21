@@ -201,7 +201,7 @@
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
 	hitsound = "genslash"
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
@@ -214,12 +214,12 @@
 	desc = "A powerful smash of savage muscle that deals normal damage, but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
 	icon_state = "insmash"
 	chargetime = 1
-	penfactor = 0
+	penfactor = PEN_NONE
 
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"

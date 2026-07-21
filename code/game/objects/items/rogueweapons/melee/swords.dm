@@ -13,12 +13,12 @@
 	item_d_type = "slash"
 
 /datum/intent/sword/cut/militia
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	damfactor = 1.2
 	chargetime = 0.2
 
 /datum/intent/sword/chop/militia
-	penfactor = 50
+	penfactor = PEN_MEDIUM
 	chargetime = 0.5
 	swingdelay = 0
 	damfactor = 1.0
@@ -30,7 +30,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
 	item_d_type = "stab"
@@ -46,7 +46,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 0
 	damfactor = 1
 	item_d_type = "blunt"
@@ -58,7 +58,7 @@
 	desc = "Strike the opponent from above with the true edge of the sword and penetrate light armour."
 	attack_verb = list("masterfully tears", "artfully slits", "adroitly hacks")
 	damfactor = 1.01
-	penfactor = 50
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/thrust/long/master
 	name = "stoccato"
@@ -92,7 +92,7 @@
 	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille."
 	attack_verb = list("goes into a half-sword stance and skewers", "enters a half-sword stance and impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 80
+	penfactor = PEN_HEAVY
 	clickcd = 12
 	swingdelay = 10
 	damfactor = 0.86
@@ -132,7 +132,7 @@
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 0
 	damfactor = 0.05
 	item_d_type = "slash"
@@ -150,7 +150,7 @@
 	animname = "chop"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	penfactor = 30
+	penfactor = PEN_LIGHT
 	swingdelay = 8
 	damfactor = 1.0
 	item_d_type = "slash"
@@ -159,10 +159,10 @@
 	damfactor = 0.9
 
 /datum/intent/sword/cut/falx
-	penfactor = 20
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/chop/falx
-	penfactor = 40
+	penfactor = PEN_MEDIUM
 
 /datum/intent/sword/cut/krieg
 	clickcd = 10
@@ -869,7 +869,7 @@
 
 /datum/intent/sword/thrust/exe
 	swingdelay = 4	//Slight delay to stab; big and heavy.
-	penfactor = BLUNT_DEFAULT_PENFACTOR //Flat tip? I don't know, man. This intent is won't penetrate anything but it damages armor more.
+	penfactor = PEN_NONE //Flat tip? I don't know, man. This intent is won't penetrate anything but it damages armor more.
 	intent_intdamage_factor = 1.3 //This is basically like getting hit by a mace.
 
 /obj/item/rogueweapon/sword/long/exe/astrata
@@ -1026,7 +1026,7 @@
 /datum/intent/sword/thrust/short
 	clickcd = 8
 	damfactor = 1.1
-	penfactor = 30
+	penfactor = PEN_LIGHT
 
 /obj/item/rogueweapon/sword/iron/messer
 	name = "hunting sword"
@@ -1090,7 +1090,7 @@
 /datum/intent/sword/cut/sabre
 	clickcd = 8			//Faster than sword by 4
 	damfactor = 1.25	//Better than rapier (Base is 1.1 for swords)
-	penfactor = 10		//Very slight buff to pen on cut mode. Still weaker than sword-chop mode.
+	penfactor = PEN_NONE		//Very slight buff to pen on cut mode. Still weaker than sword-chop mode.
 
 /datum/intent/sword/thrust/sabre
 	clickcd = 9			//Fast but just shy of being as good as a rapier by 1.
@@ -1116,7 +1116,7 @@
 	attack_verb = list("masterfully cuts", "deftly slits", "quarts")
 	clickcd = 7
 	damfactor = 1.25
-	penfactor = 55
+	penfactor = PEN_MEDIUM
 
 /datum/intent/effect/daze/freisabre
 	name = "uszkodzić"
@@ -1322,7 +1322,7 @@
 /datum/intent/sword/thrust/rapier
 	clickcd = 8
 	damfactor = 1.1
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 /obj/item/rogueweapon/sword/rapier/dec
 	name = "decorated rapier"

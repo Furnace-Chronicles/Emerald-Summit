@@ -27,27 +27,22 @@
 		"piercing" = 0,
 	)
 
-	/// Armor rating a given damage type can be repaired up to.
+	/// Armor tier a given damage type can be repaired up to. blunt uses the DR scale, the rest DBLOCK.
 	var/list/layer_max = list(
-		"blunt" = 100,
-		"slash" = 100,
-		"stab" = 100,
-		"piercing" = 100,
+		"blunt" = DR_ULTRA,
+		"slash" = DBLOCK_BSTEEL,
+		"stab" = DBLOCK_BSTEEL,
+		"piercing" = DBLOCK_BSTEEL,
 	)
 
-	/// New hit count requirements per shredded layer. ex. going from 100 to 90 will require 5 hits, 90 to 80 will require 10, etc.
+	/// New hit count requirements per armor tier, keyed by the tier the armor is AT after a shred.
 	/// MAKE SURE THE VALUES CORRELATE WITH YOUR SHRED_AMT AND STARTING ARMOR VALUES IF YOU WISH TO USE THIS
 	var/list/hits_per_layer = list(
-		"100" 	= 10,
-		"90" 	= 10,
-		"80" 	= 20,
-		"70" 	= 25,
-		"60" 	= 30,
-		"50"	= 30,
-		"40"	= 30,
-		"30"	= 30,
-		"20"	= 50,
-		"10"	= 100,
+		"5" 	= 10,
+		"4" 	= 10,
+		"3" 	= 10,
+		"2"		= 20,
+		"1"		= 30,
 	)
 
 	/// A multiplier to a damage type. One hit from that type will equal this number if it's bigger than 1. ONLY USE WHOLE NUMBERS.
@@ -61,8 +56,8 @@
 	/// Populated during repair_check(), leave empty.
 	var/list/repairable_damtypes = list()
 
-	/// How much armor is lost when a layer is shredded. Increments of 10 are recommended, as they correspond to letter tiers on examine (S -> A+ -> A -> B+ etc)
-	var/shred_amt = 10
+	/// How many armor tiers are lost when a layer is shredded.
+	var/shred_amt = 1
 
 	/// What the next layer's hit threshold will increase by if the hits_per_layer list is empty. Doubles at 50 integrity and below by default.
 	var/hits_default = 10
@@ -115,7 +110,7 @@
 					shred_layer(damage_flag)
 	else if(damage_flag in damtypes)
 		var/obj/item/I = parent
-		if(I.armor.vars[damage_flag] > 100)	//S+ layer, it can't take direct damage, so there's an exception.
+		if(I.armor.vars[damage_flag] >= DBLOCK_BSTEEL)	//Top-tier layer, it can't take direct damage, so there's an exception.
 			add_hit(damage_flag)
 			if(check_hit(damage_flag))
 				shred_layer(damage_flag)
@@ -235,10 +230,8 @@
 /datum/component/layeredarmor/proc/shred_layer(damtype)
 	var/obj/item/I = parent
 	if(I.armor)
-		if(I.armor.vars[damtype] > 100)
-			I.armor.vars[damtype] = 100
-		else if(I.armor.vars[damtype] > 0)
-			I.armor.vars[damtype] -= shred_amt
+		if(I.armor.vars[damtype] > 0)
+			I.armor.vars[damtype] = max(I.armor.vars[damtype] - shred_amt, 0)
 		playsound(I, shred_sound, 100)
 		I.visible_message(span_warning("A <b>[damtype]</b> layer is shredded from [I]!"))
 		adjusthits(damtype, I.armor.vars[damtype])
@@ -253,9 +246,9 @@
 					new_threshold = hits_per_layer[num2text(check)]
 			if(!new_threshold)	//We have a mismatch in hits_per_layer with our armor value (very bad) or its empty. Either way, we fall back to hits_default.
 				switch(check)
-					if(60 to 100)
+					if(3 to INFINITY)
 						new_threshold = hits_default
-					if(0 to 59)
+					if(0 to 2)
 						new_threshold = hits_default * 2
 			hits_to_shred[damtype] = new_threshold
 			hit_count[damtype] = 0
@@ -263,11 +256,7 @@
 /datum/component/layeredarmor/proc/add_layer(damtype)
 	var/obj/item/I = parent
 	if(I.armor)
-		I.armor.vars[damtype] += shred_amt * layer_repair
-		if(layer_max[damtype] > 100 && I.armor.vars[damtype] > 100)	//We have a layer that has a max of above 100, and our repair just made us go over 100.
-			I.armor.vars[damtype] = layer_max[damtype]
-		else
-			I.armor.vars[damtype] = min(I.armor.vars[damtype], 100, layer_max[damtype])	//Make sure it's never above 100, or the layer_max of that type.
+		I.armor.vars[damtype] = min(I.armor.vars[damtype] + shred_amt * layer_repair, layer_max[damtype])	//Make sure it's never above the layer_max of that type.
 		adjusthits(damtype, I.armor.vars[damtype])
 
 /datum/component/layeredarmor/proc/repair_check()

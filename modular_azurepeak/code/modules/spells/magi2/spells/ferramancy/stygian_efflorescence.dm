@@ -61,7 +61,7 @@
 	damage = 34
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
-	armor_penetration = 10
+	armor_penetration = PEN_LIGHT
 	npc_damage_mult = 1.5
 	speed = MAGE_PROJ_SLOW
 	accuracy = 65

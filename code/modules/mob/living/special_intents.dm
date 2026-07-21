@@ -318,7 +318,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		if(full_pen && armor_block)
 			armor_block = 0		//You block NOTHING, sir!
 		if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
-			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
+			affecting.bodypart_attacked_by(bclass, dam, howner, crit_message = TRUE, weapon = W)
 			msg += "<b> It pierces through to their flesh!</b>"
 			playsound(HT, pick(W.hitsound), 80, TRUE)
 	else
