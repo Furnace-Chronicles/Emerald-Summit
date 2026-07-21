@@ -3,8 +3,8 @@
 	flag = BANDIT
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 5 // draws from SSjob.shared_antag_pool: 5 combined slots across Ogre/Wretch/Gnoll/Bandit
+	spawn_positions = 5
 	antag_job = TRUE
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = /datum/species/ogre

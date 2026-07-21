@@ -3,8 +3,8 @@
 	flag = GNOLL
 	antag_job = TRUE
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 5 // draws from SSjob.shared_antag_pool: 5 combined slots across Ogre/Wretch/Gnoll/Bandit
+	spawn_positions = 5
 	allowed_races = RACES_ALL_KINDS // Upstream RACES_NO_CONSTRUCT absent in ES — outfit forces species swap to gnoll anyway.
 	tutorial = "You have proven yourself worthy to Graggar, and he's granted you his blessing most divine. Now you hunt for worthy opponents, seeking out those strong enough to make you bleed."
 	outfit = null

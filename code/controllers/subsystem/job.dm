@@ -20,6 +20,14 @@ SUBSYSTEM_DEF(job)
 	var/overflow_role = "Fuckyou"
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
+	// Shared antagonist slot pool: Ogre/Wretch/Gnoll/Bandit draw from one
+	// combined pool of slots, so taking any of them uses a slot for all four.
+	// Each job's own total_positions still caps that single role; the pool
+	// caps the combined total. Slots return when a member role's
+	// current_positions drops (e.g. job_reopens_slots_on_death).
+	var/list/shared_antag_pool = list("Ogre", "Wretch", "Gnoll", "Bandit")
+	var/shared_antag_pool_cap = 5
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	if(!occupations.len)
 		SetupOccupations()
@@ -43,6 +51,19 @@ SUBSYSTEM_DEF(job)
 		old_overflow.total_positions = initial(old_overflow.total_positions)
 		overflow_role = new_overflow_role
 		JobDebug("Overflow role set to : [new_overflow_role]")
+
+// -------- Shared antagonist slot pool --------
+/// Combined filled positions across every shared_antag_pool role.
+/datum/controller/subsystem/job/proc/shared_antag_pool_used()
+	. = 0
+	for(var/title in shared_antag_pool)
+		var/datum/job/pool_job = GetJob(title)
+		if(pool_job)
+			. += pool_job.current_positions
+
+/// Slots still open in the shared antagonist pool.
+/datum/controller/subsystem/job/proc/shared_antag_pool_remaining()
+	return max(0, shared_antag_pool_cap - shared_antag_pool_used())
 
 /datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
 	occupations = list()
@@ -90,6 +111,9 @@ SUBSYSTEM_DEF(job)
 		if(!job.player_old_enough(player.client))
 			return FALSE
 		if(job.required_playtime_remaining(player.client))
+			return FALSE
+		if((rank in shared_antag_pool) && !shared_antag_pool_remaining())
+			JobDebug("AR shared antag pool exhausted, Player: [player], Rank: [rank]")
 			return FALSE
 		var/position_limit = job.total_positions
 		if(!latejoin)
