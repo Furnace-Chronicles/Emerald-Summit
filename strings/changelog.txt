@@ -1,11 +1,21 @@
-Ogres have returned. They join as a migrating Peasant role with two slots, hailing from Gronn and other distant provinces - feared for their hunger and valued for their muscle, with Mercenary and Warlord paths available.
-Five new hairstyles are available in character creation, along with a new "streaks" hair gradient.
-Fireplaces now grant a warmth buff when you are near them.
-The Wretch is no longer locked out of Harpy and Lamia subraces.
-Ordinators have been granted a broader set of weapon skills, and both Ordinator and Inquisitor now possess the Holy skill.
-New foppish voice options have been added.
-Smokepowder firearms have been brought back, issued to the Merchant and the Inquisition and made purchasable on the GOLDFACE and SILVERFACE.
-A suite of new intimacy actions has been added (knot riding and related fetish content), gated behind the usual ERP opt-in preferences.
-The lobby menu now updates correctly.
-Fixed looping sounds (such as fires) persisting forever when multiple players were nearby.
-Global OOC has been temporarily enabled due to low population.
+The Magi have been reworked: the new magi system is live, with aspect-based casting, Grenzelhoft mage content, and the Mystic Theurge.
+Gnolls have arrived as a playable antagonist role, blessed by Graggar, with Berserker, Knight, Templar and Shaman paths.
+Deadites have been overhauled with new behavior and threats.
+Taurs are now a playable race, with a full roster of lower bodies.
+New classes and kits: Heretic Monk, a new Templar class, Musketeer and Pike Man-at-Arms, Pioneer, and gun mercenaries for Avar, Grenzelhoft and Otava.
+Pikes have been added and resized, and throwing knives (with poison coating) are in.
+Scabbards have been ported: sheathe your blades properly.
+Bombards are here - portable and heavy siege guns, alongside Pioneer content.
+Artificers get auto-smithing, rollers, gearboxes and more gadgets.
+Dice games have been added - gamble responsibly.
+Big map changes, including a dwarven fortress, an acid pit at the keep, and a wardens outpost in the north.
+Fashion Week Chapter 1: a wave of new clothing, plus new hairstyles and tiefling skintones.
+Voice packs have been added, and facial hair is no longer gender-locked.
+The examine panel has been rebuilt in the new UI, alongside a broad UI overhaul.
+Blunt damage has been rebalanced, and health potions heal half as much if you drink them standing up.
+Holy and unholy blasts have been ported; Divine Strike and Scorch cooldowns rebalanced.
+Church gameplay has been reworked, with stronger Inquisition devotion gain and a broader Ordinator skill spread.
+Storage containers have received add-ons, and new foods are on the menu.
+Beggar is now a real job, and slotless roles no longer clutter the late-join picker.
+Farm animal AI has been fixed - livestock now behave and stop jittering.
+A new suite of intimacy content has been ported, gated behind the usual ERP opt-in preferences.
