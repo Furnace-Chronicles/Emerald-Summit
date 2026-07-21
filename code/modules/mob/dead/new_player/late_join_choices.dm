@@ -148,9 +148,14 @@ GLOBAL_LIST_EMPTY(open_late_join_choices)
 		var/unavailable_code = np.IsJobUnavailable(job_datum.title, TRUE)
 		var/is_job_available = (unavailable_code == JOB_AVAILABLE)
 		var/is_cooldown = (unavailable_code == JOB_UNAVAILABLE_JOB_COOLDOWN)
+		// Shared antag pool roles show how many slots they could actually
+		// still fill, not their nominal cap.
+		var/shown_total = job_datum.total_positions
+		if(job_datum.title in SSjob.shared_antag_pool)
+			shown_total = min(shown_total, job_datum.current_positions + SSjob.shared_antag_pool_remaining())
 		availability[job_datum.title] = list(
 			"current" = job_datum.current_positions,
-			"total" = job_datum.total_positions,
+			"total" = shown_total,
 			"prioritized" = (job_datum in SSjob.prioritized_jobs),
 			"available" = is_job_available,
 			"is_cooldown" = is_cooldown,

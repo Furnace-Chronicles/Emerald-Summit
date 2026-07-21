@@ -20,17 +20,13 @@ SUBSYSTEM_DEF(job)
 	var/overflow_role = "Fuckyou"
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
-	// Wretch/Bandit pop-scaling.
-	// Wretch: no slots below wretch_players_per_slot players, then +1 per that many (15/30/45...).
-	// Bandit: bandit_base_slots, +1 per bandit_players_per_extra_slot players (20/40/60...).
-	// Scales both directions, but never below currently-filled positions.
-	var/wretch_players_per_slot = 15
-	var/bandit_base_slots = 2
-	var/bandit_players_per_extra_slot = 20
-	/// job title -> list(total_positions, spawn_positions) we last applied, to detect external overrides
-	var/list/wb_last_applied = list()
-	/// job titles whose auto-scaling was disabled for the round by an external change
-	var/list/wb_scaling_disabled = list()
+	// Shared antagonist slot pool: Ogre/Wretch/Gnoll/Bandit draw from one
+	// combined pool of slots, so taking any of them uses a slot for all four.
+	// Each job's own total_positions still caps that single role; the pool
+	// caps the combined total. Slots return when a member role's
+	// current_positions drops (e.g. job_reopens_slots_on_death).
+	var/list/shared_antag_pool = list("Ogre", "Wretch", "Gnoll", "Bandit")
+	var/shared_antag_pool_cap = 5
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	if(!occupations.len)
@@ -56,46 +52,18 @@ SUBSYSTEM_DEF(job)
 		overflow_role = new_overflow_role
 		JobDebug("Overflow role set to : [new_overflow_role]")
 
-// -------- Wretch/Bandit slot scaling --------
-// First call comes from SSgamemode.pre_setup() (before jobs divide, using ready players),
-// then it requeues itself every minute for the rest of the round.
-/datum/controller/subsystem/job/proc/recheck_wretch_bandit_slots(requeue = TRUE)
-	var/pop = SSgamemode ? SSgamemode.get_correct_popcount() : 0
-	scale_wb_job("Wretch", max(1, FLOOR(pop / wretch_players_per_slot, 1)), pop)
-	scale_wb_job("Bandit", bandit_base_slots + FLOOR(pop / bandit_players_per_extra_slot, 1), pop)
-	if(requeue)
-		addtimer(CALLBACK(src, PROC_REF(recheck_wretch_bandit_slots)), 1 MINUTES, TIMER_UNIQUE)
+// -------- Shared antagonist slot pool --------
+/// Combined filled positions across every shared_antag_pool role.
+/datum/controller/subsystem/job/proc/shared_antag_pool_used()
+	. = 0
+	for(var/title in shared_antag_pool)
+		var/datum/job/pool_job = GetJob(title)
+		if(pool_job)
+			. += pool_job.current_positions
 
-/datum/controller/subsystem/job/proc/scale_wb_job(title, target_slots, pop)
-	if(wb_scaling_disabled[title])
-		return
-	var/datum/job/scaled_job = GetJob(title)
-	if(!scaled_job)
-		return
-
-	var/list/applied = wb_last_applied[title]
-	if(applied && (scaled_job.total_positions != applied[1] || scaled_job.spawn_positions != applied[2]))
-		wb_scaling_disabled[title] = TRUE
-		var/override_msg = "WRETCH/BANDIT SCALING: external change to [title] slots detected ([scaled_job.total_positions]/[scaled_job.spawn_positions] vs last applied [applied[1]]/[applied[2]]); disabling [title] auto-scaling until round restart."
-		log_game(override_msg)
-		message_admins(override_msg)
-		return
-
-	// Never pull slots out from under players already in the role
-	var/new_slots = max(target_slots, scaled_job.current_positions)
-	var/old_total = scaled_job.total_positions
-	var/old_spawn = scaled_job.spawn_positions
-	if(old_total == new_slots && old_spawn == new_slots)
-		wb_last_applied[title] = list(new_slots, new_slots)
-		return
-
-	scaled_job.total_positions = new_slots
-	scaled_job.spawn_positions = new_slots
-	wb_last_applied[title] = list(new_slots, new_slots)
-
-	var/slot_msg = "WRETCH/BANDIT SCALING: [title] slots changed from [old_total]/[old_spawn] to [new_slots]/[new_slots] (pop=[pop])."
-	log_game(slot_msg)
-	message_admins(slot_msg)
+/// Slots still open in the shared antagonist pool.
+/datum/controller/subsystem/job/proc/shared_antag_pool_remaining()
+	return max(0, shared_antag_pool_cap - shared_antag_pool_used())
 
 /datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
 	occupations = list()
@@ -143,6 +111,9 @@ SUBSYSTEM_DEF(job)
 		if(!job.player_old_enough(player.client))
 			return FALSE
 		if(job.required_playtime_remaining(player.client))
+			return FALSE
+		if((rank in shared_antag_pool) && !shared_antag_pool_remaining())
+			JobDebug("AR shared antag pool exhausted, Player: [player], Rank: [rank]")
 			return FALSE
 		var/position_limit = job.total_positions
 		if(!latejoin)

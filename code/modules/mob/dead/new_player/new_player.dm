@@ -481,6 +481,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if((job.same_job_respawn_delay) && (ckey in GLOB.job_respawn_delays))
 		if(world.time < GLOB.job_respawn_delays[ckey])
 			return JOB_UNAVAILABLE_JOB_COOLDOWN
+	if((job.title in SSjob.shared_antag_pool) && !SSjob.shared_antag_pool_remaining())
+		return JOB_UNAVAILABLE_SLOTFULL
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
 		if(job.title == "Assistant")
 			if(isnum(client.player_age) && client.player_age <= 14) //Newbies can always be assistants
@@ -693,6 +695,11 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			for(var/job in available_jobs)
 				var/datum/job/job_datum = SSjob.name_occupations[job]
 				var/do_elaborate = job_datum.has_limited_subclasses()
+				// Shared antag pool roles show how many slots they could
+				// actually still fill, not their nominal cap.
+				var/shown_total = job_datum.total_positions
+				if(job_datum.title in SSjob.shared_antag_pool)
+					shown_total = min(shown_total, job_datum.current_positions + SSjob.shared_antag_pool_remaining())
 				if(job_datum)
 					var/command_bold = FALSE
 					if(job in GLOB.noble_positions)
@@ -703,7 +710,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					if(job_datum in SSjob.prioritized_jobs)
 						dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'><span class='priority'>[used_name] ([job_datum.current_positions])</span></a>"
 					else
-						dat += "<font size = 3>[do_elaborate ? "<a href='?src=[REF(job_datum)];jobsubclassinfo=1'><b><font color = '#6b6743'>(!)</font></b></a>" : ""]<a href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[command_bold ? "<b>" : ""][used_name] ([job_datum.current_positions]/[job_datum.total_positions])[command_bold ? "</b>" : ""]</a></font>"
+						dat += "<font size = 3>[do_elaborate ? "<a href='?src=[REF(job_datum)];jobsubclassinfo=1'><b><font color = '#6b6743'>(!)</font></b></a>" : ""]<a href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[command_bold ? "<b>" : ""][used_name] ([job_datum.current_positions]/[shown_total])[command_bold ? "</b>" : ""]</a></font>"
 						dat += "<br>"
 
 			dat += "</fieldset><br>"
