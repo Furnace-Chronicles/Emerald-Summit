@@ -1812,8 +1812,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(!nodmg)
 			if(I)
 				SEND_SIGNAL(I, COMSIG_ITEM_ATTACKBY_SUCCESS, H, user, Iforce * weakness, I.damtype, def_zone) // attack was not blocked by armor or other variables
-			// Tier system: armor_block is ABSOLUTE damage blocked (was a %). Racial armor kept consistent with apply_damage.
-			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, max((Iforce * weakness) - armor_block - armor, 0), user, selzone, crit_message = TRUE, weapon = I)
+			// Tier system: armor_block is ABSOLUTE damage blocked (was a %). Racial `armor` is still a
+			// PERCENT (gnoll/werewolf 30) — subtracting it flat zeroed most hits, kept consistent with apply_damage.
+			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, max((Iforce * weakness) - armor_block, 0) * (100 - armor) / 100, user, selzone, crit_message = TRUE, weapon = I)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
 				if(!affecting)
@@ -1916,8 +1917,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
 	SEND_SIGNAL(H, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone)
 	var/hit_percent = 1
-	damage = max(damage-blocked-armor,0)
-//	var/hit_percent =  (100-(blocked+armor))/100
+	// `blocked` is ABSOLUTE damage (tier armor system); racial `armor` is a PERCENT reduction
+	// (gnoll/werewolf = 30). Subtracting the percent flat made 30-armor races immune to any
+	// hit under 30 force — stab/cut/pierce dealt literally nothing even with the hide broken.
+	damage = max(damage - blocked, 0) * (100 - armor) / 100
 	hit_percent = (hit_percent * (100-H.physiology.damage_resistance))/100
 	var/atom/movable/screen/zone_sel/zone_sel
 	if(def_zone && H.client && H.hud_used && H.hud_used.zone_select)
