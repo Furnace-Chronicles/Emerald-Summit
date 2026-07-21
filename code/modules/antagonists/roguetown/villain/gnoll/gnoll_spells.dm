@@ -74,9 +74,10 @@
 			continue
 		if(human.has_flaw(/datum/charflaw/hunted))
 			add_target_to_list(human, hunted_targets, name_counts)
+			to_chat(user, span_warning("I catch the sent of Graggers hunted! These are my true pray."))
 		else if(human.job in combat_roles)
 			add_target_to_list(human, combat_targets, name_counts)
-			to_chat(user, span_warning("None of Graggers hunted lurk these lands. I shall follow the scent of combatants in their stead"))
+			to_chat(user, span_warning("None of Graggers hunted lurk these lands. I shall follow the scent of combatants in their stead."))
 
 	var/list/possible_targets = length(hunted_targets) ? hunted_targets : combat_targets
 
